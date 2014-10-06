@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+\begin{zsection}
+  \SECTION HealthRecords \parents standard\_toolkit
+\end{zsection}
+
+
+\begin{zed}
+  	[ PERSON , DISEASE ]
+\end{zed}
+
+\begin{axdef}
+	patients : \power PERSON	\\
+\end{axdef}
+
+
+\begin{schema}{State}
+  	pd : patients \pfun DISEASE		\\
+\end{schema}
+
+\begin{schema}{Init}
+  	State~'
+\end{schema}
+
+\begin{schema}{ShowDiseasePatients}
+  	\Xi State  					\\
+	dpat? : \power patients		\\
+	d? : \power DISEASE				\\
+\where
+	#d? = 1 \land 
+	dpat? = pd \inv \limg d? \rimg	\\
+\end{schema}
+
+
+This specification describes ...
+
+
+
+\end{document}

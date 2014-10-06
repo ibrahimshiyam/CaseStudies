@@ -1,0 +1,37 @@
+\begin{zsection}
+   \SECTION CourtSystem \parents circus\_toolkit
+\end{zsection}
+
+\begin{zed}
+	[ CASE , SECTION , PERSON ]
+\end{zed}
+
+\begin{axdef}
+	PLANTIF   : \power PERSON			\\
+	DEFENDENT : \power PERSON			\\
+	staff     : \power PERSON			\\
+\end{axdef}
+
+\begin{axdef}
+	CDETAIL == PLANTIF \cross DEFENDENT \cross SECTION
+\end{axdef}
+
+\begin{schema}{State}
+	SecEmployees : PERSON \pfun SECTION	\\
+	CaseDetails  : CASE   \pfun CDETAIL	\\ 	  
+\end{schema}
+
+\begin{schema}{Init}
+  State~'
+\end{schema}
+
+\begin{schema}{getEmployeeDetail}
+  	\Xi State						\\
+  	cid? 	: CASE					\\
+  	req? 	: PERSON				\\ 
+  	detail! : CDETAIL				\\
+\where
+	req? \in staff \land 
+  req? \in \dom empDet	\land (detail! = empDet\ emp?) \\
+\end{schema}
+

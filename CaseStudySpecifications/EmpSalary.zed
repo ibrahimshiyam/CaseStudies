@@ -1,0 +1,35 @@
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+\begin{zsection}
+  \SECTION EmpSalary \parents standard\_toolkit
+\end{zsection}
+
+
+\begin{zed}
+  [ EMP , SALARY ]
+\end{zed}
+
+\begin{schema}{State}
+  empSal : EMP \pfun SALARY		\\
+\end{schema}
+
+\begin{schema}{Init}
+  State~'
+\end{schema}
+
+\begin{schema}{ShowSal}
+  \Xi State  			\\
+  emp? , req? : EMP \\
+  sal! : SALARY		\\
+\where
+  emp? = req? \land sal! = (empSal) emp? 	\\
+\end{schema}
+
+
+This specification describes ...
+
+
+
+\end{document}

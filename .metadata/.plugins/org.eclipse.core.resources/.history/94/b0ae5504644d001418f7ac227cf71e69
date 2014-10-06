@@ -1,0 +1,45 @@
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+\begin{zsection}
+  \SECTION\ circus\_cookies \parents\ circus\_toolkit
+\end{zsection}
+
+\begin{zed}
+	[ EMP , NAME , ADDRESS , TEL]
+\end{zed}
+
+\begin{axdef}
+	EMPDETAIL == NAME \cross ADDRESS \cross TEL	\\
+	hrstaff : \power EMP							\\
+\end{axdef}
+	
+\begin{circus}
+	\circchannel\ a: \nat 	\\
+\end{circus}
+
+\begin{circus}
+	\circprocess\ HRManagement \circdef \circbegin \\  
+
+    \circstate\ State ~~==~~ [~ money, quantity: \nat ~]  \\
+
+
+
+	
+	\circstate\ State ~~==~~ [~ empDet : EMP ~]  	\\
+    InitState ~~==~~ [~ State~' | empDet' = \emptyset ~] \\
+    \circend
+\end{circus}
+
+\begin{circusaction}
+   \t1 \circspot \circvar o!: COOKIE \circspot State 
+   % InitState \circseq (\circmu\ X \circspot (Input \extchoice Output) \circseq X)
+\end{circusaction}
+
+
+
+This specification describes ...
+
+
+\end{document}

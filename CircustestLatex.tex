@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{czt}
+\usepackage{circus}
+
+\begin{document}
+\begin{zsection}
+  \SECTION circus \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+  [ COOKIE , OutputCookie ]
+\end{zed}
+
+
+\begin{circus}
+	\circchannel a: \nat 
+\end{circus}
+
+\begin{circus}
+   \circprocess\ HRModule \circdef \circbegin
+\end{circus}
+
+
+\begin{zed}
+  [ EMP , NAME , ADDRESS , TEL]
+\end{zed}
+
+\begin{axdef}
+  EMPDETAIL == NAME \cross ADDRESS \cross TEL	\\
+  hrstaff : \power EMP							\\
+\end{axdef}
+
+%sfsdfdf
+\begin{schema}{State}
+  empDet : EMP \pfun EMPDETAIL
+\end{schema}
+\begin{circus}
+\circstate\ State ~~==~~ [~ empDet : EMP \pfun EMPDETAIL ~]  \\
+    InitState ~~==~~ [~ State~' | money' = 0 \land quantity' = cookieQuantity ~] \\
+    InputMoney ~~==~~ [~ \Delta State; x?: \nat | money \leq cookieValue \land money' = money + x? ~] \\
+\end{circus}
+    
+\begin{schema}{InitState}
+  State~'
+\end{schema}
+
+\begin{schema}{getEmployeeDetail}
+  \Xi State					\\
+  emp? : EMP				\\
+  req? : EMP				\\ 
+  detail! : EMPDETAIL		\\
+\where
+  req? \in \dom empDet	\land (detail! = empDet\ emp?) \\
+\end{schema}
+
+\begin{circusaction}
+   \circstate\ State
+\end{circusaction}
+
+\begin{circusaction}
+    InitState \circseq (\circmu\ X \circspot getEmployeeDetail \circseq X)
+\end{circusaction}
+
+
+\begin{circus}
+	\circend 
+\end{circus}
+
+
+This specification describes ...
+
+
+
+\end{document}

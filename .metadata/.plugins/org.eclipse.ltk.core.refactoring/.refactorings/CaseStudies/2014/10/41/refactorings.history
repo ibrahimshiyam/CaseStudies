@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;CaseStudies/circus.zed&apos; to &apos;circus_cookies.zed&apos;" description="Rename resource &apos;circus.zed&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="circus.zed" name="circus_cookies.zed" stamp="1412602528181" updateReferences="true"/>
+</session>
