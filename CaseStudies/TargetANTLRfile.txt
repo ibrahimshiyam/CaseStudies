@@ -1,0 +1,853 @@
+input::=
+                narrSect specification 
+              | PARA boxedParagraph 
+              | EXPR expression 
+              | PRED predicate ;
+
+narrSect::=
+                
+              | narrWordList ;
+
+specification::=
+                emptySectionHeader paragraphList 
+              | sectionList ;
+
+emptySectionHeader::=
+                empty ;
+
+empty::=
+                ;
+
+sectionList::=
+                sectionList section 
+              | section ;
+
+section::=
+                sectionHeader paragraphList ;
+
+sectionHeader::=
+                SECTION DECORWORD parents END ;
+
+parents::=
+                
+              | PARENTS 
+              | PARENTS parentList ;
+
+parentList::=
+                parentList COMMA DECORWORD 
+              | DECORWORD ;
+
+paragraphList::=
+                paragraphList boxedParagraph 
+              | paragraphList unboxedParagraphList 
+              | paragraphList circusMultiEnvParagraphList 
+              | paragraphList narrParagraph 
+              | ;
+
+boxedParagraph::=
+                axiomaticDefinition 
+              | schema 
+              | genericAxDefinition 
+              | error END ;
+
+narrParagraph::=
+                narrWordList ;
+
+unboxedParagraphList::=
+                ZED unboxedParagraphItemList END 
+              | ZED singleCircusParagraphItemList END 
+              | ZED circusBasicProcessMainAction END 
+              | ZED error END ;
+
+unboxedParagraphItemList::=
+                unboxedParagraphItemList NL unboxedParagraphItem 
+              | unboxedParagraphItem ;
+
+unboxedParagraphItem::=
+                basicTypeDefinition 
+              | abbreviationDefinition 
+              | freeTypeList 
+              | THEOREM name optNL optFormalParameters conjecture predicate 
+              | optFormalParameters CONJECTURE predicate 
+              | operatorTemplate ;
+
+conjecture::=
+                CONJECTURE ;
+
+basicTypeDefinition::=
+                LSQUARE nameList RSQUARE ;
+
+schema::=
+                SCH name optNL schemaText END 
+              | GENSCH name optNL formalParameters schemaText END ;
+
+genericAxDefinition::=
+                GENAX formalParameters axiomaticSchemaText END ;
+
+optFormalParameters::=
+                formalParameters 
+              | ;
+
+formalParameters::=
+                LSQUARE nameList RSQUARE optNL ;
+
+axiomaticDefinition::=
+                AX axiomaticSchemaText END ;
+
+abbreviationDefinition::=
+                declName DEFEQUAL expression 
+              | declName formalParameters DEFEQUAL expression 
+              | genName DEFEQUAL expression ;
+
+freeTypeList::=
+                freeTypeList ANDALSO freeTypeDefinition 
+              | freeTypeDefinition ;
+
+freeTypeDefinition::=
+                name DEFFREE branchList ;
+
+branchList::=
+                branchList BAR branch 
+              | branch ;
+
+branch::=
+                declName 
+              | declName LDATA expression RDATA ;
+
+narrWordList::=
+                narrWordList TEXT 
+              | TEXT ;
+
+operatorTemplate::=
+                RELATION template 
+              | FUNCTION catTemplate 
+              | GENERIC catTemplate ;
+
+template::=
+                prefixTemplate 
+              | postfixTemplate 
+              | infixTemplate 
+              | nofixTemplate ;
+
+catTemplate::=
+                prefixTemplate 
+              | postfixTemplate 
+              | NUMERAL assoc infixTemplate 
+              | nofixTemplate ;
+
+assoc::=
+                LEFTASSOC 
+              | RIGHTASSOC ;
+
+prefixTemplate::=
+                LPAREN DECORWORD optWordOperandList varg RPAREN 
+              | LPAREN POWER varg RPAREN ;
+
+postfixTemplate::=
+                LPAREN varg DECORWORD optWordOperandList RPAREN ;
+
+infixTemplate::=
+                LPAREN varg DECORWORD optWordOperandList varg RPAREN ;
+
+nofixTemplate::=
+                LPAREN DECORWORD optWordOperandList RPAREN ;
+
+optWordOperandList::=
+                
+              | optWordOperandList templateTag DECORWORD ;
+
+templateTag::=
+                varg 
+              | LISTARG ;
+
+varg::=
+                ARG ;
+
+circusMultiEnvParagraphList::=
+                CIRCUS singleCircusParagraphItemList END 
+              | CIRCUSACTION circusInnerProcParaList END 
+              | CIRCUSACTION circusBasicProcessMainAction END ;
+
+singleCircusParagraphItemList::=
+                singleCircusParagraphItemList NL singleCircusParagraphItem 
+              | singleCircusParagraphItem ;
+
+singleCircusParagraphItem::=
+                channelPara 
+              | channelSetPara 
+              | processPara 
+              | processRefPara ;
+
+circusInnerProcParaList::=
+                circusInnerProcParaList NL circusInnerProcPara 
+              | circusInnerProcPara ;
+
+circusInnerProcPara::=
+                basicTypeDefinition 
+              | freeTypeList 
+              | abbreviationDefinition 
+              | THEOREM name optNL optFormalParameters CONJECTURE predicate 
+              | optFormalParameters CONJECTURE predicate 
+              | circusProcessState 
+              | namesetPara 
+              | actionPara 
+              | actionRefPara ;
+
+circusDeclWordList::=
+                circusDeclWordList COMMA DECLWORD 
+              | DECLWORD ;
+
+channelPara::=
+                CIRCCHAN channelDeclList 
+              | CIRCCHANFROM channelFromDeclList 
+              | CIRCCHAN error END 
+              | CIRCCHANFROM error END ;
+
+channelDeclList::=
+                channelDeclList SEMICOLON channelDecl 
+              | channelDecl ;
+
+channelFromDeclList::=
+                channelFromDeclList SEMICOLON channelFromDecl 
+              | channelFromDecl ;
+
+channelDecl::=
+                formalParameters circusDeclWordList COLON expression 
+              | circusDeclWordList COLON expression 
+              | nameList 
+              | formalParameters circusDeclWordList COLON error END 
+              | formalParameters circusDeclWordList error END 
+              | circusDeclWordList COLON error END 
+              | circusDeclWordList error END ;
+
+channelFromDecl::=
+                optFormalParameters DECORWORD genericActuals 
+              | optFormalParameters DECORWORD ;
+
+channelSetPara::=
+                CIRCCHANSET optFormalParameters name DEFEQUAL channelSet 
+              | CIRCCHANSET optFormalParameters name DEFEQUAL error END 
+              | CIRCCHANSET optFormalParameters name error END 
+              | CIRCCHANSET optFormalParameters error END ;
+
+channelSet::=
+                expression ;
+
+processPara::=
+                CIRCPROC optFormalParameters name CIRCDEF processDesc 
+              | CIRCEND ;
+
+processDesc::=
+                DECORWORD channelRenaming 
+              | DECORWORD genericActuals channelRenaming 
+              | paramProcess 
+              | indexedProcess 
+              | process ;
+
+paramProcess::=
+                circusParamDeclList CIRCSPOT processDesc 
+              | REPINTERLEAVE circusParamDeclList CIRCSPOT processDesc 
+              | REPPARALLEL circusParamDeclList LPAR channelSet RPAR CIRCSPOT processDesc 
+              | REPINTCHOICE circusParamDeclList CIRCSPOT processDesc 
+              | REPEXTCHOICE circusParamDeclList CIRCSPOT processDesc 
+              | ZCOMP circusParamDeclList CIRCSPOT processDesc 
+              | circusParamDeclList CIRCSPOT error END 
+              | REPINTERLEAVE circusParamDeclList CIRCSPOT error END 
+              | REPPARALLEL circusParamDeclList LPAR channelSet RPAR CIRCSPOT error END 
+              | REPINTCHOICE circusParamDeclList CIRCSPOT error END 
+              | REPEXTCHOICE circusParamDeclList CIRCSPOT error END 
+              | ZCOMP circusParamDeclList CIRCSPOT error END ;
+
+indexedProcess::=
+                circusParamDeclList CIRCINDEX processDesc 
+              | REPINTERLEAVE circusParamDeclList CIRCINDEX processDesc 
+              | REPPARALLEL circusParamDeclList LPAR channelSet RPAR CIRCINDEX processDesc 
+              | REPINTCHOICE circusParamDeclList CIRCINDEX processDesc 
+              | REPEXTCHOICE circusParamDeclList CIRCINDEX processDesc 
+              | ZCOMP circusParamDeclList CIRCINDEX processDesc 
+              | circusParamDeclList CIRCINDEX error END 
+              | REPINTERLEAVE circusParamDeclList CIRCINDEX error END 
+              | REPPARALLEL circusParamDeclList LPAR channelSet RPAR CIRCINDEX error END 
+              | REPINTCHOICE circusParamDeclList CIRCINDEX error END 
+              | REPEXTCHOICE circusParamDeclList CIRCINDEX error END 
+              | ZCOMP circusParamDeclList CIRCINDEX error END ;
+
+process::=
+                circusBasicProcess 
+              | process CIRCHIDING channelSet 
+              | process INTERLEAVE process 
+              | process LPAR channelSet RPAR process 
+              | process INTCHOICE process 
+              | process EXTCHOICE process 
+              | process CIRCSEQ process 
+              | processCall 
+              | parenthesisedProcess ;
+
+processCall::=
+                DECORWORD actualParameters 
+              | DECORWORD genericActuals actualParameters 
+              | DECORWORD actualIndexes 
+              | DECORWORD genericActuals actualIndexes 
+              | DECORWORD genericActuals 
+              | DECORWORD ;
+
+parenthesisedProcess::=
+                LPAREN process RPAREN 
+              | LPAREN paramProcess RPAREN 
+              | LPAREN paramProcess RPAREN actualParameters 
+              | formalParameters LPAREN paramProcess RPAREN genericActuals actualParameters 
+              | LPAREN indexedProcess RPAREN 
+              | LPAREN indexedProcess RPAREN actualIndexes 
+              | formalParameters LPAREN indexedProcess RPAREN genericActuals actualIndexes 
+              | LPAREN process RPAREN channelRenaming 
+              | LPAREN paramProcess RPAREN channelRenaming 
+              | LPAREN indexedProcess RPAREN channelRenaming ;
+
+circusParamDeclList::=
+                circusParamZDeclList ;
+
+circusParamZDeclList::=
+                varDecl 
+              | circusParamZDeclList sep varDecl ;
+
+circusCommandDecl::=
+                varDecl 
+              | qualifiedDecl ;
+
+circusParamCommandDeclList::=
+                circusParamCommandZDeclList ;
+
+circusParamCommandZDeclList::=
+                circusCommandDecl 
+              | circusParamCommandZDeclList SEMICOLON circusCommandDecl ;
+
+qualifiedDecl::=
+                circusQualifier circusDeclWordList COLON expression ;
+
+circusQualifier::=
+                CIRCVAL 
+              | CIRCRES 
+              | CIRCVRES ;
+
+circusBasicProcess::=
+                CIRCBEGIN 
+              | CIRCBEGIN circusBasicProcessMainAction CIRCEND 
+              | CIRCBEGIN circusInnerProcParaList circusBasicProcessMainAction CIRCEND ;
+
+circusBasicProcessMainAction::=
+                CIRCSPOT circusAction ;
+
+circusProcessState::=
+                CIRCSTATE name DEFEQUAL expression 
+              | CIRCSTATE expression ;
+
+genericActuals::=
+                LSQUARE expressionList RSQUARE ;
+
+actualParameters::=
+                LPAREN expressionList RPAREN ;
+
+actualIndexes::=
+                CIRCLINST expressionList CIRCRINST ;
+
+channelRenaming::=
+                LCIRCRENAME refNameList CIRCASSIGN expressionList RCIRCRENAME ;
+
+namesetPara::=
+                CIRCNAMESET name DEFEQUAL nameSet ;
+
+nameSet::=
+                expression ;
+
+actionPara::=
+                name CIRCDEF actionDesc ;
+
+actionDesc::=
+                DECORWORD channelRenaming 
+              | paramAction 
+              | circusAction ;
+
+paramAction::=
+                circusParamCommandDeclList CIRCSPOT circusAction 
+              | REPINTERLEAVE circusParamDeclList LINTER nameSet RINTER CIRCSPOT circusAction 
+              | REPINTERLEAVE circusParamDeclList CIRCSPOT circusAction 
+              | LPAR channelSet RPAR circusParamDeclList CIRCSPOT LPAR nameSet RPAR circusAction 
+              | LPAR channelSet RPAR circusParamDeclList CIRCSPOT circusAction 
+              | REPINTCHOICE circusParamDeclList CIRCSPOT circusAction 
+              | REPEXTCHOICE circusParamDeclList CIRCSPOT circusAction 
+              | ZCOMP circusParamDeclList CIRCSPOT circusAction 
+              | circusParamCommandDeclList CIRCSPOT circusParamCommandDeclList CIRCSPOT circusAction ;
+
+circusAction::=
+                cspAction 
+              | command 
+              | LSCHEXPRACT expression RSCHEXPRACT 
+              | parenthesisedAction ;
+
+cspAction::=
+                CIRCSKIP 
+              | CIRCSTOP 
+              | CIRCCHAOS 
+              | CIRCMU name CIRCSPOT circusAction 
+              | circusAction CIRCHIDING channelSet 
+              | circusAction LINTER nameSet BAR nameSet RINTER circusAction 
+              | circusAction INTERLEAVE circusAction 
+              | circusAction LPAR nameSet BAR channelSet BAR nameSet RPAR circusAction 
+              | circusAction LPAR BAR channelSet BAR RPAR circusAction 
+              | circusAction LSQUARE nameSet BAR channelSet BAR BAR channelSet BAR nameSet RSQUARE circusAction 
+              | circusAction LSQUARE BAR channelSet BAR BAR channelSet BAR RSQUARE circusAction 
+              | circusAction INTCHOICE circusAction 
+              | circusAction EXTCHOICE circusAction 
+              | circusAction CIRCINTERRUPT circusAction 
+              | circusAction CIRCSEQ circusAction 
+              | LCIRCGUARD guard RCIRCGUARD ANDALSO circusAction 
+              | communication PREFIXTHEN circusAction 
+              | actionCall 
+              | circusAction nameSubstitution ;
+
+actionCall::=
+                DECORWORD actualParameters 
+              | DECORWORD ;
+
+parenthesisedAction::=
+                LPAREN circusAction RPAREN 
+              | LPAREN paramAction RPAREN 
+              | LPAREN paramAction RPAREN actualParameters 
+              | LPAREN CIRCMU name CIRCSPOT paramAction RPAREN actualParameters 
+              | LPAREN circusAction RPAREN channelRenaming ;
+
+guard::=
+                predicate ;
+
+communication::=
+                CHANNELNAME optCommFields 
+              | CHANNELNAME LSQUARE expressionList RSQUARE commFields 
+              | CHANNELERROR error PREFIXTHEN ;
+
+optCommFields::=
+                commFields 
+              | ;
+
+commFields::=
+                commFields commField 
+              | commField ;
+
+commField::=
+                CHANNELIN FIELDNAME 
+              | CHANNELIN FIELDNAME PREFIXCOLON LPAREN predicate RPAREN 
+              | CHANNELOUT expression 
+              | CHANNELDOT expression 
+              | CHANNELIN FIELDNAME PREFIXCOLON error END 
+              | CHANNELIN DECORWORD error END 
+              | CHANNELDOT DECORWORD error END 
+              | CHANNELOUT DECORWORD error END ;
+
+command::=
+                refNameList CIRCASSIGN expressionList 
+              | IF guardedCommands CIRCFI 
+              | CIRCDO guardedCommands CIRCOD 
+              | CIRCVAR circusParamZDeclList CIRCSPOT circusAction 
+              | refNameList PREFIXCOLON LSQUARE predicate COMMA predicate RSQUARE 
+              | PREFIXCOLON LSQUARE predicate COMMA predicate RSQUARE 
+              | LBRACE predicate RBRACE 
+              | LSQUARE predicate RSQUARE ;
+
+guardedCommands::=
+                guardedCommands CIRCELSE guardedCommand 
+              | guardedCommand ;
+
+guardedCommand::=
+                guard CIRCTHEN circusAction ;
+
+nameSubstitution::=
+                LSQUARE renameList RSQUARE ;
+
+processRefPara::=
+                name CIRCASSERTREF process refines process ;
+
+actionRefPara::=
+                name CIRCASSERTREF circusAction refines circusAction ;
+
+refines::=
+                CIRCSIMULATES 
+              | EQUALS 
+              | CIRCREFINES 
+              | CIRCREFINES DECORWORD 
+              | optDeclPart ;
+
+axiomaticSchemaText::=
+                optDeclPart BAR predicate 
+              | optDeclPart ;
+
+optDeclPart::=
+                
+              | declPart ;
+
+declPart::=
+                zDeclList ;
+
+zDeclList::=
+                declaration 
+              | zDeclList sep declaration ;
+
+declaration::=
+                basicDeclaration 
+              | expression ;
+
+schemaTextNoExpression::=
+                optDeclPart BAR predicate 
+              | zDeclList sep declaration 
+              | basicDeclaration ;
+
+basicDeclaration::=
+                varDecl 
+              | constDecl ;
+
+varDecl::=
+                declWordList COLON expression 
+              | declWordList COLON error ;
+
+constDecl::=
+                declName DEFEQUAL expression ;
+
+sep::=
+                SEMICOLON 
+              | NL ;
+
+nameList::=
+                nameList COMMA DECORWORD 
+              | DECORWORD ;
+
+name::=
+                DECORWORD ;
+
+declWordList::=
+                declWordList COMMA DECLWORD 
+              | declWordList COMMA opName 
+              | declWordList COMMA misusedOpName 
+              | opName 
+              | DECLWORD 
+              | misusedOpName ;
+
+misusedOpName::=
+                PREP 
+              | PRE 
+              | POSTP 
+              | POST 
+              | IP 
+              | I 
+              | LP 
+              | L 
+              | ELP 
+              | EL 
+              | ERP 
+              | ER 
+              | SRP 
+              | SR 
+              | EREP 
+              | ERE 
+              | SREP 
+              | SRE 
+              | ES 
+              | SS ;
+
+declName::=
+                name 
+              | opName ;
+
+refNameList::=
+                refNameList COMMA DECORWORD 
+              | DECORWORD ;
+
+refName::=
+                DECORWORD 
+              | FIELDNAME 
+              | LPAREN opName RPAREN ;
+
+opName::=
+                prefixName 
+              | postfixName 
+              | infixName 
+              | nofixName ;
+
+prefixName::=
+                PRE varg 
+              | PREP varg 
+              | L optVargEsSsList argEreOrSre varg 
+              | LP optVargEsSsList argErepOrSrep varg ;
+
+postfixName::=
+                varg POST 
+              | varg POSTP 
+              | varg EL optVargEsSsList argErOrSr 
+              | varg ELP optVargEsSsList argErpOrSrp ;
+
+infixName::=
+                varg I varg 
+              | varg IP varg 
+              | varg EL optVargEsSsList argEreOrSre varg 
+              | varg ELP optVargEsSsList argErepOrSrep varg ;
+
+nofixName::=
+                L optVargEsSsList argErOrSr 
+              | LP optVargEsSsList argErpOrSrp ;
+
+optVargEsSsList::=
+                
+              | optVargEsSsList argEsOrSs ;
+
+argEsOrSs::=
+                ARG ES 
+              | LISTARG SS ;
+
+argEreOrSre::=
+                ARG ERE 
+              | LISTARG SRE ;
+
+argErepOrSrep::=
+                ARG EREP 
+              | LISTARG SREP ;
+
+argErOrSr::=
+                ARG ER 
+              | LISTARG SR ;
+
+argErpOrSrp::=
+                ARG ERP 
+              | LISTARG SRP ;
+
+genName::=
+                prefixGenName 
+              | postfixGenName 
+              | infixGenName 
+              | nofixGenName ;
+
+prefixGenName::=
+                PRE name 
+              | L optNameEsSsList name ereOrSre name ;
+
+postfixGenName::=
+                name POST 
+              | name EL optNameEsSsList name erOrSr ;
+
+infixGenName::=
+                name I name 
+              | name EL optNameEsSsList name ereOrSre name ;
+
+nofixGenName::=
+                L optNameEsSsList name erOrSr ;
+
+optNameEsSsList::=
+                
+              | optNameEsSsList name esOrSs ;
+
+esOrSs::=
+                ES 
+              | SS ;
+
+ereOrSre::=
+                ERE 
+              | SRE ;
+
+erOrSr::=
+                ER 
+              | SR ;
+
+predicate::=
+                predicate sep term 
+              | term ;
+
+expression::=
+                term ;
+
+septerm::=
+                septerm sep term 
+              | term ;
+
+term::=
+                IF predicate THEN term ELSE term 
+              | ALL schemaText SPOT term 
+              | EXI schemaText SPOT term 
+              | EXIONE schemaText SPOT term 
+              | LAMBDA schemaText SPOT term 
+              | MU schemaText SPOT term 
+              | LET letDefinitionList SPOT term 
+              | term IFF term 
+              | term IMP term 
+              | term OR term 
+              | term AND term 
+              | NOT term 
+              | term ZCOMP term 
+              | term ZPIPE term 
+              | term ZHIDE LPAREN refNameList RPAREN 
+              | term ZPROJ term 
+              | ZPRE term 
+              | POWER term 
+              | prodExpressionList 
+              | relation 
+              | application 
+              | func_appl 
+              | LCIRCCHANSET optCommunicationList RCIRCCHANSET ;
+
+optCommunicationList::=
+                
+              | communicationList ;
+
+communicationList::=
+                communicationList COMMA chanSetComm 
+              | chanSetComm ;
+
+chanSetComm::=
+                DECORWORD LSQUARE expressionList RSQUARE 
+              | DECORWORD ;
+
+func_appl::=
+                func_appl inner_term 
+              | inner_term ;
+
+inner_term::=
+                LBRACE optExpressionList RBRACE 
+              | LBRACE schemaText SPOT expression RBRACE 
+              | LBRACE schemaTextNoExpression RBRACE 
+              | LPAREN expressionList COMMA expression RPAREN 
+              | LPAREN MU schemaText RPAREN 
+              | nofixRel 
+              | nofixApp 
+              | LBIND optConstDeclList RBIND 
+              | LSQUARE RSQUARE 
+              | LSQUARE schemaTextNoExpression RSQUARE 
+              | inner_term DOT refName 
+              | inner_term DOT NUMERAL 
+              | inner_term stroke 
+              | THETA inner_term 
+              | inner_term LSQUARE schemaTextNoExpression RSQUARE optAppendageList 
+              | inner_term LSQUARE expressionList RSQUARE 
+              | inner_term LSQUARE renameList RSQUARE 
+              | NUMERAL 
+              | LPAREN septerm RPAREN 
+              | refName 
+              | TRUE 
+              | FALSE ;
+
+optAppendageList::=
+                appendageList 
+              | ;
+
+appendageList::=
+                appendageList appendage 
+              | appendage ;
+
+appendage::=
+                stroke 
+              | LSQUARE renameList RSQUARE 
+              | DOT refName 
+              | DOT NUMERAL ;
+
+prodExpressionList::=
+                term CROSS term 
+              | prodExpressionList CROSS term ;
+
+optExpressionList::=
+                
+              | expressionList ;
+
+expressionList::=
+                expressionList COMMA expression 
+              | expression ;
+
+optConstDeclList::=
+                
+              | constDeclList ;
+
+constDeclList::=
+                constDeclList COMMA constDecl 
+              | constDecl ;
+
+letDefinitionList::=
+                letDefinitionList SEMICOLON letDefinition 
+              | letDefinition ;
+
+letDefinition::=
+                declName DEFEQUAL expression ;
+
+stroke::=
+                INSTROKE 
+              | OUTSTROKE 
+              | NEXTSTROKE 
+              | NUMSTROKE ;
+
+renameList::=
+                zRenameList ;
+
+zRenameList::=
+                zRenameList COMMA rename 
+              | rename ;
+
+rename::=
+                declName SLASH refName ;
+
+relation::=
+                prefixRel 
+              | postfixRel 
+              | infixRel ;
+
+prefixRel::=
+                PREP term 
+              | LP expSep term EREP term 
+              | LP expSep optExpressionList SREP term ;
+
+postfixRel::=
+                term POSTP 
+              | term ELP expSep term ERP 
+              | term ELP expSep optExpressionList SRP ;
+
+infixRel::=
+                infixChainRel 
+              | term ELP expSep term EREP term 
+              | term ELP expSep optExpressionList SREP term ;
+
+infixChainRel::=
+                term MEM term 
+              | term EQUALS term 
+              | term IP term 
+              | infixChainRel MEM term 
+              | infixChainRel EQUALS term 
+              | infixChainRel IP term ;
+
+nofixRel::=
+                LP expSep term ERP 
+              | LP expSep optExpressionList SRP ;
+
+application::=
+                prefixApp 
+              | postfixApp 
+              | infixApp ;
+
+prefixApp::=
+                PRE term 
+              | L expSep term ERE term 
+              | L expSep optExpressionList SRE term ;
+
+postfixApp::=
+                term POST 
+              | term EL expSep term ER 
+              | term EL expSep optExpressionList SR ;
+
+infixApp::=
+                term I term 
+              | term EL expSep term ERE term 
+              | term EL expSep optExpressionList SRE term ;
+
+nofixApp::=
+                L expSep term ER 
+              | L expSep optExpressionList SR ;
+
+expSep::=
+                
+              | expSep term ES 
+              | expSep expressionList SS ;
+
+optNL::=
+                
+              | NL ;
+
