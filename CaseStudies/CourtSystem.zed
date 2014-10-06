@@ -17,7 +17,7 @@
 \end{axdef}
 
 \begin{schema}{State}
-	SecEmployees : PERSON \pfun SECTION	\\
+	SecEmployees :  PERSON \pfun SECTION	\\
 	CaseDetails  : CASE   \pfun CDETAIL	\\ 	  
 \end{schema}
 
