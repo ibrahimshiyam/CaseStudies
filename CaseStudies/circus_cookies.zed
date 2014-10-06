@@ -21,7 +21,7 @@
 
 \begin{circus}
 	\circprocess\ HRManagement \circdef \circbegin \\  
-	\circstate\  State ~~==~~ [~ empDet : EMP ~]  	\\
+	\circstate\ State ~~==~~ [~ empDet : EMP ~]  	\\
 
 
 
