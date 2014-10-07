@@ -44,22 +44,15 @@ Examples from Manuela Xavier MSc thesis.
     InitState ~~==~~ [~ State~' | money' = 0 \land quantity' = cookieQuantity ~] \\
  
     InputMoney ~~==~~ [~ \Delta State; x?: \nat | money \leq cookieValue \land money' = money + x? ~] \\
-    
     Input ~~\circdef~~ \lcircguard money \leq cookieValue \rcircguard  \circguard\ in~?x \then InputMoney \\
-    
     OutputCookieOk ~~==~~ [~ \Delta State; o!: COOKIE | money \geq cookieValue \land
         quantity > 0 \land money' = money - cookieValue \land quantity' = quantity - 1\land o! = ok ~] \\
-        
     OutputCookieNotOk ~~==~~ [~ \Delta State; o!: COOKIE | money \geq cookieValue \land
         quantity = 0 \land money' = money \land o! = notok ~] \\
-        
     OutputCookie ~~==~~ OutputCookieOk \lor OutputCookieNotOk \\
-    
     Output ~~\circdef~~ \lcircguard money \geq cookieValue \rcircguard \circguard\ \\
         \t1 (\circvar\ o: COOKIE \circspot OutputCookie \circseq (out~!o \then change~!money \then \Skip)) \\
-        
     \t1 \circspot InitState \circseq (\circmu\ X \circspot (Input \extchoice Output) \circseq X) \\
-    
    \circend
 \end{circus}
 
