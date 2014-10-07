@@ -2,6 +2,7 @@
 \usepackage{czt}
 
 \begin{document}
+
 \begin{zsection}
   \SECTION\ circus\_cookies \parents\ circus\_toolkit
 \end{zsection}
@@ -48,6 +49,7 @@
 
 \begin{circus}
 	\circprocess\ HRManagement \circdef \circbegin \\  
+<<<<<<< HEAD
 	\circstate\ State  ~~==~~ [~ empDet : \power EMP ~]  	\\
 
     InitState ~~==~~ [~ State~' | empDet' = \emptyset ~] \\
@@ -59,17 +61,25 @@
     \t1 \circspot InitState \circseq (\circmu\ Y \circspot \Skip \circseq Y) \\
    
    \circend
+=======
+	\circstate\ State ~~==~~ [~ empDet: \power EMP ~]  	\\
+   
+    InitState ~~==~~ [~ State~' | empDet' = \emptyset ~] \\
+    
+   InputMoney ~~==~~ [~ \Delta State; x?: \nat ; y!: \nat | y! = x? ~] \\
+    
+    Input ~~\circdef~~  a~?x \then InputMoney \\
+
+    \t1 \circspot InitState \circseq (\circmu\ X \circspot \Skip \circseq X) \\
+   
+
+    \circend
+>>>>>>> origin/test-branch
     
 \end{circus}
 
-\begin{circusaction}
-   \t1 \circspot \circvar o!: COOKIE \circspot State 
-   % InitState \circseq (\circmu\ X \circspot (Input \extchoice Output) \circseq X)
-\end{circusaction}
 
-	    \circstate\ State ~~==~~ [~ money, quantity: \nat ~]  \\
 
-    InitState ~~==~~ [~ State~' | empDet' = \emptyset ~] \\
 
 This specification describes ...
 
