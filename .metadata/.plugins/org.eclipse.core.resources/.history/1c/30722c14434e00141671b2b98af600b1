@@ -33,7 +33,7 @@
 For a detailed explanation of these examples, see ``./dot-field-multennv.tex''.
 %
 \begin{circus}
-  \circprocess\  CommTypeTestSingle \circdef \circbegin
+  \circprocess\ CommTypeTestSingle \circdef \circbegin
   \also %
    \t1 Test0 \circdef chan?x       \then \Skip \\
   \t1 Test1 \circdef chan?x.b?y?z \then \Skip \\
