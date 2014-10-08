@@ -49,7 +49,19 @@
 
 \begin{circus}
 	\circprocess\ HRManagement \circdef \circbegin \\  
+<<<<<<< HEAD
+	\circstate\ State  ~~==~~ [~ empDet : \power EMP ~]  	\\
 
+    InitState ~~==~~ [~ State~' | empDet' = \emptyset ~] \\
+ 
+    InputMoney ~~==~~ [~ \Delta State; x?: \power EMP | empDet' = empDet \cup x? ~] \\
+    
+    Input ~~\circdef~~  in~?x \then (InputMoney \then \Skip) \\
+    
+    \t1 \circspot InitState \circseq (\circmu\ Y \circspot \Skip \circseq Y) \\
+   
+   \circend
+=======
 	\circstate\ State ~~==~~ [~ empDet: \power EMP ~]  	\\
    
     InitState ~~==~~ [~ State~' | empDet' = \emptyset ~] \\
