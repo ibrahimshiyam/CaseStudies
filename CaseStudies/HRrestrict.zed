@@ -8,30 +8,80 @@
 
 
 \begin{zed}
-  [ EMP , NAME , ADDRESS , TEL]
+  [ EMP , EMPDETAIL]
 \end{zed}
+	
+\begin{circus}
+	\circchannel\ in: EMP 	\\
+	\circchannel\ out: EMPDETAIL 	\\
+\end{circus}
+
+\begin{circus}
+	\circprocess\ HRManagement \circdef \circbegin   
+\end{circus}
+
+\begin{circusaction}
+	\circstate\ State ~~==~~ [~ iEmp , iReq :EMP ~]  	\\
+\end{circusaction}
 
 \begin{axdef}
-  EMPDETAIL == NAME \cross ADDRESS \cross TEL	\\
   hrstaff : \power EMP							\\
+  empDet  : EMP \pfun EMPDETAIL					\\
 \end{axdef}
-
-\begin{schema}{State}
-  empDet : EMP \pfun EMPDETAIL
-\end{schema}
 
 \begin{schema}{Init}
   State~'
 \end{schema}
 
-\begin{schema}{getEmployeeDetail}
-  \Xi State					\\
-  emp? : EMP				\\
-  req? : EMP				\\ 
-  detail! : EMPDETAIL		\\
+\begin{schema}{getRequest}
+  \Delta State					\\
+  emp? : EMP					\\
+  req? : EMP					\\ 
 \where
-  req? \in \dom empDet	\land (detail! = empDet\ emp?) \\
+  emp? \in \dom empDet	\land 
+  req? \in \dom empDet	\land
+  iEmp = emp?			\land
+  iReq = req? 			
 \end{schema}
+
+\begin{schema}{showDetail}
+  	\Xi State					\\
+  	detail! : EMPDETAIL			\\
+\where  
+	detail! = empDet\ iEmp 		\\
+\end{schema}
+
+\begin{schema}{hideH}
+  	\Xi State					\\
+  	\Xi State~_1
+\where  
+  \forall e: EMP @ iEmp \neq iReq \implies  iEmp_1 \neq iReq_1
+\end{schema}
+  
+\begin{circusaction}
+    InitState ~~==~~ [~ State  ~] \\
+\end{circusaction}
+
+\begin{circusaction}    
+   getR ~~\circdef~~ in~?Iemp \then getRequest  \then Skip \\
+\end{circusaction}
+
+
+\begin{circusaction}    
+   showD ~~\circdef~~ out~!(empDet\ iEmp)  \then Skip \\
+\end{circusaction}
+
+\begin{circusaction}
+  \circspot Init \circseq getRequest \circseq hideH \circseq showD\  \\
+\end{circusaction}
+
+\begin{circus}
+    \circend
+\end{circus}
+
+
+
+  \forall n: Note @ (ns~\bcount~n) \leq noteBank~n
 
 
 
