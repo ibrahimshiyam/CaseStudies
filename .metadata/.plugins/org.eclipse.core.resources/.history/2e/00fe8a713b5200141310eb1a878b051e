@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage{czt}
+
+\begin{document}
+\begin{zsection}
+  \SECTION HRrestrict \parents standard\_toolkit
+\end{zsection}
+
+
+\begin{zed}
+  [ EMP , EMPDETAIL]
+\end{zed}
+
+\begin{axdef}
+	employees : \power EMP		\\
+  	hrstaff   : \power EMP		\\
+\end{axdef}
+
+\begin{schema}{State}
+  empDet : EMP \pfun EMPDETAIL; iEmp, iReq:EMP
+\end{schema}
+
+\begin{schema}{Init}
+  State~'
+\end{schema}
+
+
+\begin{schema}{getRequester}
+  	\Xi State					\\
+  	emp? : EMP				\\
+  	req? : EMP				\\ 
+\where
+	emp ? \in employees \land 
+  	req ? \in employees \land
+  	iEmp = emp? \land iReq = req?
+\end{schema}
+
+\begin{schema}{showEmployeeDetail}
+  	\Xi State					\\
+	detail! : EMPDETAIL
+\where
+  detail! = (empDet\ iReq) \\
+\end{schema}
+
+\begin{schema}{hide}
+  \Xi State					\\
+\where
+  iEmp \in \dom empDet	 \\
+\end{schema}
+
+
+
+This specification describes ...
+
+
+
+\end{document}
