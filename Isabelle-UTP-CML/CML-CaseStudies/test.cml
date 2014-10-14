@@ -1,0 +1,36 @@
+types
+
+
+T4 = nat
+
+
+values
+v1: T4 = 7
+
+functions 
+f1 (n1:T4 , n2:T4) r:T4
+pre n1 > n2
+post r = n1 + n2
+
+channels
+ch2 : nat
+
+process proc2 =
+begin
+state
+a: T4 := v1
+
+operations
+op1 : T4 ==> ()
+op1(t) == a := t
+pre t/5 < v1
+
+
+actions
+ACT = ch2!3 -> op1(4); Skip
+
+@  ACT
+end
+
+
+
