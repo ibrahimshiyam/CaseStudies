@@ -25,7 +25,7 @@
 \end{schema}
 
 \begin{schema}{S2}
-    S1; S1 _1; S1 _2; S1 _3; S1 _4; S1 _5; S1 _6; S1 _7; S1 _8; S1 _9
+    S1; S1~_1
 \end{schema}
  
 \begin{schema}{S3}
@@ -33,7 +33,7 @@
 \end{schema}
 
 \begin{schema}{S4}
-    S3; S3 _1; S3 _2; S3 _3; S3 _4; S3 _5; S3 _6; S3 _7; S3 _8; S3 _9
+    S3; S1~_1; S3 _2; S3 _3; S3 _4; S3 _5; S3 _6; S3 _7; S3 _8; S3 _9
 \end{schema}
 
 \begin{schema}{S5}
@@ -56,13 +56,13 @@
     
    InputMoney ~~==~~ [~ \Delta State; x?: \nat ; y!: \nat | y! = x? ~] \\
     
-    Input ~~\circdef~~  a~?x \then InputMoney \\
+    Input ~~\circdef~~  in~?x \then InputMoney \\
 
     \t1 \circspot InitState \circseq (\circmu\ X \circspot \Skip \circseq X) \\
    
 
     \circend
->>>>>>> origin/test-branch
+
     
 \end{circus}
 
