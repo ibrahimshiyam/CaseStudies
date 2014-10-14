@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{czt}
+\usepackage{z-eves}
 
 \begin{document}
 \begin{zsection}
@@ -12,7 +13,7 @@
 \end{zed}
 	
 \begin{circus}
-	\circchannel\ in: EMP 	\\
+	\circchannel\ in : EMP 	\\
 	\circchannel\ out: EMPDETAIL 	\\
 \end{circus}
 
@@ -21,7 +22,8 @@
 \end{circus}
 
 \begin{circusaction}
-	\circstate\ State ~~==~~ [~ iEmp , iReq :EMP ~]  	\\
+    \circstate\ HRState ~~==~~ [~ iEmp , iReq :EMP ~]  	\\
+    InitHRState ~~==~~  HRState~'  
 \end{circusaction}
 
 \begin{axdef}
@@ -29,12 +31,12 @@
   empDet  : EMP \pfun EMPDETAIL					\\
 \end{axdef}
 
-\begin{schema}{Init}
-  State~'
-\end{schema}
+\begin{schema}{HRState}
+    iEmp , iReq :EMP 
+ \end{schema}
 
 \begin{schema}{getRequest}
-  \Delta State					\\
+  \Delta HRState					\\
   emp? : EMP					\\
   req? : EMP					\\ 
 \where
@@ -45,34 +47,31 @@
 \end{schema}
 
 \begin{schema}{showDetail}
-  	\Xi State					\\
+  	\Xi HRState					\\
   	detail! : EMPDETAIL			\\
 \where  
 	detail! = empDet\ iEmp 		\\
 \end{schema}
 
 \begin{schema}{hideH}
-  	\Xi State					\\
-  	\Xi State~_1
+  	\Xi HRState					\\
+  	\Xi HRState~_1
 \where  
   \forall e: EMP @ iEmp \neq iReq \implies  iEmp_1 \neq iReq_1
 \end{schema}
   
-\begin{circusaction}
-    InitState ~~==~~ [~ State  ~] \\
-\end{circusaction}
-
 \begin{circusaction}    
-   getR ~~\circdef~~ in~?Iemp \then getRequest  \then Skip \\
+   getR ~~\circdef~~ in~?emp \then in~?req \then \lschexpract getRequest \rschexpract  \\
 \end{circusaction}
-
 
 \begin{circusaction}    
    showD ~~\circdef~~ out~!(empDet\ iEmp)  \then Skip \\
 \end{circusaction}
 
 \begin{circusaction}
-  \circspot Init \circseq getRequest \circseq hideH \circseq showD\  \\
+  \circspot \lschexpract InitHRState \rschexpract \circseq \\
+  			 getR 		  \circseq \\
+  			 showD	\circseq \Skip \\
 \end{circusaction}
 
 \begin{circus}
@@ -81,9 +80,27 @@
 
 
 
-  \forall n: Note @ (ns~\bcount~n) \leq noteBank~n
+
+\begin{zed} 
+   OpA == getRequest \semi hideH \semi showDetail
+\end{zed}
 
 
+\begin{theorem}{OpA1}
+true \implies OpA
+\end{theorem}
+
+\begin{zproof}[OpA1]
+prove by rewrite;
+\end{zproof}
+
+
+
+
+\begin{theorem}{proveSystem}
+%\vdash?
+\forall hideH @ iEmp \neq iReq \implies  iEmp_1 \neq iReq_1
+\end{theorem}
 
 
 
