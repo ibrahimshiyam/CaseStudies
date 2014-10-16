@@ -22,18 +22,33 @@
 \end{circus}
 
 \begin{circusaction}
-    \circstate\ HRState ~~==~~ [~ iEmp , iReq :EMP ~]  	\\
-    InitHRState ~~==~~  HRState~'  
+    \circstate\ HRState1 ~~==~~ [~ iEmp , iReq :EMP ~]  	\\
+    InitHRState ~~==~~  HRState1~'  
 \end{circusaction}
 
 \begin{axdef}
-  hrstaff : \power EMP							\\
   empDet  : EMP \pfun EMPDETAIL					\\
 \end{axdef}
 
 \begin{schema}{HRState}
-    iEmp , iReq :EMP 
- \end{schema}
+	emp : \finset EMP	\\
+	hrstaff : \finset EMP	\\
+	sal : EMP \pfun \nat	
+\where
+	emp \cap hrstaff = \emptyset	\\
+	\dom sal = emp \cup hrstaff
+\end{schema}
+
+\begin{schema}{AddEmp}
+	\Delta HRState		\\
+	e? :  EMP		\\
+	r? : EMP		\\
+	d? : \nat		\\
+\where
+	emp' = emp \cup {e?}		\\
+	r? \in hrstaff				\\
+	sal' = sal \oplus {e? \mapsto d?}	\\
+\end{schema}
 
 \begin{schema}{getRequest}
   \Delta HRState					\\
@@ -79,28 +94,11 @@
 \end{circus}
 
 
-
-
 \begin{zed} 
    OpA == getRequest \semi hideH \semi showDetail
 \end{zed}
 
 
-\begin{theorem}{OpA1}
-true \implies OpA
-\end{theorem}
-
-\begin{zproof}[OpA1]
-prove by rewrite;
-\end{zproof}
-
-
-
-
-\begin{theorem}{proveSystem}
-%\vdash?
-\forall hideH @ iEmp \neq iReq \implies  iEmp_1 \neq iReq_1
-\end{theorem}
 
 
 
