@@ -14,7 +14,7 @@
 	
 \begin{circus}
 	\circchannel\ in : EMP 	\\
-	\circchannel\ out: EMPDETAIL 	\\
+	\circchannel\ out: \nat 	\\
 \end{circus}
 
 \begin{circus}
@@ -26,10 +26,6 @@
     InitHRState ~~==~~  HRState1~'  
 \end{circusaction}
 
-\begin{axdef}
-  empDet  : EMP \pfun EMPDETAIL					\\
-\end{axdef}
-
 \begin{schema}{HRState}
 	emp : \finset EMP	\\
 	hrstaff : \finset EMP	\\
@@ -40,43 +36,45 @@
 \end{schema}
 
 \begin{schema}{AddEmp}
-	\Delta HRState		\\
-	e? :  EMP		\\
-	r? : EMP		\\
-	d? : \nat		\\
+	\Delta HRState						\\
+	e?,r?	: EMP						\\
+	d?		: \nat		
 \where
-	emp' = emp \cup {e?}		\\
-	r? \in hrstaff				\\
-	sal' = sal \oplus {e? \mapsto d?}	\\
+	r? \in hrstaff						\\
+	emp' = emp \cup \{e?\}				\\
+	sal' = sal \cup \{(e? \mapsto d?)\}	
 \end{schema}
 
-\begin{schema}{getRequest}
+\begin{schema}{updSal}
   \Delta HRState					\\
-  emp? : EMP					\\
-  req? : EMP					\\ 
+  e?,r? : EMP					\\
+  esal? 	: \nat					\\ 
 \where
-  emp? \in \dom empDet	\land 
-  req? \in \dom empDet	\land
-  iEmp = emp?			\land
-  iReq = req? 			
+  e? \in \dom sal	\land 
+  r? \in hrstaff	\land
+  sal' = sal \oplus \{(e? \mapsto esal?)\}	
 \end{schema}
 
-\begin{schema}{showDetail}
-  	\Xi HRState					\\
-  	detail! : EMPDETAIL			\\
-\where  
-	detail! = empDet\ iEmp 		\\
+\begin{schema}{reqSal}
+  \Xi HRState					\\
+  e?,r? : EMP					\\
+  esal! 	: \nat					\\ 
+\where
+  e? \in \dom sal	\land 
+  r? \in hrstaff	\land
+  esal! = sal\ e? 			
 \end{schema}
 
 \begin{schema}{hideH}
   	\Xi HRState					\\
-  	\Xi HRState~_1
 \where  
-  \forall e: EMP @ iEmp \neq iReq \implies  iEmp_1 \neq iReq_1
+	\exists  HRState~_1 @
+		\forall e:EMP @ e \in emp \land 
+			sal\ e \neq sal_1\ e
 \end{schema}
   
 \begin{circusaction}    
-   getR ~~\circdef~~ in~?emp \then in~?req \then \lschexpract getRequest \rschexpract  \\
+   getR ~~\circdef~~ in~?e \then in~?r \then \lschexpract reqSal \then out~!esal \rschexpract  \\
 \end{circusaction}
 
 \begin{circusaction}    
