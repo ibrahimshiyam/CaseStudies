@@ -11,20 +11,7 @@
 \begin{zed}
   [ EMP , EMPDETAIL]
 \end{zed}
-	
-\begin{circus}
-	\circchannel\ in : EMP 	\\
-	\circchannel\ out: \nat 	\\
-\end{circus}
 
-\begin{circus}
-	\circprocess\ HRManagement \circdef \circbegin   
-\end{circus}
-
-\begin{circusaction}
-    \circstate\ HRState1 ~~==~~ [~ iEmp , iReq :EMP ~]  	\\
-    InitHRState ~~==~~  HRState1~'  
-\end{circusaction}
 
 \begin{schema}{HRState}
 	emp : \finset EMP	\\
@@ -34,8 +21,24 @@
 	emp \cap hrstaff = \emptyset	\\
 	\dom sal = emp \cup hrstaff
 \end{schema}
+	
+\begin{circus}
+	\circchannel\ in : EMP 				\\
+	\circchannel\ insal,out: \nat 			\\
+\end{circus}
 
-\begin{schema}{AddEmp}
+\begin{circus}
+	\circprocess\ HRManagement \circdef \circbegin   
+\end{circus}
+
+\begin{circusaction}
+    \circstate\ HRState  	\\
+    InitHRState ~~==~~ [~ HRState~' | \\
+    		emp' = \emptyset \land hrstaff' = \emptyset \land sal' = \emptyset ~]  
+\end{circusaction}
+
+
+\begin{schema}{addEmp}
 	\Delta HRState						\\
 	e?,r?	: EMP						\\
 	d?		: \nat		
@@ -47,8 +50,8 @@
 
 \begin{schema}{updSal}
   \Delta HRState					\\
-  e?,r? : EMP					\\
-  esal? 	: \nat					\\ 
+  e?,r? : EMP						\\
+  esal? : \nat						\\ 
 \where
   e? \in \dom sal	\land 
   r? \in hrstaff	\land
@@ -72,30 +75,43 @@
 		\forall e:EMP @ e \in emp \land 
 			sal\ e \neq sal_1\ e
 \end{schema}
-  
-\begin{circusaction}    
-   getR ~~\circdef~~ in~?e \then in~?r \then \lschexpract reqSal \then out~!esal \rschexpract  \\
-\end{circusaction}
-
-\begin{circusaction}    
-   showD ~~\circdef~~ out~!(empDet\ iEmp)  \then Skip \\
+ 
+\begin{circusaction}
+    Output ~~\circdef~~
+        \circblockbegin
+            \lcircguard true \rcircguard \circguard\ \\
+            (\circvar\ esal: \nat \circspot in?e \then in?r \then \\
+            	\lschexpract reqSal \rschexpract \circseq (out~!esal \then \Skip))
+        \circblockend
+      
 \end{circusaction}
 
 \begin{circusaction}
-  \circspot \lschexpract InitHRState \rschexpract \circseq \\
-  			 getR 		  \circseq \\
-  			 showD	\circseq \Skip \\
+    HideSal ~~\circdef~~ \lschexpract hideH \rschexpract
+\end{circusaction}
+
+\begin{circusaction}
+    AddEmp ~~\circdef~~ in?e \then in?r \then insal?d \then \lschexpract addEmp \rschexpract
+\end{circusaction}
+\begin{circusaction}
+    UpdSal ~~\circdef~~ \lschexpract hideH \rschexpract
+\end{circusaction}
+
+\begin{circusaction}
+
+   \t1 \circspot InitHRState \circseq (\circmu\ X \circspot (		\\
+   					\t4 (AddEmp \circseq HideSal 	\\
+   					\t4 \extchoice 					\\
+   					\t4 UpdSal \circseq HideSal 	\\
+   					\t4 \extchoice 					\\
+   					\t4 AddEmp \circseq HideSal 	\\
+   					) \circseq X))
+
 \end{circusaction}
 
 \begin{circus}
     \circend
 \end{circus}
-
-
-\begin{zed} 
-   OpA == getRequest \semi hideH \semi showDetail
-\end{zed}
-
 
 
 
