@@ -5,42 +5,51 @@
 Case Study on hiding
 
 \begin{zsection}
-  \SECTION HRrestrict \parents standard\_toolkit
+  \SECTION ExamStudent \parents standard\_toolkit
 \end{zsection}
 \begin{zed}
-  [ EMP , EMPDETAIL]
+  [ EXAMINER , STUDENT ]
 \end{zed}
-\begin{schema}{HRState}
-	emp 	: \finset EMP					\\
-	hrstaff : \finset EMP				\\
-	sal 	: EMP \pfun \nat	
+\begin{axdef}
+ ex : EXAMINER
+\end{axdef}
+\begin{schema}{State}
+	examiners   : \finset EXAMINER			\\
+	students : \finset STUDENT				\\
+	exst : EXAMINER \pfun STUDENT			\\
+	smarks : \finset (STUDENT \cross \nat)	\\
 \where
-	emp \cap hrstaff = \emptyset		\\
-	\dom sal = emp \cup hrstaff
+	\dom exst \subset examiners				\\
+	\ran exst \subset students				\\
+	ex \in examiners
 \end{schema}
-	\begin{circus}
-	\circchannel\ in : EMP 				\\
-	\circchannel\ insal,out: \nat 			
+
+\begin{circus}
+	\circchannel\ inex : EXAMINER 				\\
+	\circchannel\ inst : STUDENT 				\\
 \end{circus}
 \begin{circus}
 	\circprocess\ HRManagement \circdef \circbegin   
 \end{circus}
 \begin{circusaction}
-    \circstate\ HRState  	\\
-    InitHRState ~~==~~ [~ HRState~' | 	
-    		emp' = \emptyset \land hrstaff' = \emptyset \land sal' = \emptyset ~]  
+    \circstate\ State  	\\
+    Init ~~==~~ [~ State~' | 	
+    		examiners' = \emptyset \land students' = \emptyset 
+    		\land exst' = \emptyset ~]  
 \end{circusaction}
-\begin{schema}{addEmp}
-	\Delta HRState						\\
-	e?,r?	: EMP						\\
-	d?		: \nat		
+\begin{schema}{getStMarks}
+	\Xi State							\\
+	e?: EXAMINER						\\
+	s?: STUDENT							\\
+	marks! : smarks							
 \where
-	r? \in hrstaff						\\
-	emp' 	= emp \cup \{e?\}				\\
-	sal' 	= sal \cup \{(e? \mapsto d?)\}	
+	\circif (e?=e?) \circthen \Skip
+ 		\t1
+ 			\circelse false \circthen \Skip 
+ 	\circfi\dres 
 \end{schema}
 \begin{schema}{updSal}
-  \Delta HRState						\\
+  \Delta State						\\
   e?,r? : EMP							\\
   esal? : \nat							\\ 
 \where

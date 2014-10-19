@@ -1,42 +1,5 @@
 types
 EMP = nat   
-<<<<<<< HEAD
-EMPDETAIL = nat 
-hrstaff = nat +> char
-
-
-channels
-input : nat
-output : int
-
-
-process proc1 =
-begin
-state
-a: EMP := 1
-
-functions 
-readme (n1:EMP) r:EMPDETAIL
-post r = n1
-
-showdetail (r:EMP) s:EMP
-post r = s
-
-operations
-op1 : EMP ==> ()
-op1(t) == a := t
-
-
-actions
-ACT = output!3 -> op1(4); Skip
-
-@  ACT
-end
-
-
-
-=======
-EMPDETAIL = nat 
 response = bool
 
 st_nat::
@@ -44,8 +7,9 @@ st_nat::
 	y: nat
 
 channels
-	input : nat
-	output : int
+input : nat
+output : int
+
 
 process proc1 =
 begin
@@ -62,16 +26,24 @@ state
 	reg : set of nat :={0,1}
 	
 	pred1 : set of st_nat := {}
-		
 
 functions 
+	readme (n1:EMP) r:EMPDETAIL
+	post r = n1
+
+	showdetail (r:EMP) s:EMP
+	post r = s
+
 	resetv : st_nat -> bool
 	resetv(f) == f.x = 0 and f.y =0
 
 	mkv : nat -> st_nat
 	mkv(v) ==  mk_st_nat(v,v) 
-
+	
 operations
+	op1 : EMP ==> ()
+	op1(t) == a := t
+
    Init : () ==> ()
    Init() ==
       reg := {}
@@ -80,17 +52,21 @@ LIFT: st_nat ==> ()
    LIFT(v1) == pred1 := pred1 union {v1}
    
    
+
 actions
-	MkPred1 =  LIFT(mkv(0))
+ACT = output!3 -> op1(4); Skip
+
+MkPred1 =  LIFT(mkv(0))
 	MkPred2 = LIFT(mkv(1))
 	MkP = MkPred1 ; MkPred2
 
 	Outme = output!3 -> Skip ; Skip
 
-@  MkP
+
+@  ACT
 
 end
+	
 
 
 
->>>>>>> dded03fa280d8e3cc123bd81b4d16e822186b508
