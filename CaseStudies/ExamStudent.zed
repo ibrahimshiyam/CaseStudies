@@ -7,65 +7,79 @@ Case Study on hiding
 \begin{zsection}
   \SECTION ExamStudent \parents standard\_toolkit
 \end{zsection}
+
 \begin{zed}
-  [ EXAMINER , STUDENT ]
+  [ EXAMINER , STUDENT , TEST ]
 \end{zed}
+
+\begin{zed}
+  CANDIDATE == STUDENT \cross TEST				\\
+  CANDMARKS  == CANDIDATE \cross \nat
+\end{zed}
+
 \begin{axdef}
  ex : EXAMINER
 \end{axdef}
+
 \begin{schema}{State}
-	examiners   : \finset EXAMINER			\\
-	students : \finset STUDENT				\\
-	exst : EXAMINER \pfun STUDENT			\\
-	smarks : \finset (STUDENT \cross \nat)	\\
+	examiners   : \finset EXAMINER					\\
+	candidates 	: \finset CANDIDATE					\\
+	smarks 		: \finset CANDMARKS					\\
+	exassigned	: EXAMINER \pfun CANDIDATE			\\
 \where
-	\dom exst \subset examiners				\\
-	\ran exst \subset students				\\
+	\dom exassigned \subseteq examiners				\\
+	\ran exassigned \subseteq candidates			\\
 	ex \in examiners
 \end{schema}
 
 \begin{circus}
-	\circchannel\ inex : EXAMINER 				\\
-	\circchannel\ inst : STUDENT 				\\
+	\circchannel\ inex   : EXAMINER 				\\
+	\circchannel\ incand : CANDIDATE 				\\
 \end{circus}
+
 \begin{circus}
 	\circprocess\ HRManagement \circdef \circbegin   
 \end{circus}
+
 \begin{circusaction}
-    \circstate\ State  	\\
+    \circstate\ State  								\\
     Init ~~==~~ [~ State~' | 	
-    		examiners' = \emptyset \land students' = \emptyset 
-    		\land exst' = \emptyset ~]  
+    		examiners' = \emptyset \land candidates' = \emptyset 
+    		\land exassigned' = \emptyset ~]  
 \end{circusaction}
+
 \begin{schema}{getStMarks}
-	\Xi State							\\
-	e?: EXAMINER						\\
-	s?: STUDENT							\\
-	marks! : smarks							
+	\Xi State										\\
+	e?		: EXAMINER								\\
+	s?		: CANDIDATE								\\
+	marks! 	: \finset CANDMARKS							
 \where
-	\circif (e?=e?) \circthen \Skip
- 		\t1
- 			\circelse false \circthen \Skip 
- 	\circfi\dres 
+	%marks! = {\forall i: CANDMARKS s @ i
+	marks! = \{~ f : CANDMARKS  | 
+			s?.STUDENT \in (exassigned\ e?) ~\}
+	
 \end{schema}
-\begin{schema}{updSal}
-  \Delta State						\\
-  e?,r? : EMP							\\
-  esal? : \nat							\\ 
+
+\begin{schema}{addMark}
+  \Delta State										\\
+  e?,r? 	: EMP									\\
+  esal? 	: \nat									\\ 
 \where
   e? \in \dom sal	\land 
   r? \in hrstaff	\land
   sal' = sal \oplus \{(e? \mapsto esal?)\}	
 \end{schema}
+
 \begin{schema}{reqSal}
   \Xi HRState							\\
-  e?,r? : EMP							\\
-  esal! : \nat							\\ 
+  e?,r? 	: EMP							\\
+  esal! 	: \nat							\\ 
 \where
   e? \in \dom sal	\land 
   r? \in hrstaff	\land
   esal! = sal\ e? 			
 \end{schema}
+
 \begin{schema}{hideH}
   	\Xi HRState							\\
 \where  
@@ -73,6 +87,7 @@ Case Study on hiding
 		\forall e:EMP @ e \in emp \land 
 			sal\ e \neq sal_1\ e
 \end{schema}
+
 \begin{circusaction}
     Output ~~\circdef~~
             (\circvar\ esal: \nat \circspot in?e \then in?r \then 
