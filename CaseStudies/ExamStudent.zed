@@ -13,8 +13,7 @@ Case Study on hiding
 \end{zed}
 
 \begin{zed}
-  CANDIDATE == STUDENT \cross TEST				\\
-  CANDMARKS  == CANDIDATE \cross \nat
+  CANDIDATE == STUDENT \cross TEST					\\
 \end{zed}
 
 \begin{axdef}
@@ -24,69 +23,89 @@ Case Study on hiding
 \begin{schema}{State}
 	examiners   : \finset EXAMINER					\\
 	candidates 	: \finset CANDIDATE					\\
-	smarks 		: \finset CANDMARKS					\\
-	exassigned	: EXAMINER \pfun CANDIDATE			\\
+	smarks 		: CANDIDATE \pfun \nat				\\
+	exassigned	: EXAMINER \pfun (\finset CANDIDATE)\\
 \where
 	\dom exassigned \subseteq examiners				\\
-	\ran exassigned \subseteq candidates			\\
+	\bigcup (\ran exassigned) \subseteq candidates	\\
 	ex \in examiners
 \end{schema}
 
 \begin{circus}
-	\circchannel\ inex   : EXAMINER 				\\
-	\circchannel\ incand : CANDIDATE 				\\
+	\circchannel\ inex    : EXAMINER 				\\
+	\circchannel\ incand  : CANDIDATE 				\\
+	\circchannel\ outmark : \nat 					\\
 \end{circus}
 
 \begin{circus}
-	\circprocess\ HRManagement \circdef \circbegin   
+	\circprocess\ ExamSys \circdef \circbegin   
 \end{circus}
 
 \begin{circusaction}
     \circstate\ State  								\\
     Init ~~==~~ [~ State~' | 	
-    		examiners' = \emptyset \land candidates' = \emptyset 
-    		\land exassigned' = \emptyset ~]  
+    				examiners'  = \emptyset \land 
+    				candidates' = \emptyset \land
+    				smarks' 	= \emptyset \land  
+    				exassigned' = \emptyset ~]  
 \end{circusaction}
 
 \begin{schema}{getStMarks}
 	\Xi State										\\
 	e?		: EXAMINER								\\
-	s?		: CANDIDATE								\\
-	marks! 	: \finset CANDMARKS							
+	c?		: CANDIDATE								\\
+	marks! 	: \nat	
 \where
-	%marks! = {\forall i: CANDMARKS s @ i
-	marks! = \{~ f : CANDMARKS  | 
-			s?.STUDENT \in (exassigned\ e?) ~\}
-	
+	c? \in  (exassigned\ e?) 						\\
+	marks! = smarks\ c?  
 \end{schema}
 
 \begin{schema}{addMark}
-  \Delta State										\\
-  e?,r? 	: EMP									\\
-  esal? 	: \nat									\\ 
+  	\Delta State									\\
+  	c? 		: CANDIDATE								\\
+  	mark? 	: \nat									\\ 
 \where
-  e? \in \dom sal	\land 
-  r? \in hrstaff	\land
-  sal' = sal \oplus \{(e? \mapsto esal?)\}	
+  	c? \notin candidates	\land 
+  	smarks' = smarks \cup \{(c? \mapsto mark?)\}	
 \end{schema}
 
-\begin{schema}{reqSal}
-  \Xi HRState							\\
-  e?,r? 	: EMP							\\
-  esal! 	: \nat							\\ 
+\begin{schema}{updMark}
+  	\Delta State									\\
+  	c? 		: CANDIDATE								\\
+  	mark? 	: \nat									\\ 
 \where
-  e? \in \dom sal	\land 
-  r? \in hrstaff	\land
-  esal! = sal\ e? 			
+  	c? \in candidates		\land 
+  	smarks' = smarks \oplus \{(c? \mapsto mark?)\}	
 \end{schema}
 
-\begin{schema}{hideH}
-  	\Xi HRState							\\
+\begin{schema}{hideCond}
+  	\Xi State										\\
 \where  
-	\exists  HRState~_1 @
-		\forall e:EMP @ e \in emp \land 
-			sal\ e \neq sal_1\ e
+	\exists State~_1 ; e:EXAMINER @
+			e = ex \land
+			\forall s:STUDENT;t:TEST @ 
+				(s,t) \in candidates \land
+					(s,t) \notin (exassigned\ ex) \implies 
+						smarks (s,t) \neq smarks_1 (s,t)
 \end{schema}
+
+			
+%begin{zed}
+%  FailuresExpected ==
+%  \\ %
+%  \t1 [~ Failures; failureacks: \power UnitFailure | failureacks
+%  \subseteq noacks ~]
+%  \also %
+%  AcceptFailureAcks ==
+%  \\ %
+%  \t1 [~ \Delta Failures; FailuresExpected | noacks' = noacks
+%  \setminus failureacks ~]
+%\end{zed}
+
+%begin{zed}
+%    RingState ~~== ~~ [~ ring : \seq \nat | \#~ring = maxring ~] \\
+%    CBufferState ~~==~~ (ControllerState \lor RingState)
+%\end{zed}
 
 \begin{circusaction}
     Output ~~\circdef~~
