@@ -2,92 +2,107 @@
 \usepackage[cntbysection,colour]{circus}
 
 \begin{document}
-Case Study on hiding
+\subsection{Examination System}
+This specification represents a system where students sit in examinations and examiners are assigned to mark those exams. Each examiner is assigned responsibility to mark tests set by a group of students. The two basic types involved here are a set of examiners, denoted by \emph{EXAMINER} and an axiomatize relation between students and exams taken by students which we denote as type \emph{STEXAM}.
 
 \begin{zsection}
   \SECTION ExamStudent \parents standard\_toolkit
 \end{zsection}
 
 \begin{zed}
-  [ EXAMINER , STUDENT , TEST ]
+  [ EXAMINER , STEXAM ]
 \end{zed}
-
-\begin{zed}
-  CANDIDATE == STUDENT \cross TEST					\\
-\end{zed}
-
-\begin{axdef}
- ex : EXAMINER
-\end{axdef}
 
 \begin{schema}{State}
 	examiners   : \finset EXAMINER					\\
-	candidates 	: \finset CANDIDATE					\\
-	smarks 		: CANDIDATE \pfun \nat				\\
-	exassigned	: EXAMINER \pfun (\finset CANDIDATE)\\
+	smarks 		: STEXAM \pfun \nat					\\
+	responsible	: EXAMINER \fun (\finset STEXAM)	\\
+	sits		: \finset STEXAM 
 \where
-	\dom exassigned \subseteq examiners				\\
-	\bigcup (\ran exassigned) \subseteq candidates	\\
-	ex \in examiners
+	sits = \bigcup(\ran responsible)				\\
+	examiners = \dom responsible					\\
+	\forall e,e1:\dom responsible | e \neq e1 @
+			responsible\ e \cap responsible\ e1 = \emptyset
 \end{schema}
 
-\begin{circus}
-	\circchannel\ inex    : EXAMINER 				\\
-	\circchannel\ incand  : CANDIDATE 				\\
-	\circchannel\ outmark : \nat 					\\
-\end{circus}
-
-\begin{circus}
-	\circprocess\ ExamSys \circdef \circbegin   
-\end{circus}
-
-\begin{circusaction}
-    \circstate\ State  								\\
-    Init ~~==~~ [~ State~' | 	
-    				examiners'  = \emptyset \land 
-    				candidates' = \emptyset \land
-    				smarks' 	= \emptyset \land  
-    				exassigned' = \emptyset ~]  
-\end{circusaction}
-
-\begin{schema}{getStMarks}
+\begin{schema}{showMark}
 	\Xi State										\\
 	e?		: EXAMINER								\\
-	c?		: CANDIDATE								\\
-	marks! 	: \nat	
+	st?		: STEXAM								\\
+	m! 		: \nat	
 \where
-	c? \in  (exassigned\ e?) 						\\
-	marks! = smarks\ c?  
+	st? \in  (responsible\ e?) 						\\
+	m! = smarks\ st?  
 \end{schema}
 
 \begin{schema}{addMark}
   	\Delta State									\\
-  	c? 		: CANDIDATE								\\
-  	mark? 	: \nat									\\ 
+  	c? 		: STEXAM								\\
+  	m? 		: \nat									\\ 
 \where
-  	c? \notin candidates	\land 
-  	smarks' = smarks \cup \{(c? \mapsto mark?)\}	
+  	c? \notin sits	\land 
+  	smarks' = smarks \cup \{(c? \mapsto m?)\}	
 \end{schema}
 
 \begin{schema}{updMark}
   	\Delta State									\\
-  	c? 		: CANDIDATE								\\
-  	mark? 	: \nat									\\ 
+  	c? 		: STEXAM								\\
+  	m? 		: \nat									\\ 
 \where
-  	c? \in candidates		\land 
-  	smarks' = smarks \oplus \{(c? \mapsto mark?)\}	
+  	c? \in sits		\land 
+  	smarks' = smarks \oplus \{(c? \mapsto m?)\}	
 \end{schema}
 
-\begin{schema}{hideCond}
+\begin{schema}{hideOthersMarks}
   	\Xi State										\\
 \where  
-	\exists State~_1 ; e:EXAMINER @
-			e = ex \land
-			\forall s:STUDENT;t:TEST @ 
-				(s,t) \in candidates \land
-					(s,t) \notin (exassigned\ ex) \implies 
-						smarks (s,t) \neq smarks_1 (s,t)
+	\exists State~_9 @ 
+		\forall e:EXAMINER ; st:STEXAM | 
+				e \in \dom responsible	\land	\\				
+				st \in (sits \setminus \bigcup(\ran (\{e\} \dres responsible)))  
+				@ smarks\ st \neq smarks_9\ st
 \end{schema}
+
+\begin{circus}
+	\circchannel\ inex    : EXAMINER 				\\
+	\circchannel\ instexam  : STEXAM 				\\
+	\circchannel\ inmark, outmark : \nat 			
+\end{circus}
+\begin{circus}
+	\circprocess\ ExamSys \circdef \circbegin   
+\end{circus}
+\begin{circusaction}
+    \circstate\ State  								\\
+    Init ~~==~~ [~ State~' | 	
+    				examiners'  = \emptyset \land 
+    				smarks' 	= \emptyset \land  
+    				responsible'= \emptyset \land
+    				sits'		= \emptyset	~]  
+\end{circusaction}
+\begin{circusaction}
+    AddMark ~~\circdef~~ instexam?c \then inmark?m \then \lschexpract addMark \rschexpract
+\end{circusaction}
+\begin{circusaction}
+    UpdMark ~~\circdef~~ instexam?c \then inmark?m \then \lschexpract updMark \rschexpract
+\end{circusaction}
+\begin{circusaction}
+    ShowMark ~~\circdef~~
+            (\circvar\ m: \nat \circspot inex?e \then instexam?st \then 
+             \lschexpract showMark \rschexpract \circseq \\ 
+             \t4(outmark~!m \then \Skip))
+\end{circusaction}
+\begin{circusaction}
+    HideOthersMarks ~~\circdef~~ \lschexpract hideOthersMarks \rschexpract
+\end{circusaction}
+\begin{circusaction}
+   \t1 \circspot Init \circseq (\circmu\ X \circspot ((AddMark \extchoice UpdMark) \circseq HideOthersMarks) 	\\
+   					\t7 \extchoice 					\\
+   					\t7 ShowMark  	
+   					\circseq X)
+\end{circusaction}
+\begin{circus}
+    \circend
+\end{circus}
 
 			
 %begin{zed}
@@ -106,38 +121,5 @@ Case Study on hiding
 %    RingState ~~== ~~ [~ ring : \seq \nat | \#~ring = maxring ~] \\
 %    CBufferState ~~==~~ (ControllerState \lor RingState)
 %\end{zed}
-
-\begin{circusaction}
-    Output ~~\circdef~~
-            (\circvar\ esal: \nat \circspot in?e \then in?r \then 
-             \lschexpract reqSal \rschexpract \circseq \\ 
-             \t4(out~!esal \then \Skip))
-\end{circusaction}
-\begin{circusaction}
-    HideSal ~~\circdef~~ \lschexpract hideH \rschexpract
-\end{circusaction}
-\begin{circusaction}
-    AddEmp ~~\circdef~~ in?e \then in?r \then insal?d \then \lschexpract addEmp \rschexpract
-\end{circusaction}
-\begin{circusaction}
-    UpdSal ~~\circdef~~ \lschexpract hideH \rschexpract
-\end{circusaction}
-\begin{circusaction}
-   \t1 \circspot InitHRState \circseq (\circmu\ X \circspot (		
-   					 (AddEmp \circseq HideSal 	\\
-   					\t7 \extchoice 					\\
-   					\t7 UpdSal \circseq HideSal 	\\
-   					\t7 \extchoice 					\\
-   					\t7 AddEmp \circseq HideSal 	
-   					) \circseq X))
-\end{circusaction}
-\begin{circus}
-    \circend
-\end{circus}
-
-
-This specification describes ...
-
-
 
 \end{document}
