@@ -3,14 +3,18 @@
 \end{zed}
 
 \begin{schema}{State}
-	totalwpns 	: BASE \cross (WEAPON \cross \nat)	\\
+	twpns 		: BASE \pfun (WEAPON \pfun \nat)		\\
 	soldiers	: \finset SOLDIER						\\
 	barrack		: BASE \pfun \finset SOLDIER			\\
+	bases		: \finset BASE							\\
+	weapons		: \finset WEAPON						\\
 	
 	shift		: BASE \pfun SOLDIER
 \where
-	soldiers = \bigcup (\ran barrack)						\\
-  	\dom totalwpns \subseteq \dom barrack					\\
+	bases 		= \dom barrack								\\
+	soldiers 	= \bigcup (\ran barrack)					\\
+	weapons   	= 
+  	\dom twpns \subseteq \dom barrack				\\
   	\forall b,b1: \dom barrack @
   		barrack\ b \cap barrack\ b1 = \emptyset
 \end{schema}
@@ -21,17 +25,29 @@
 	w? 		: WEAPON									\\
 	wtotal! : \nat
 \where
-	\forall b:\dom barrack | req? \in \bigcup(\ran (\{b\} \dres barrack)) @
-		wtotal! = totalwpns\ b\ w?
+	\forall b:bases | req? \in \bigcup(\ran (\{b\} \dres barrack)) @
+		wtotal! = twpns\ b\ w?
 \end{schema}
 
 \begin{schema}{transferWeapons}
 	\Xi State			\\
 	w? : WEAPON		\\
 	qty? : \nat			\\
-	from? : BASE			\\
-	to? : BASE  
+	from? , to? : BASE			
 \where
-	totalwpns' = totalwpns \oplus {from? \mapsto {w? \mapsto }} 
-    
+	twpns' = twpns\ \oplus \\ 
+	\t3 \{from? \mapsto ((twpns\ from?) \\ 
+	\t5 \oplus \ \{w? \mapsto ((twpns\ from?\ w?) - qty?)\} )\} 
+	
+	twpns' = twpns\ \oplus \\ 
+	\t3 \{to? \mapsto ((twpns\ to?) \\ 
+	\t5 \oplus \ \{w? \mapsto ((twpns\ to?\ w?) + qty?)\} )\} 
 \end{schema}
+
+\begin{schema}{hideTotal}
+	\Xi State				\\
+	\forall b: bases; s: soldiers; w: weapons |
+		\exists State~_9 @ twpns\ b\ w \neq twpns_9 \ b\ w 
+\end{schema}
+
+
