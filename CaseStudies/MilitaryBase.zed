@@ -1,0 +1,37 @@
+\begin{zed}
+[SOLDIER , WEAPON , BASE , FLIGHTDETAILS]
+\end{zed}
+
+\begin{schema}{State}
+	totalwpns 	: BASE \cross (WEAPON \cross \nat)	\\
+	soldiers	: \finset SOLDIER						\\
+	barrack		: BASE \pfun \finset SOLDIER			\\
+	
+	shift		: BASE \pfun SOLDIER
+\where
+	soldiers = \bigcup (\ran barrack)						\\
+  	\dom totalwpns \subseteq \dom barrack					\\
+  	\forall b,b1: \dom barrack @
+  		barrack\ b \cap barrack\ b1 = \emptyset
+\end{schema}
+
+\begin{schema}{queryTotals}
+	\Xi State											\\
+	req?	: SOLDIER									\\
+	w? 		: WEAPON									\\
+	wtotal! : \nat
+\where
+	\forall b:\dom barrack | req? \in \bigcup(\ran (\{b\} \dres barrack)) @
+		wtotal! = totalwpns\ b\ w?
+\end{schema}
+
+\begin{schema}{transferWeapons}
+	\Xi State			\\
+	w? : WEAPON		\\
+	qty? : \nat			\\
+	from? : BASE			\\
+	to? : BASE  
+\where
+	totalwpns' = totalwpns \oplus {from? \mapsto {w? \mapsto }} 
+    
+\end{schema}
