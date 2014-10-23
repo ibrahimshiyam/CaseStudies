@@ -64,7 +64,7 @@ This specification represents a system where students sit in examinations and ex
 \end{schema}
 
 \begin{circus}
-	\circchannel\ inex    : EXAMINER 				\\
+	\circchannel\ inex      : EXAMINER 				\\
 	\circchannel\ instexam  : STEXAM 				\\
 	\circchannel\ inmark, outmark : \nat 			
 \end{circus}

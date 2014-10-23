@@ -1,34 +1,45 @@
+\documentclass{article}
+\usepackage[cntbysection,colour]{circus}
+
+\begin{document}
+\subsection{Military Base Information System}
+This specification represents a system which manages basic information across a collection of army bases. Each base has a group of soldiers and an armory with different types of weapons. The system tracks the total sum of each type of weapon at each base. The three basic types involved here are a set of soldiers denoted by element type \emph{SOLDIER}, a set of types of weapons denoted by element type \emph{WEAPON} and a set of army bases which is denoted by element type \emph{BASE}.	\\
+
+
+
+\begin{zsection}
+ 	\SECTION MilitaryBase \parents standard\_toolkit
+\end{zsection}
+
 \begin{zed}
-[SOLDIER , WEAPON , BASE , FLIGHTDETAILS]
+[SOLDIER , WEAPON , BASE ]
 \end{zed}
 
 \begin{schema}{State}
-	twpns 		: BASE \pfun (WEAPON \pfun \nat)		\\
-	soldiers	: \finset SOLDIER						\\
 	barrack		: BASE \pfun \finset SOLDIER			\\
+	twpns 		: BASE \pfun (WEAPON \pfun \nat)		\\
 	bases		: \finset BASE							\\
+	soldiers	: \finset SOLDIER						\\
 	weapons		: \finset WEAPON						\\
-	
-	shift		: BASE \pfun SOLDIER
 \where
 	bases 		= \dom barrack								\\
 	soldiers 	= \bigcup (\ran barrack)					\\
-	weapons   	= 
-  	\dom twpns \subseteq \dom barrack				\\
+	weapons   	= \dom (\bigcup (\ran twpns))				\\
+  	
   	\forall b,b1: \dom barrack @
-  		barrack\ b \cap barrack\ b1 = \emptyset
+  		  barrack\ b \cap barrack\ b1 = \emptyset
 \end{schema}
-
+A soldier should be able to query the total of a certain weapon type in a base, if the soldier belongs to that base.
 \begin{schema}{queryTotals}
 	\Xi State											\\
-	req?	: SOLDIER									\\
+	s?		: SOLDIER									\\
 	w? 		: WEAPON									\\
 	wtotal! : \nat
 \where
-	\forall b:bases | req? \in \bigcup(\ran (\{b\} \dres barrack)) @
+	\forall b:bases | s? \in \bigcup(\ran (\{b\} \dres barrack)) @
 		wtotal! = twpns\ b\ w?
 \end{schema}
-
+When weapons are transferred between bases, the resulting totals at each base is adjusted with the following schema.
 \begin{schema}{transferWeapons}
 	\Xi State			\\
 	w? : WEAPON		\\
@@ -38,16 +49,67 @@
 	twpns' = twpns\ \oplus \\ 
 	\t3 \{from? \mapsto ((twpns\ from?) \\ 
 	\t5 \oplus \ \{w? \mapsto ((twpns\ from?\ w?) - qty?)\} )\} 
-	
+	\also
 	twpns' = twpns\ \oplus \\ 
 	\t3 \{to? \mapsto ((twpns\ to?) \\ 
 	\t5 \oplus \ \{w? \mapsto ((twpns\ to?\ w?) + qty?)\} )\} 
 \end{schema}
 
-\begin{schema}{hideTotal}
+The first confidentiality requirement is to hide the figure representing the total weapons of any type in a base, from soldiers who do not belong to the same base.
+\begin{schema}{hideTotalOutsideBase}
 	\Xi State				\\
-	\forall b: bases; s: soldiers; w: weapons |
-		\exists State~_9 @ twpns\ b\ w \neq twpns_9 \ b\ w 
+\where
+	\exists State~_9 @ 
+		\forall b: bases; s: soldiers; w: weapons |
+			s \notin barrack\ b @
+			twpns\ b\ w \neq twpns_9 \ b\ w 
 \end{schema}
 
+\begin{circus}
+	\circchannel\ inbase      : BASE 				\\
+	\circchannel\ insol	      : SOLDIER				\\
+	\circchannel\ inwep	      : WEAPON				\\
+	\circchannel\ inqty,outqty: \nat
+			
+\end{circus}
+\begin{circus}
+	\circprocess\ MilitarySys \circdef \circbegin   
+\end{circus}
+\begin{circusaction}
+    \circstate\ State  								\\
+    Init ~~==~~ [~ State~' | 	
+    				barrack'  = \emptyset \land 
+    				twpns' 	= \emptyset 			~]  
+\end{circusaction}
+\begin{circusaction}
+    QueryTotals ~~\circdef~~ insol?s \then inmark?m \then \lschexpract addMark \rschexpract
+\end{circusaction}
+\begin{circusaction}
+    UpdMark ~~\circdef~~ instexam?c \then inmark?m \then \lschexpract updMark \rschexpract
+\end{circusaction}
+\begin{circusaction}
+   \t1 \circspot Init \circseq (\circmu\ X \circspot ((AddMark \extchoice UpdMark) \circseq HideOthersMarks) 	\\
+   					\t7 \extchoice 					\\
+   					\t7 ShowMark  	
+   					\circseq X)
+\end{circusaction}
+\begin{circus}
+    \circend
+\end{circus}
+
+
+
+\begin{schema}{hideTotalfromALL}
+	\Xi State				\\
+\where
+	\exists State~_9 @
+		\forall b: bases; w: weapons @
+		 	twpns\ b\ w \neq twpns_9 \ b\ w 
+\end{schema}
+
+
+	shift		: BASE \pfun SOLDIER
+
+
+\end{document}
 
