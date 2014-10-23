@@ -3,7 +3,7 @@
 
 \begin{document}
 \subsection{Examination System}
-This specification represents a system where students sit in examinations and examiners are assigned to mark those exams. Each examiner is assigned responsibility to mark tests set by a group of students. The two basic types involved here are a set of examiners, denoted by \emph{EXAMINER} and an axiomatize relation between students and exams taken by students which we denote as type \emph{STEXAM}.
+This specification represents a system where students sit in examinations and examiners are assigned to mark those exams. Each examiner is assigned responsibility to mark tests sat by a group of students. The two basic types involved here are a set of examiners, denoted by \emph{EXAMINER} and an axiomatize relation between students and exams taken by students which we denote as type \emph{STEXAM}.
 
 \begin{zsection}
   \SECTION ExamStudent \parents standard\_toolkit
@@ -52,15 +52,15 @@ This specification represents a system where students sit in examinations and ex
   	c? \in sits		\land 
   	smarks' = smarks \oplus \{(c? \mapsto m?)\}	
 \end{schema}
-
+\subsection{Hide marks of students from examiners who are not responsible for them}
+The first confidentiality requirement is to hide marks of a student from examiners who are not resposible to make their test papers.
 \begin{schema}{hideOthersMarks}
   	\Xi State										\\
 \where  
 	\exists State~_9 @ 
-		\forall e:EXAMINER ; st:STEXAM | 
-				e \in \dom responsible	\land	\\				
-				st \in (sits \setminus \bigcup(\ran (\{e\} \dres responsible)))  
-				@ smarks\ st \neq smarks_9\ st
+		\forall e:examiners ; st:STEXAM | \\
+				\t2 st \notin (\bigcup(\ran (\{e\} \dres responsible)))  \\
+				\t4 @ smarks\ st \neq smarks_9\ st
 \end{schema}
 
 \begin{circus}
@@ -104,7 +104,33 @@ This specification represents a system where students sit in examinations and ex
     \circend
 \end{circus}
 
-			
+\subsection{Hide marks of students from examiners who are not responsible for them}
+The first confidentiality requirement is to hide marks of a student from examiners who are not resposible to make their test papers.
+
+\begin{zed}
+[ STUDENT , TEST ]	\\
+STUDENTEX == STUDENT \cross TEST
+\end{zed}
+\begin{schema}{StateEx}
+	examiners	: \finset EXAMINER								\\
+	smarks 		: STUDENTEX \pfun \nat					\\
+	resPerTest	: EXAMINER \fun (STUDENT \pfun TEST)	\\
+	sits		: \finset STUDENTEX
+\where
+	sits = \bigcup(\ran resPerTest)				\\
+	examiners = \dom resPerTest					\\
+	\forall e,e1:\dom resPerTest | e \neq e1 @
+			resPerTest\ e \cap resPerTest\ e1 = \emptyset
+\end{schema}
+
+\begin{schema}{hideOthersAggregateMarks}
+  	\Xi StateEx										\\
+\where  
+	\exists State~_9 @ 
+		\forall e:examiners ; st:STUDENT ; t:TEST | \\
+				\t2 (st,t) \notin (\bigcup(\ran (\{e\} \dres resPerTest)))  \\
+				\t4 @ ....
+\end{schema}
 %begin{zed}
 %  FailuresExpected ==
 %  \\ %
