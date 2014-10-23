@@ -2,15 +2,12 @@
 \usepackage[cntbysection,colour]{circus}
 
 \begin{document}
-\subsection{Military Base Information System}
-This specification represents a system which manages basic information across a collection of army bases. Each base has a group of soldiers and an armory with different types of weapons. The system tracks the total sum of each type of weapon at each base. The three basic types involved here are a set of soldiers denoted by element type \emph{SOLDIER}, a set of types of weapons denoted by element type \emph{WEAPON} and a set of army bases which is denoted by element type \emph{BASE}.	\\
-
-
+\section{Military Base Information System}
+This specification represents a system which manages basic information about the soldiers and weapons across a collection of army bases. Each base has a group of soldiers and an armory with different types of weapons. The system tracks the total sum of each type of weapon at each base. The three basic types involved here are a set of soldiers denoted by element type \emph{SOLDIER}, a set of types of weapons denoted by element type \emph{WEAPON} and a set of army bases which is denoted by element type \emph{BASE}.	
 
 \begin{zsection}
  	\SECTION MilitaryBase \parents standard\_toolkit
 \end{zsection}
-
 \begin{zed}
 [SOLDIER , WEAPON , BASE ]
 \end{zed}
@@ -20,16 +17,16 @@ This specification represents a system which manages basic information across a 
 	twpns 		: BASE \pfun (WEAPON \pfun \nat)		\\
 	bases		: \finset BASE							\\
 	soldiers	: \finset SOLDIER						\\
-	weapons		: \finset WEAPON						\\
+	weapons		: \finset WEAPON						
 \where
-	bases 		= \dom barrack								\\
-	soldiers 	= \bigcup (\ran barrack)					\\
-	weapons   	= \dom (\bigcup (\ran twpns))				\\
+	bases 		= \dom barrack							\\
+	soldiers 	= \bigcup (\ran barrack)				\\
+	weapons   	= \dom (\bigcup (\ran twpns))			\\
   	
   	\forall b,b1: \dom barrack @
   		  barrack\ b \cap barrack\ b1 = \emptyset
 \end{schema}
-A soldier should be able to query the total of a certain weapon type in a base, if the soldier belongs to that base.
+A soldier should be able to query the total of a certain weapon type in a base, only if the soldier belongs to that base.
 \begin{schema}{queryTotals}
 	\Xi State											\\
 	s?		: SOLDIER									\\
@@ -39,7 +36,20 @@ A soldier should be able to query the total of a certain weapon type in a base, 
 	\forall b:bases | s? \in \bigcup(\ran (\{b\} \dres barrack)) @
 		wtotal! = twpns\ b\ w?
 \end{schema}
-When weapons are transferred between bases, the resulting totals at each base is adjusted with the following schema.
+Following schema describes the state change that ocurs when weapons are added to the armory at a ertain base.  TODO: condition tocheck if weapon exists?
+\begin{schema}{addWeapons}
+	\Delta State			\\
+	b? 		: BASE			\\
+	s? 		: SOLDIER		\\
+	w? 		: WEAPON		\\
+	qty? 	: \nat			
+\where
+	s? \in barrack\ b?		\\
+	twpns' = twpns\ \cup \{b? \mapsto ((twpns\ b?)  
+	\cup \ \{w? \mapsto qty?\} )\} 
+\end{schema}
+
+When weapons are transferred between bases, the resulting totals at each base are adjusted with the following schema.
 \begin{schema}{transferWeapons}
 	\Xi State			\\
 	w? : WEAPON		\\
@@ -55,22 +65,21 @@ When weapons are transferred between bases, the resulting totals at each base is
 	\t5 \oplus \ \{w? \mapsto ((twpns\ to?\ w?) + qty?)\} )\} 
 \end{schema}
 
-The first confidentiality requirement is to hide the figure representing the total weapons of any type in a base, from soldiers who do not belong to the same base.
-\begin{schema}{hideTotalOutsideBase}
+\subsection{Hide totals of every weapon type in a base, from system users outside the base}
+The first confidentiality requirement is to hide the figure representing the total weapons of any type in any base, from soldiers who do not belong to the same base.
+\begin{schema}{hideTotalfromOutsideSoldiers}
 	\Xi State				\\
 \where
-	\exists State~_9 @ 
-		\forall b: bases; s: soldiers; w: weapons |
-			s \notin barrack\ b @
-			twpns\ b\ w \neq twpns_9 \ b\ w 
+	\forall b: bases; s: soldiers; w: weapons |	s \notin barrack\ b @ \\ 
+		\exists State~_9 @ twpns\ b\ w \neq twpns_9 \ b\ w 
 \end{schema}
 
+Following is the Circus specification for the system.
 \begin{circus}
 	\circchannel\ inbase      : BASE 				\\
 	\circchannel\ insol	      : SOLDIER				\\
 	\circchannel\ inwep	      : WEAPON				\\
 	\circchannel\ inqty,outqty: \nat
-			
 \end{circus}
 \begin{circus}
 	\circprocess\ MilitarySys \circdef \circbegin   
@@ -82,22 +91,51 @@ The first confidentiality requirement is to hide the figure representing the tot
     				twpns' 	= \emptyset 			~]  
 \end{circusaction}
 \begin{circusaction}
-    QueryTotals ~~\circdef~~ insol?s \then inmark?m \then \lschexpract addMark \rschexpract
+    AddWeapons ~~\circdef~~ 
+    	inbase?b \then 
+    	insol?s 
+    	\\ \t4 \then
+    	inwep?w \then 
+    	inqty?qty \then \lschexpract addWeapons \rschexpract
 \end{circusaction}
 \begin{circusaction}
-    UpdMark ~~\circdef~~ instexam?c \then inmark?m \then \lschexpract updMark \rschexpract
+    TransferWeapons ~~\circdef~~ inbase?from \then inbase?to 
+    \\ \t4 \then inwep?w \then inqty?qty \then \lschexpract transferWeapons \rschexpract
 \end{circusaction}
 \begin{circusaction}
-   \t1 \circspot Init \circseq (\circmu\ X \circspot ((AddMark \extchoice UpdMark) \circseq HideOthersMarks) 	\\
+    QueryTotal ~~\circdef~~
+            (\circvar\ wtotal: \nat \circspot 
+            insol?s \then 
+            inwep?w \then 
+            \lschexpract queryTotals \rschexpract \circseq \\ 
+             \t4(outqty~!wtotal \then \Skip))
+\end{circusaction}
+\begin{circusaction}
+    HideTotalfromOutsideSoldiers ~~\circdef~~ \lschexpract hideTotalfromOutsideSoldiers \rschexpract
+\end{circusaction}
+\begin{circusaction}
+   \t1 \circspot Init \circseq (\circmu\ X \circspot ((AddWeapons \extchoice TransferWeapons) \circseq HideTotalfromOutsideSoldiers) 	\\
    					\t7 \extchoice 					\\
-   					\t7 ShowMark  	
+   					\t7 QueryTotal  	
    					\circseq X)
 \end{circusaction}
 \begin{circus}
     \circend
 \end{circus}
 
+\subsection{Hide aggregated total of every weapon from all users of the system}
+A much more important confidentiality requirement is to hide the aggregate total of individual weapon types across all bases, because the enemy can have a competitive edge if they get their hands on this information. 
+\begin{schema}{hideAggregateTotalfromALL}
+	\Xi State				\\
+\where
+	\forall b: bases; s: soldiers; w: weapons @ \\ 
+		\t2 \exists State~_9 @ 
+		(\bigcup (\ran twpns) \limg \{w\} \rimg) \neq	
+		(\bigcup (\ran twpns_9) \limg \{w\} \rimg) 
+\end{schema}
 
+\subsection{Hide totals from all users of the system}
+A stronger confidentiality property can be to hide the figure representing the total weapons of any type in any base, from all users of the system. Eventhough this cannot be a practical requirement, we can define this to understand the requirement pattern reflected with such requirements. 
 
 \begin{schema}{hideTotalfromALL}
 	\Xi State				\\
@@ -108,8 +146,35 @@ The first confidentiality requirement is to hide the figure representing the tot
 \end{schema}
 
 
-	shift		: BASE \pfun SOLDIER
+\subsection{Hide flight details from everyone except shift incharge during ALERT}
+While a base is under alert, the details of all flights operated in and out of a base needs to be kept confidential. A new basic type needs to be introduced to represent the set of flight details. This type is denoted as \emph{FDETAIL}. Further a given type called \emph{BASESTATE} is introduced with tokens \emph{normal} and \emph{alert} to represent two states of the base. Further, a state variable called bstate represents the state of the base at any given time.
+\begin{zed}
+[ FDETAIL]	\\
+BASESTATE ::= normal | alert 
+\end{zed}
+
+\begin{schema}{StateEx}
+	\Xi State						   				\\
+	shiftincharge 	: BASE \pfun SOLDIER			\\
+	basestate		: BASESTATE						\\
+	fdetails		: BASE \pfun \finset FDETAIL
+\end{schema}
+\begin{schema}{ChangeBaseStatus}
+	\Delta StateEx						   				\\
+	a? : BASESTATE
+\where
+	basestate		= a?
+\end{schema}
+\begin{schema}{hideFlightDetails}
+	\Xi StateEx						   				\\
+\where
+	\forall b:bases; s:soldiers @	\\
+	\t2 s \neq shiftincharge\ b \land basestate = alert \implies \\
+	\t4 \exists StateEx~_9 @
+		 	fdetails\ b \neq fdetails_9\ b
+\end{schema}
 
 
+	
 \end{document}
 
