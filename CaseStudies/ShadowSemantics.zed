@@ -1,0 +1,152 @@
+\documentclass{article}
+\usepackage[cntbysection,colour]{circus}
+
+\begin{document}
+\subsection{Examination System}
+This specification represents a system where students sit in examinations and examiners are assigned to mark those exams. Each examiner is assigned responsibility to mark tests set by a group of students. The two basic types involved here are a set of examiners, denoted by \emph{EXAMINER} and an axiomatize relation between students and exams taken by students which we denote as type \emph{STEXAM}.
+
+\begin{zsection}
+  \SECTION ExamStudent \parents standard\_toolkit
+\end{zsection}
+
+\begin{zed}
+  [ EXAMINER , STEXAM ]
+\end{zed}
+
+
+\begin{schema}{State}
+	examiners   : \finset EXAMINER					\\
+	smarks 		: STEXAM \pfun \nat					\\
+	responsible	: EXAMINER \fun (\finset STEXAM)	\\
+	sits		: \finset STEXAM 
+\where
+	sits = \bigcup(\ran responsible)				\\
+	examiners = \dom responsible					\\
+	\forall e,e1:\dom responsible | e \neq e1 @
+			responsible\ e \cap responsible\ e1 = \emptyset
+\end{schema}
+
+
+\begin{schema}{StateEx}
+	\Xi State		\\
+	Y: \power State
+\end{schema}
+
+
+LOWEXT (if C then P else Q) = ( [C] ; Y := (filter C Y) ; LOWEXT(P) ) |~| ( [¬C] ; Y := (filter ¬C Y) ; LOWEXT(Q) )
+
+
+
+where 
+
+filter C Y = { x : Y ; State | \theta x \in C @ x }
+
+
+LOWEXT (Stop) = Stop
+
+LOWEXT (P |~| Q) \refinedby LOWEXT (P) |~| LOWEXT (Q)
+
+
+Conjecture: LOWEXT (P |~| Q) = \exists Y_1, Y_2 @ ( (LOWEXT (P))[Y_1/ Y'] |~| LOWEXT (Q)[Y_2 / Y'] ) ; Y := Y_1 \cup Y_2
+< O > == [ Delta StateExt ; Xi State | Y' = filter O Y ]
+
+
+
+\begin{schema}{showMark}
+	\Xi State										\\
+	e?		: EXAMINER								\\
+	st?		: STEXAM								\\
+	m! 		: \nat	
+\where
+	st? \in  (responsible\ e?) 						\\
+	m! = smarks\ st?  
+\end{schema}
+
+\begin{schema}{addMark}
+  	\Delta State									\\
+  	c? 		: STEXAM								\\
+  	m? 		: \nat									\\ 
+\where
+  	c? \notin sits	\land 
+  	smarks' = smarks \cup \{(c? \mapsto m?)\}	
+\end{schema}
+
+\begin{schema}{updMark}
+  	\Delta State									\\
+  	c? 		: STEXAM								\\
+  	m? 		: \nat									\\ 
+\where
+  	c? \in sits		\land 
+  	smarks' = smarks \oplus \{(c? \mapsto m?)\}	
+\end{schema}
+
+\begin{schema}{hideOthersMarks}
+  	\Xi State										\\
+\where  
+	\exists State~_9 @ 
+		\forall e:EXAMINER ; st:STEXAM | 
+				e \in \dom responsible	\land	\\				
+				st \in (sits \setminus \bigcup(\ran (\{e\} \dres responsible)))  
+				@ smarks\ st \neq smarks_9\ st
+\end{schema}
+
+\begin{circus}
+	\circchannel\ inex      : EXAMINER 				\\
+	\circchannel\ instexam  : STEXAM 				\\
+	\circchannel\ inmark, outmark : \nat 			
+\end{circus}
+\begin{circus}
+	\circprocess\ ExamSys \circdef \circbegin   
+\end{circus}
+\begin{circusaction}
+    \circstate\ State  								\\
+    Init ~~==~~ [~ State~' | 	
+    				examiners'  = \emptyset \land 
+    				smarks' 	= \emptyset \land  
+    				responsible'= \emptyset \land
+    				sits'		= \emptyset	~]  
+\end{circusaction}
+\begin{circusaction}
+    AddMark ~~\circdef~~ instexam?c \then inmark?m \then \lschexpract addMark \rschexpract
+\end{circusaction}
+\begin{circusaction}
+    UpdMark ~~\circdef~~ instexam?c \then inmark?m \then \lschexpract updMark \rschexpract
+\end{circusaction}
+\begin{circusaction}
+    ShowMark ~~\circdef~~
+            (\circvar\ m: \nat \circspot inex?e \then instexam?st \then 
+             \lschexpract showMark \rschexpract \circseq \\ 
+             \t4(outmark~!m \then \Skip))
+\end{circusaction}
+\begin{circusaction}
+    HideOthersMarks ~~\circdef~~ \lschexpract hideOthersMarks \rschexpract
+\end{circusaction}
+\begin{circusaction}
+   \t1 \circspot Init \circseq (\circmu\ X \circspot ((AddMark \extchoice UpdMark) \circseq HideOthersMarks) 	\\
+   					\t7 \extchoice 					\\
+   					\t7 ShowMark  	
+   					\circseq X)
+\end{circusaction}
+\begin{circus}
+    \circend
+\end{circus}
+
+			
+%begin{zed}
+%  FailuresExpected ==
+%  \\ %
+%  \t1 [~ Failures; failureacks: \power UnitFailure | failureacks
+%  \subseteq noacks ~]
+%  \also %
+%  AcceptFailureAcks ==
+%  \\ %
+%  \t1 [~ \Delta Failures; FailuresExpected | noacks' = noacks
+%  \setminus failureacks ~]
+%\end{zed}
+
+%begin{zed}
+%    RingState ~~== ~~ [~ ring : \seq \nat | \#~ring = maxring ~] \\
+%    CBufferState ~~==~~ (ControllerState \lor RingState)
+%\end{zed}
+
+\end{document}
