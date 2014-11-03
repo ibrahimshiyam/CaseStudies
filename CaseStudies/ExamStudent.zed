@@ -104,8 +104,8 @@ The first confidentiality requirement is to hide marks of a student from examine
     \circend
 \end{circus}
 
-\subsection{Hide marks of students from examiners who are not responsible for them}
-The first confidentiality requirement is to hide marks of a student from examiners who are not resposible to make their test papers.
+\subsection{Hide the aggregate marks of students of an examiner, from all other examiners}
+The second confidentiality requirement is to hide marks of a student from examiners who are not resposible to make their test papers. This policy falls under the category of restricting cardinal aggregation.   
 
 \begin{zed}
 [ STUDENT , TEST ]	\\

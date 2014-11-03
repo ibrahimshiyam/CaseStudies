@@ -1,0 +1,131 @@
+\documentclass{article}
+\usepackage[cntbysection,colour]{circus}
+
+\usepackage{color}
+\usepackage[a4paper,top=3.5cm,bottom=3cm,left=0.5cm,right=1.6cm]{geometry}
+
+
+
+\usepackage{multicol}
+ 
+\begin{document}
+
+Case Study on hiding
+
+
+\begin{multicols}{2}
+
+\begin{zsection}
+  \SECTION bankSystem \parents standard\_toolkit
+\end{zsection}
+\begin{zed}
+  	[ ACCOUNT , PERSON , CDETAILS ]		\\
+	EMPLOYEE == PERSON					\\
+	CUSTOMER == PERSON					\\
+	SECTION  ::= Hr | IT | Loan | Fraud	\\
+	RESPONSE ::= ok | notok
+	
+\end{zed}
+\begin{schema}{State}
+	staff 		: \finset EMPLOYEE					\\
+	customers 	: \finset CUSTOMER					\\
+	cdetail 	: CUSTOMER \pfun CDETAILS			\\
+	secStaff 	: SECTION \pfun \finset EMPLOYEE	\\
+	loan		: CUSTOMER \pfun \nat					\\
+	balance		: CUSTOMER \pfun \nat
+\where
+	\forall p:\dom balance @ (balance\ p \geq loan\ p)		\\
+	\forall a,b:\dom secStaff @ secStaff\ a \cap secStaff\ b = \emptyset	\\
+	customers = \dom cdetail
+\end{schema}
+
+\begin{schema}{addEmp}
+	\Delta State										\\
+	c? 			: CUSTOMER								\\
+	e? 			: EMPLOYEE								\\
+	detail?		: CDETAILS								\\
+	b?			: \nat									\\
+	responce! 	: RESPONSE		
+\where
+	c? \neq e?											\\ 
+	c? \notin \dom cdetail								\\
+	balance' 	= balance \oplus \{(c? \mapsto b?)\}	\\
+	cdetail' 	= cdetail \oplus \{(c? \mapsto detail?)\}	
+\end{schema}
+
+\begin{schema}{updateBalance}
+	\Delta State										\\
+	c? 			: CUSTOMER								\\
+	e? 			: EMPLOYEE								\\
+	b?			: \nat									\\
+	responce! 	: RESPONSE		
+\where
+	c? \neq e?											\\ 
+	c? \in \dom cdetail									\\
+	balance' 	= balance \oplus \{(c? \mapsto b?)\}	
+\end{schema}
+
+\begin{circus}
+	\circchannel\ in : EMP 				\\
+	\circchannel\ insal,out: \nat 			
+\end{circus}
+\begin{circus}
+	\circprocess\ HRManagement \circdef \circbegin   
+\end{circus}
+\begin{circusaction}
+    \circstate\ HRState  	\\
+    InitHRState ~~==~~ [~ HRState~' | 	
+    		emp' = \emptyset \land hrstaff' = \emptyset \land sal' = \emptyset ~]  
+\end{circusaction}
+
+\begin{schema}{reqSal}
+  \Xi HRState							\\
+  e?,r? : EMP							\\
+  esal! : \nat							\\ 
+\where
+  e? \in \dom sal	\land 
+  r? \in hrstaff	\land
+  esal! = sal\ e? 			
+\end{schema}
+\begin{schema}{hideH}
+  	\Xi HRState							\\
+\where  
+	\exists  HRState~_1 @
+		\forall e:EMP @ e \in emp \land 
+			sal\ e \neq sal_1\ e
+\end{schema}
+\begin{circusaction}
+    Output ~~\circdef~~
+            (\circvar\ esal: \nat \circspot in?e \then in?r \then 
+             \lschexpract reqSal \rschexpract \circseq \\ 
+             \t4(out~!esal \then \Skip))
+\end{circusaction}
+\begin{circusaction}
+    HideSal ~~\circdef~~ \lschexpract hideH \rschexpract
+\end{circusaction}
+\begin{circusaction}
+    AddEmp ~~\circdef~~ in?e \then in?r \then insal?d \then \lschexpract addEmp \rschexpract
+\end{circusaction}
+\begin{circusaction}
+    UpdSal ~~\circdef~~ \lschexpract hideH \rschexpract
+\end{circusaction}
+\begin{circusaction}
+   \t1 \circspot InitHRState \circseq (\circmu\ X \circspot (		
+   					 (AddEmp \circseq HideSal 	\\
+   					\t7 \extchoice 					\\
+   					\t7 UpdSal \circseq HideSal 	\\
+   					\t7 \extchoice 					\\
+   					\t7 AddEmp \circseq HideSal 	
+   					) \circseq X))
+\end{circusaction}
+\begin{circus}
+    \circend
+\end{circus}
+
+
+This specification describes ...
+\end{multicols}
+
+
+
+\end{document}
