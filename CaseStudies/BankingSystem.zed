@@ -1,8 +1,8 @@
-\documentclass{article}
+\documentclass[10pt]{article}
 \usepackage[cntbysection,colour]{circus}
 
 \usepackage{color}
-\usepackage[a4paper,top=3.5cm,bottom=3cm,left=0.5cm,right=1.6cm]{geometry}
+\usepackage[a4paper,top=2cm,bottom=2cm,left=0.5cm,right=1.6cm]{geometry}
 
 
 
@@ -38,94 +38,95 @@ Case Study on hiding
 	\forall a,b:\dom secStaff @ secStaff\ a \cap secStaff\ b = \emptyset	\\
 	customers = \dom cdetail
 \end{schema}
-
-\begin{schema}{addEmp}
+\begin{schema}{addCustomer}
 	\Delta State										\\
 	c? 			: CUSTOMER								\\
 	e? 			: EMPLOYEE								\\
 	detail?		: CDETAILS								\\
-	b?			: \nat									\\
-	responce! 	: RESPONSE		
+	response! 	: RESPONSE		
 \where
 	c? \neq e?											\\ 
 	c? \notin \dom cdetail								\\
-	balance' 	= balance \oplus \{(c? \mapsto b?)\}	\\
-	cdetail' 	= cdetail \oplus \{(c? \mapsto detail?)\}	
+	balance' 	= balance \oplus \{(c? \mapsto 0)\}		\\
+	cdetail' 	= cdetail \oplus \{(c? \mapsto detail?)\}	\\	
+	response! = ok
 \end{schema}
-
 \begin{schema}{updateBalance}
 	\Delta State										\\
 	c? 			: CUSTOMER								\\
 	e? 			: EMPLOYEE								\\
 	b?			: \nat									\\
-	responce! 	: RESPONSE		
+	response! 	: RESPONSE		
 \where
 	c? \neq e?											\\ 
 	c? \in \dom cdetail									\\
 	balance' 	= balance \oplus \{(c? \mapsto b?)\}	
 \end{schema}
-
+\begin{schema}{dispenseMoney}
+	\Delta State										\\
+	c? 			: CUSTOMER								\\
+	e? 			: EMPLOYEE								\\
+	x?			: \nat									\\
+	response! 	: RESPONSE		
+\where
+	c? \neq e?											\\ 
+	c? \in \dom cdetail									\\
+	balance' 	= balance \oplus \{(c? \mapsto (balance\ c? - x?))\}	
+\end{schema}
+\begin{schema}{releaseLoan}
+	\Delta State										\\
+	c? 			: CUSTOMER								\\
+	e? 			: EMPLOYEE								\\
+	x?			: \nat									\\
+	response! 	: RESPONSE		
+\where
+	c? \neq e?											\\ 
+	c? \in \dom cdetail									\\
+	loan'= loan \oplus \{(c? \mapsto (loan\ c? + x?))\}	\\ 
+	response!=ok	
+\end{schema}
+\end{multicols}
 \begin{circus}
-	\circchannel\ in : EMP 				\\
-	\circchannel\ insal,out: \nat 			
+	\circchannel\ inEmp : EMPLOYEE 				\\
+	\circchannel\ inCus : CUSTOMER 				\\
+	\circchannel\ inDet : CDETAILS 				\\
+	\circchannel\ inAmnt, outAmnt: \nat			\\
+	\circchannel\ outRes: RESPONSE 			
 \end{circus}
 \begin{circus}
 	\circprocess\ HRManagement \circdef \circbegin   
 \end{circus}
 \begin{circusaction}
-    \circstate\ HRState  	\\
-    InitHRState ~~==~~ [~ HRState~' | 	
-    		emp' = \emptyset \land hrstaff' = \emptyset \land sal' = \emptyset ~]  
-\end{circusaction}
-
-\begin{schema}{reqSal}
-  \Xi HRState							\\
-  e?,r? : EMP							\\
-  esal! : \nat							\\ 
-\where
-  e? \in \dom sal	\land 
-  r? \in hrstaff	\land
-  esal! = sal\ e? 			
-\end{schema}
-\begin{schema}{hideH}
-  	\Xi HRState							\\
-\where  
-	\exists  HRState~_1 @
-		\forall e:EMP @ e \in emp \land 
-			sal\ e \neq sal_1\ e
-\end{schema}
-\begin{circusaction}
-    Output ~~\circdef~~
-            (\circvar\ esal: \nat \circspot in?e \then in?r \then 
-             \lschexpract reqSal \rschexpract \circseq \\ 
-             \t4(out~!esal \then \Skip))
+    \circstate\ State  	\\
+    InitState ~~==~~ [~ State~' | 	
+    		cdetail' = \emptyset \land secStaff' = \emptyset \land loan' = \emptyset ~]
+    		\\
+    		    AddCustomer ~~\circdef~~
+            (\circvar\ c: CUSTOMER ; e:EMPLOYEE ; detail: CDETAILS  ; response: RESPONSE \circspot \\
+            \t4 inCus?c \then inEmp?e	\then inDet?detail \then \\
+			\t4 \lschexpract addCustomer \rschexpract \circseq (outRes~!response \then \Skip))
+    		  
 \end{circusaction}
 \begin{circusaction}
-    HideSal ~~\circdef~~ \lschexpract hideH \rschexpract
-\end{circusaction}
-\begin{circusaction}
-    AddEmp ~~\circdef~~ in?e \then in?r \then insal?d \then \lschexpract addEmp \rschexpract
-\end{circusaction}
-\begin{circusaction}
-    UpdSal ~~\circdef~~ \lschexpract hideH \rschexpract
-\end{circusaction}
-\begin{circusaction}
-   \t1 \circspot InitHRState \circseq (\circmu\ X \circspot (		
-   					 (AddEmp \circseq HideSal 	\\
-   					\t7 \extchoice 					\\
-   					\t7 UpdSal \circseq HideSal 	\\
-   					\t7 \extchoice 					\\
-   					\t7 AddEmp \circseq HideSal 	
-   					) \circseq X))
+   \t1 \circspot InitState \circseq (\circmu\ X \circspot ( AddCustomer	) \circseq X)
 \end{circusaction}
 \begin{circus}
     \circend
 \end{circus}
 
+\newpage
+\textbf{Confidentiality Requirements}
+\begin{enumerate}
+\item Dispenser cannot know account balance of the customer	
+\item Only relevant section staff can read customer data	
+	\begin{enumerate}
+	\item all details for fraud section	
+	\item balance and transaction history for account department
+	\end{enumerate}
+\item loan department staff can only know whether the customer is approved for the loan being applied. Further clarification can only be given by loan department head	
+\end{enumerate}
 
-This specification describes ...
-\end{multicols}
-
+"conartmentisation is better than military stype top-down approach" - Ross Andresson
 
 
 \end{document}

@@ -1,37 +1,147 @@
+\documentclass[10pt]{article}
+\usepackage[cntbysection,colour]{circus}
+
+\usepackage{color}
+\usepackage[a4paper,top=2cm,bottom=2cm,left=0.5cm,right=1.6cm]{geometry}
+
+\usepackage{multicol}
+ 
+\begin{document}
+
+\begin{multicols}{2}
+
+The information handled in a court environment is very sentsitive for various reasons including(but not limited to) political stability of the state as well as with regard to individual privacy concerns.  Further, the case needs to be handled by different groups of staff during the various stages of court progression. Hence, in this case study, case information in modelled at a granualar level so as to formalize the confidentiality required of the individual case components at those various stages.
+
+TODO: staff cannot enter his/her own data 
+
+
+
 \begin{zsection}
    \SECTION CourtSystem \parents circus\_toolkit
 \end{zsection}
 
 \begin{zed}
-	[ CASE , SECTION , PERSON ]
+	[ CASE , SECTION , PERSON , CDETAIL ]		
 \end{zed}
 
-\begin{axdef}
-	PLANTIF   : \power PERSON			\\
-	DEFENDENT : \power PERSON			\\
-	staff     : \power PERSON			\\
-\end{axdef}
-
-\begin{axdef}
-	CDETAIL == PLANTIF \cross DEFENDENT \cross SECTION
-\end{axdef}
+\begin{schema}{caseState}
+	caseid		: CASE			\\
+  	cplantiff	: PERSON		\\
+	cdefendant	: PERSON		\\
+	csection	: SECTION		\\
+	cdetail 	: CDETAIL
+\where
+  	cplantiff	\neq cdefendant	
+\end{schema}
 
 \begin{schema}{State}
-	SecEmployees :  PERSON \pfun SECTION	\\
-	CaseDetails  : CASE   \pfun CDETAIL	\\ 	  
-\end{schema}
-
-\begin{schema}{Init}
-  State~'
-\end{schema}
-
-\begin{schema}{getEmployeeDetail}
-  	\Xi State						\\
-  	cid? 	: CASE					\\
-  	req? 	: PERSON				\\ 
-  	detail! : CDETAIL				\\
+	secStaff	: PERSON \pfun SECTION		\\
+	cases	 	: \finset CASE				\\
+	plantiffs	: \finset PERSON			\\
+	defendants	: \finset PERSON			\\
+	staff     	: \finset PERSON			\\
+	case		: CASE \pfun caseState
 \where
-	req? \in staff \land 
-  req? \in \dom empDet	\land (detail! = (empDet) emp?) \\
+	cases 	 = \dom case				\\
+	\forall a:\ran case @
+		a.cplantiff \neq  a.cdefendant
 \end{schema}
 
+\begin{schema}{{\Phi}NewCase}
+	\Delta State				\\
+	caseState~'					\\
+	x? : CASE	
+\where
+ 	x? \notin \dom case			\\
+ 	caseid' = x?				\\
+ 	case' = case \cup \{x? \mapsto \theta caseState~' \}			
+\end{schema}
+
+\begin{schema}{{\Phi}UpdateCase}
+	\Delta State							\\
+	\Delta caseState						\\
+	x? : CASE	
+\where
+ 	x? \in \dom case			\\
+ 	\theta caseState  = case\ x?			\\
+ 	case' = case \oplus \{x? \mapsto \theta caseState~' \}			
+\end{schema}
+
+\begin{schema}{{\Phi}GetCase}
+	\Xi State				\\
+	\Xi caseState				\\
+	x? : CASE	
+\where
+ 	x? \in \dom case			\\
+ 	\theta caseState  = case\ x?		\\
+ 	case' = case \oplus \{x? \mapsto \theta caseState~' \}			
+\end{schema}
+
+%------------------------------------------------------
+\begin{zed}
+	cNewCase ~~== ~~ [~ caseState~'; p?: PERSON; d?: PERSON; \\ s?: SECTION; det? : CDETAIL | 
+			cplantiff=p?; \\ 
+			cdefendant=d? ; csection=s? ;cdetail = det? ~] 			\\
+	sysNewCase == \exists caseState~' @ \Phi NewCase \land cNewCase
+\end{zed}
+
+\begin{zed}
+	cUpdateCase   == [~ \Delta caseState; det? : CDETAIL | cdetail = det? ~] 			\\
+	sysUpdateCase == \exists \Delta caseState @ \Phi UpdateCase \land cUpdateCase
+\end{zed}
+
+\begin{zed}
+	cGetCase   == [~ \Xi caseState; det! : CDETAIL;p!:PERSON;d!:PERSON\\
+					 | det! = cdetail ; p!=cplantiff ; d!=cdefendant ~] 			\\
+	sysGetCase == \exists \Delta caseState @ \Phi GetCase \land cGetCase
+\end{zed}
+
+\begin{schema}{hideCaseDetails}
+  	\Xi State						\\
+\where
+	\forall req:PERSON ; c:\ran case | \\
+\t1 	c.csection \neq secStaff\ req @	\\
+\t2		\exists State~_9 @ 
+			\forall c9:\ran case_9 | c.caseid = c9.caseid @ 
+					c.cplantiff \neq c9.cplantiff \land
+						c.cdefendant \neq c9.cdefendant
+\end{schema}
+
+\end{multicols}
+\begin{circus}
+	\circchannel\ inP	 	: PERSON		\\
+	\circchannel\ inDet 	: CDETAIL 		\\
+	\circchannel\ inCase 	: CASE	 		\\						
+	\circchannel\ inSec 	: SECTION	 		\\
+\end{circus}
+\begin{circus}
+	\circprocess\ CourtSystem \circdef \circbegin   
+\end{circus}
+\begin{circusaction}
+    \circstate\ State  	\\
+    InitState ~~==~~ [~ State~' | case' = \emptyset \land secStaff' = \emptyset ~]					\\
+	NewCase ~~\circdef~~
+            (\circvar\ x: CASE ; stf,p,d:PERSON ; det: CDETAIL ; s:SECTION \circspot \\
+            \t4 inP?d \then inP?p \then inP?stf \then inDet?det \then inCase?x \then inSec?s \then \lschexpract sysNewCase \rschexpract \circseq \Skip)	\\
+	UpdateCase ~~\circdef~~
+            (\circvar\ x: CASE ; stf:PERSON ; det: CDETAIL \circspot \\
+            \t4 inP?d \then inP?p \then inP?stf \then inDet?det \then inCase?x \then inSec?s \then \lschexpract sysUpdateCase \rschexpract \circseq \Skip)
+    		  
+    		  
+\end{circusaction}
+\begin{circusaction}
+   \t1 \circspot InitState \circseq (\circmu\ X \circspot ( NewCase	\extchoice UpdateCase ) \circseq X)
+\end{circusaction}
+\begin{circus}
+    \circend
+\end{circus}
+
+\newpage
+
+A person cannot be both a plantif and a defendant in the same case
+
+
+"conartmentisation is better than military stype top-down approach" - Ross Andresson
+
+
+\end{document}
