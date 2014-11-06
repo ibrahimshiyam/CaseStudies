@@ -9,88 +9,86 @@
 \usepackage{multicol}
  
 \begin{document}
-
-Case Study on hiding
-
-
+\section{Banking Information System}
 \begin{multicols}{2}
+Banking sector is another industry which highly relies on the secrecy of the financial information they handle for the business continuity. If an adversary gets his hands on the substantial banking data of an individual he could.... potentially dragging the bank into legal battles and subsequently tarnishing the banks image. Hence, the staff in a bank should be allowed to granular information about a customer on a need to know basis to perform his specific function. 
 
 \begin{zsection}
   \SECTION bankSystem \parents standard\_toolkit
 \end{zsection}
 \begin{zed}
-  	[ ACCOUNT , PERSON , CDETAILS ]		\\
-	EMPLOYEE == PERSON					\\
-	CUSTOMER == PERSON					\\
-	SECTION  ::= Hr | IT | Loan | Fraud	\\
+  	[ ACCOUNT , PERSON , CDETAILS ]								\\
+	EMPLOYEE == PERSON													\\
+	CUSTOMER == PERSON												\\
+	SECTION  ::= Hr | IT | Loan | Fraud								\\
 	RESPONSE ::= ok | notok
-	
 \end{zed}
 \begin{schema}{State}
-	staff 		: \finset EMPLOYEE					\\
-	customers 	: \finset CUSTOMER					\\
-	cdetail 	: CUSTOMER \pfun CDETAILS			\\
-	secStaff 	: SECTION \pfun \finset EMPLOYEE	\\
-	loan		: CUSTOMER \pfun \nat					\\
+	staff 		: \finset EMPLOYEE										\\
+	customers 	: \finset CUSTOMER									\\
+	cdetail 	: CUSTOMER \pfun CDETAILS							\\
+	secStaff 	: SECTION \pfun \finset EMPLOYEE				\\
+	loan		: CUSTOMER \pfun \nat									\\
 	balance		: CUSTOMER \pfun \nat
 \where
-	\forall p:\dom balance @ (balance\ p \geq loan\ p)		\\
+	\forall p:\dom balance @ (balance\ p \geq loan\ p)	\\
 	\forall a,b:\dom secStaff @ secStaff\ a \cap secStaff\ b = \emptyset	\\
 	customers = \dom cdetail
 \end{schema}
-\begin{schema}{addCustomer}
-	\Delta State										\\
-	c? 			: CUSTOMER								\\
-	e? 			: EMPLOYEE								\\
-	detail?		: CDETAILS								\\
+\begin{schema}{newCustomer}
+	\Delta State																	\\
+	c? 			: CUSTOMER													\\
+	e? 			: EMPLOYEE													\\
+	detail?		: CDETAILS													\\
 	response! 	: RESPONSE		
 \where
-	c? \neq e?											\\ 
-	c? \notin \dom cdetail								\\
-	balance' 	= balance \oplus \{(c? \mapsto 0)\}		\\
+	c? \neq e?																	\\ 
+	c? \notin \dom cdetail													\\
+	balance' 	= balance \oplus \{(c? \mapsto 0)\}			\\
 	cdetail' 	= cdetail \oplus \{(c? \mapsto detail?)\}	\\	
 	response! = ok
 \end{schema}
 \begin{schema}{updateBalance}
-	\Delta State										\\
-	c? 			: CUSTOMER								\\
-	e? 			: EMPLOYEE								\\
-	b?			: \nat									\\
+	\Delta State																	\\
+	c? 			: CUSTOMER													\\
+	e? 			: EMPLOYEE													\\
+	x?				: \nat															\\
 	response! 	: RESPONSE		
 \where
-	c? \neq e?											\\ 
-	c? \in \dom cdetail									\\
-	balance' 	= balance \oplus \{(c? \mapsto b?)\}	
+	c? \neq e?																	\\ 
+	c? \in \dom cdetail														\\
+	balance' 	= balance \oplus \{(c? \mapsto x?)\}	
 \end{schema}
 \begin{schema}{dispenseMoney}
-	\Delta State										\\
-	c? 			: CUSTOMER								\\
-	e? 			: EMPLOYEE								\\
-	x?			: \nat									\\
+	\Delta State																	\\
+	c? 			: CUSTOMER													\\
+	e? 			: EMPLOYEE													\\
+	x?			: \nat																\\
 	response! 	: RESPONSE		
 \where
-	c? \neq e?											\\ 
-	c? \in \dom cdetail									\\
+	c? \neq e?																	\\ 
+	c? \in \dom cdetail														\\
 	balance' 	= balance \oplus \{(c? \mapsto (balance\ c? - x?))\}	
 \end{schema}
 \begin{schema}{releaseLoan}
-	\Delta State										\\
-	c? 			: CUSTOMER								\\
-	e? 			: EMPLOYEE								\\
-	x?			: \nat									\\
+	\Delta State																	\\
+	c? : CUSTOMER																\\
+	e? : EMPLOYEE																\\
+	x?	: \nat																		\\
 	response! 	: RESPONSE		
 \where
-	c? \neq e?											\\ 
-	c? \in \dom cdetail									\\
+	c? \neq e?																	\\ 
+	c? \in \dom cdetail														\\
 	loan'= loan \oplus \{(c? \mapsto (loan\ c? + x?))\}	\\ 
 	response!=ok	
 \end{schema}
 \end{multicols}
+\newpage
 \begin{circus}
-	\circchannel\ inEmp : EMPLOYEE 				\\
-	\circchannel\ inCus : CUSTOMER 				\\
-	\circchannel\ inDet : CDETAILS 				\\
-	\circchannel\ inAmnt, outAmnt: \nat			\\
+	\circchannel\ inEmp : EMPLOYEE 									\\
+	\circchannel\ inCus : CUSTOMER 									\\
+	\circchannel\ inDet : CDETAILS 									\\
+	\circchannel\ inAmnt, outAmnt: \nat							\\
 	\circchannel\ outRes: RESPONSE 			
 \end{circus}
 \begin{circus}
@@ -98,23 +96,38 @@ Case Study on hiding
 \end{circus}
 \begin{circusaction}
     \circstate\ State  	\\
-    InitState ~~==~~ [~ State~' | 	
-    		cdetail' = \emptyset \land secStaff' = \emptyset \land loan' = \emptyset ~]
+			InitState ~~==~~ [~ State~' | 	
+    		cdetail' = \emptyset \land secStaff' = \emptyset \land loan' = \emptyset ~]	\\
     		\\
-    		    AddCustomer ~~\circdef~~
-            (\circvar\ c: CUSTOMER ; e:EMPLOYEE ; detail: CDETAILS  ; response: RESPONSE \circspot \\
-            \t4 inCus?c \then inEmp?e	\then inDet?detail \then \\
-			\t4 \lschexpract addCustomer \rschexpract \circseq (outRes~!response \then \Skip))
-    		  
+    		sysNewCustomer ~~\circdef~~
+           (\circvar\ c: CUSTOMER ; e:EMPLOYEE ; detail: CDETAILS  ; response: RESPONSE \circspot \\
+            \t4 inCus?c \then inEmp?e	\then inDet?detail \then \lschexpract newCustomer \rschexpract \circseq (outRes~!response \then \Skip))		\\
+			\\
+			sysUpdateCustomer ~~\circdef~~
+           (\circvar\ c: CUSTOMER ; e:EMPLOYEE ; x: \nat  ; response: RESPONSE \circspot \\
+            \t4 inCus?c \then inEmp?e	\then inAmnt?b \then \lschexpract updateBalance \rschexpract \circseq (outRes~!response \then \Skip))	\\
+			\\
+			sysDispenseMoney ~~\circdef~~
+           (\circvar\ c: CUSTOMER ; e:EMPLOYEE ; x: \nat  ; response: RESPONSE \circspot \\
+            \t4 inCus?c \then inEmp?e	\then inAmnt?b \then \lschexpract dispenseMoney \rschexpract \circseq (outRes~!response \then \Skip))	\\
+			\\
+			sysReleaseLoan ~~\circdef~~
+           (\circvar\ c: CUSTOMER ; e:EMPLOYEE ; x: \nat  ; response: RESPONSE \circspot \\
+            \t4 inCus?c \then inEmp?e	\then inAmnt?b \then \lschexpract releaseLoan \rschexpract \circseq (outRes~!response \then \Skip))
 \end{circusaction}
 \begin{circusaction}
-   \t1 \circspot InitState \circseq (\circmu\ X \circspot ( AddCustomer	) \circseq X)
+   \t1 \circspot InitState \circseq (\circmu\ X \circspot ( 
+   								sysNewCustomer \extchoice
+   								sysUpdateCustomer \extchoice
+   								sysDispenseMoney \extchoice
+   								sysReleaseLoan 
+   									) \circseq X)
 \end{circusaction}
 \begin{circus}
     \circend
 \end{circus}
 
-\newpage
+\vspace{2cm}
 \textbf{Confidentiality Requirements}
 \begin{enumerate}
 \item Dispenser cannot know account balance of the customer	
@@ -123,10 +136,14 @@ Case Study on hiding
 	\item all details for fraud section	
 	\item balance and transaction history for account department
 	\end{enumerate}
-\item loan department staff can only know whether the customer is approved for the loan being applied. Further clarification can only be given by loan department head	
+\item loan department staff can only know whether the customer is approved for the loan being applied. Further clarification can only be given by loan department head	\\
 \end{enumerate}
 
-"conartmentisation is better than military stype top-down approach" - Ross Andresson
+\textbf{Functional Requirements}
+\begin{enumerate}
+\item A staff cannot do any transaction on her own customer record, should he be a customer of the bank.
+\end{enumerate}
+"compartmentation is better than military style top-down approach" - Ross Andresson
 
 
 \end{document}

@@ -8,22 +8,19 @@
  
 \begin{document}
 
+\section{Court Information System}
 \begin{multicols}{2}
 
 The information handled in a court environment is very sentsitive for various reasons including(but not limited to) political stability of the state as well as with regard to individual privacy concerns.  Further, the case needs to be handled by different groups of staff during the various stages of court progression. Hence, in this case study, case information in modelled at a granualar level so as to formalize the confidentiality required of the individual case components at those various stages.
 
 TODO: staff cannot enter his/her own data 
 
-
-
 \begin{zsection}
    \SECTION CourtSystem \parents circus\_toolkit
 \end{zsection}
-
 \begin{zed}
 	[ CASE , SECTION , PERSON , CDETAIL ]		
 \end{zed}
-
 \begin{schema}{caseState}
 	caseid		: CASE			\\
   	cplantiff	: PERSON		\\
@@ -33,7 +30,6 @@ TODO: staff cannot enter his/her own data
 \where
   	cplantiff	\neq cdefendant	
 \end{schema}
-
 \begin{schema}{State}
 	secStaff	: PERSON \pfun SECTION		\\
 	cases	 	: \finset CASE				\\
@@ -46,7 +42,6 @@ TODO: staff cannot enter his/her own data
 	\forall a:\ran case @
 		a.cplantiff \neq  a.cdefendant
 \end{schema}
-
 \begin{schema}{{\Phi}NewCase}
 	\Delta State				\\
 	caseState~'					\\
@@ -56,63 +51,59 @@ TODO: staff cannot enter his/her own data
  	caseid' = x?				\\
  	case' = case \cup \{x? \mapsto \theta caseState~' \}			
 \end{schema}
-
 \begin{schema}{{\Phi}UpdateCase}
-	\Delta State							\\
-	\Delta caseState						\\
+	\Delta State																		\\
+	\Delta caseState																	\\
 	x? : CASE	
 \where
- 	x? \in \dom case			\\
- 	\theta caseState  = case\ x?			\\
+ 	x? \in \dom case																	\\
+ 	\theta caseState  = case\ x?														\\
  	case' = case \oplus \{x? \mapsto \theta caseState~' \}			
 \end{schema}
-
 \begin{schema}{{\Phi}GetCase}
-	\Xi State				\\
-	\Xi caseState				\\
+	\Xi State																			\\
+	\Xi caseState																		\\
 	x? : CASE	
 \where
- 	x? \in \dom case			\\
- 	\theta caseState  = case\ x?		\\
+ 	x? \in \dom case																	\\
+ 	\theta caseState  = case\ x?														\\
  	case' = case \oplus \{x? \mapsto \theta caseState~' \}			
 \end{schema}
-
-%------------------------------------------------------
+%-----------------------------------------------------------------------------------------
 \begin{zed}
-	cNewCase ~~== ~~ [~ caseState~'; p?: PERSON; d?: PERSON; \\ s?: SECTION; det? : CDETAIL | 
-			cplantiff=p?; \\ 
-			cdefendant=d? ; csection=s? ;cdetail = det? ~] 			\\
-	sysNewCase == \exists caseState~' @ \Phi NewCase \land cNewCase
+	cNewCase ~~== ~~ [~ caseState~'; p?: PERSON; d?: PERSON; \\ 
+					\t2 s?: SECTION; det? : CDETAIL | cplantiff=p?; 	\\
+					\t2 cdefendant=d? ; csection=s? ;cdetail = det? ~] 								\\
+	sysNewCase == \exists caseState~' @ \Phi NewCase \land cNewCase						\\
+	\\
+	cUpdateCase   == [~ \Delta caseState; det? : CDETAIL | \\
+					\t2 cdetail = det? ~] 			\\
+	sysUpdateCase == \exists \Delta caseState @ \\
+					\t2 \Phi UpdateCase \land cUpdateCase		\\
+	\\
+	cGetCase   == [~ \Xi caseState; cdet! : CDETAIL;p!:PERSON;  \\
+					\t2 d!:PERSON | cdet! = cdetail ; p!=cplantiff ; \\
+					\t2 d!=cdefendant ~] 				\\
+	sysGetCase == \exists \Delta caseState @ \Phi GetCase \land cGetCase 
 \end{zed}
-
-\begin{zed}
-	cUpdateCase   == [~ \Delta caseState; det? : CDETAIL | cdetail = det? ~] 			\\
-	sysUpdateCase == \exists \Delta caseState @ \Phi UpdateCase \land cUpdateCase
-\end{zed}
-
-\begin{zed}
-	cGetCase   == [~ \Xi caseState; det! : CDETAIL;p!:PERSON;d!:PERSON\\
-					 | det! = cdetail ; p!=cplantiff ; d!=cdefendant ~] 			\\
-	sysGetCase == \exists \Delta caseState @ \Phi GetCase \land cGetCase
-\end{zed}
-
 \begin{schema}{hideCaseDetails}
   	\Xi State						\\
 \where
 	\forall req:PERSON ; c:\ran case | \\
 \t1 	c.csection \neq secStaff\ req @	\\
 \t2		\exists State~_9 @ 
-			\forall c9:\ran case_9 | c.caseid = c9.caseid @ 
-					c.cplantiff \neq c9.cplantiff \land
-						c.cdefendant \neq c9.cdefendant
+			\forall c9:\ran case_9 | \\ 
+					\t3 c.caseid = c9.caseid @ c.cplantiff \neq c9.cplantiff \land	\\
+							\t4 c.cdefendant \neq c9.cdefendant
 \end{schema}
 
 \end{multicols}
+\newpage
 \begin{circus}
-	\circchannel\ inP	 	: PERSON		\\
-	\circchannel\ inDet 	: CDETAIL 		\\
-	\circchannel\ inCase 	: CASE	 		\\						
-	\circchannel\ inSec 	: SECTION	 		\\
+	\circchannel\ inP	 		: PERSON		\\
+	\circchannel\ inDet,outDet 	: CDETAIL 		\\
+	\circchannel\ inCase 		: CASE	 		\\						
+	\circchannel\ inSec 		: SECTION	 		
 \end{circus}
 \begin{circus}
 	\circprocess\ CourtSystem \circdef \circbegin   
@@ -121,27 +112,33 @@ TODO: staff cannot enter his/her own data
     \circstate\ State  	\\
     InitState ~~==~~ [~ State~' | case' = \emptyset \land secStaff' = \emptyset ~]					\\
 	NewCase ~~\circdef~~
-            (\circvar\ x: CASE ; stf,p,d:PERSON ; det: CDETAIL ; s:SECTION \circspot \\
-            \t4 inP?d \then inP?p \then inP?stf \then inDet?det \then inCase?x \then inSec?s \then \lschexpract sysNewCase \rschexpract \circseq \Skip)	\\
+            (\circvar\ x: CASE ; stf,p,d:PERSON ; cdet: CDETAIL ; s:SECTION \circspot \\
+            \t4 inP?d \then inP?p \then inP?stf \then inDet?det \then inCase?x \then inSec?s \\
+            \t4 \then \lschexpract sysNewCase \rschexpract \circseq \Skip)		\\
+            \\
 	UpdateCase ~~\circdef~~
-            (\circvar\ x: CASE ; stf:PERSON ; det: CDETAIL \circspot \\
-            \t4 inP?d \then inP?p \then inP?stf \then inDet?det \then inCase?x \then inSec?s \then \lschexpract sysUpdateCase \rschexpract \circseq \Skip)
-    		  
-    		  
+            (\circvar\ x: CASE ; stf:PERSON ; cdet: CDETAIL \circspot \\
+            \t4 inP?d \then inP?p \then inP?stf \then inDet?det \then inCase?x \then inSec?s \\
+            \t4 \then \lschexpract sysUpdateCase \rschexpract \circseq \Skip)	\\
+            \\
+    GetCase  ~~\circdef~~ (\circvar\ x: CASE ; stf,p,d:PERSON ; cdet: CDETAIL \circspot \\
+            \t4 
+            inP?stf \then inCase?c \then \lschexpract sysGetCase \rschexpract \circseq outDet!cdet \then \Skip)		\\
+    Conf1 ~~\circdef~~ \lschexpract hideCaseDetails \rschexpract \circseq \Skip
+    		  	
 \end{circusaction}
 \begin{circusaction}
-   \t1 \circspot InitState \circseq (\circmu\ X \circspot ( NewCase	\extchoice UpdateCase ) \circseq X)
+   \t1 \circspot InitState \circseq (\circmu\ X \circspot ( 
+   							((NewCase \extchoice UpdateCase) \circseq Conf1)
+   							
+   							) \circseq X)
 \end{circusaction}
 \begin{circus}
     \circend
 \end{circus}
 
-\newpage
-
 A person cannot be both a plantif and a defendant in the same case
 
-
 "conartmentisation is better than military stype top-down approach" - Ross Andresson
-
 
 \end{document}
