@@ -1,0 +1,80 @@
+types
+EMP = nat   
+EMPDETAIL = nat 
+hrstaff = nat +> char
+EMPDETAIL = nat 
+response = bool
+
+st_nat::
+	x: nat
+	y: nat
+
+channels
+input : nat
+output : int
+
+
+process proc1 =
+begin
+state
+	a: st_nat := mk_st_nat(0,0)
+	inv a.x=a.y 
+	
+	b: st_nat := mk_st_nat(0,0)
+	inv a.x=a.y 
+	
+	d:nat :=1
+	e:nat :=1
+	
+	reg : set of nat :={0,1}
+	
+	pred1 : set of st_nat := {}
+
+functions 
+	readme (n1:EMP) r:EMPDETAIL
+	post r = n1
+
+	showdetail (r:EMP) s:EMP
+	post r = s
+
+	resetv : st_nat -> bool
+	resetv(f) == f.x = 0 and f.y =0
+
+	mkv : nat -> st_nat
+	mkv(v) ==  mk_st_nat(v,v) 
+	
+operations
+	op1 : EMP ==> ()
+	op1(t) == a := t
+
+   Init : () ==> ()
+   Init() ==
+      reg := {}
+
+LIFT: st_nat ==> ()
+   LIFT(v1) == pred1 := pred1 union {v1}
+   
+   
+
+actions
+ACT = output!3 -> op1(4); Skip
+
+MkPred1 =  LIFT(mkv(0))
+	MkPred2 = LIFT(mkv(1))
+	MkP = MkPred1 ; MkPred2
+
+	Outme = output!3 -> Skip ; Skip
+
+
+@  ACT
+
+end
+	
+
+   
+actions
+	
+end
+
+
+

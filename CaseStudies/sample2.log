@@ -1,0 +1,352 @@
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.10.21)  14 NOV 2014 19:44
+entering extended mode
+**sample2.tex
+(D:\GitProjects\CaseStudies\CaseStudies\sample2.tex
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
+abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
+croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
+lician, german, german-x-2013-05-26, greek, gujarati, hindi, hungarian, iceland
+ic, indonesian, interlingua, irish, italian, kannada, kurmanji, latin, latvian,
+ lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, n
+german-x-2013-05-26, nynorsk, oriya, panjabi, pinyin, polish, portuguese, roman
+ian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swissgerm
+an, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usengl
+ishmax, welsh, loaded.
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\base\article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\base\size10.clo
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(D:\PhD\Dropbox\LaTeX\tex\latex\circus\circus.sty
+Package: circus 2010/06/17 v.1.2 Circus style file by the Community Z Tools
+
+`Circus style file by the Community Z Tools' v.1.2 <2010/06/17>
+(D:\PhD\Dropbox\LaTeX\tex\latex\circus\czt.sty
+Package: czt 2010/06/17 v.1.2 Standard Z style file by the Community Z Tools
+
+`Standard Z style file by the Community Z Tools' v.1.2 <2010/06/17>
+Package czt Info: 'mathit' option chosen on input line 72.
+Package czt Info: 'cntglobally' option chosen on input line 72.
+Package czt Info: 'color' option chosen on input line 73.
+Package czt Info: 'cntbysection' option chosen on input line 73.
+Package czt Info: AMS fonts selected with default options on input line 86.
+Package czt Info: Rendering Z math mode with colours on input line 96.
+Package czt Info: Package `color' loaded with `dvipsnames' 
+(czt)             and `usenames' options on input line 104.
+
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\graphics\color.sty
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\00miktex\color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\pdftex-def\pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\generic\oberdiek\infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\generic\oberdiek\ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count87
+)
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\graphics\dvipsnam.def
+File: dvipsnam.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+Package czt Info: Z colours defined as:
+(czt)               ZedBoxColor     = cmyk( 1, 1,0, 0) 
+(czt)               AnnotationColor = cmyk(0.98,0.13,0,0.43) 
+(czt)               ZedColor        = cmyk(0.50, 1,0, 0) 
+(czt)              on input line 118.
+\c@mv@czt=\count88
+Package czt Info: Creating `czt' math version on input line 152.
+\symstmry=\mathgroup4
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 159.
+LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `czt'
+(Font)                  OT1/cmr/m/n --> OT1/cmr/m/n on input line 163.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `czt'
+(Font)                  OT1/cmr/bx/n --> OT1/cmr/bx/n on input line 164.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `czt'
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 165.
+\symitalics=\mathgroup5
+Package czt Info: Loading AMS font symbols for Z on input line 603.
+\symAMSa=\mathgroup6
+\symAMSb=\mathgroup7
+Package czt Info: Current math version set to `czt' on input line 606.
+Package czt Info: Setting math code for letters as Italics on input line 660.
+Package czt Info: Counting Z declarations? YES  on input line 683.
+\@zcountingwhat=\count89
+\c@cntZunboxed=\count90
+\c@cntZaxdef=\count91
+\c@cntZgendef=\count92
+\c@cntZschema=\count93
+\c@cntZgenschema=\count94
+\c@cntZdecl=\count95
+\c@cntZtotunboxed=\count96
+\c@cntZtotaxdef=\count97
+\c@cntZtotgendef=\count98
+\c@cntZtotschema=\count99
+\c@cntZtotgenschema=\count100
+\c@cntZtotdecl=\count101
+\big@size=\dimen103
+\zedtab=\dimen104
+\zedindent=\dimen105
+\zedleftsep=\dimen106
+\zedbar=\dimen107
+\interzedlinepenalty=\count102
+\preboxpenalty=\count103
+\forcepagepenalty=\count104
+\zedskip=\skip43
+Package czt Info: Initialising Z registers with default values.
+(czt)                \zedtab=20.00003pt
+(czt)                \zedindent=25.00003pt=\leftmargini
+(czt)                \zedleftsep=10.00002pt
+(czt)                \zedbar=60.00009pt
+(czt)             
+(czt)                \interzedlinepenalty=10000
+(czt)                \preboxpenalty=0
+(czt)                \forcepagepenalty=-10000
+(czt)                \interdisplaylinepenalty=100
+(czt)             
+(czt)                \zedskip=6.0pt plus 3.99994pt minus 3.99994pt
+(czt)                \zt@p=false 
+(czt)                \CountDefstrue=true  on input line 947.
+Package czt Info: Setting up Standard Z skipping and breaking on input line 983
+.
+Package czt Info: Setting up Standard Z LaTeX environments on input line 1268.
+Package czt Info: Setting up Standard Z basic symbols on input line 1383.
+Package czt Info: Setting up Standard Z Greek and other letters on input line 1
+447.
+Package czt Info: Setting up Standard Z bracket symbols on input line 1494.
+Package czt Info: Marking \mid, \semicolon, and \spot
+(czt)             as 
+(czt)             active in math mode on input line 1498.
+Package czt Info: Setting up Standard Z predicate logic symbols on input line 1
+541.
+Package czt Info: Setting up Standard Z keywords on input line 1605.
+Package czt Info:   Loading prelude          symbols on input line 1615.
+Package czt Info:   Loading set      toolkit symbols on input line 1647.
+Package czt Info:   Loading relation toolkit symbols on input line 1673.
+Package czt Info:   Loading function toolkit symbols on input line 1688.
+Package czt Info:   Loading number   toolkit symbols on input line 1704.
+Package czt Info:   Loading sequence toolkit symbols on input line 1732.
+Package czt Info:   Loading standard toolkit symbols completed on input line 17
+36.
+)
+Package circus Info: Rendering Circus math mode with colours on input line 81.
+Package circus Info: Circus colours defined as:
+(circus)               CSPBoxColor  = cmyk( 1, 0, 1,0) 
+(circus)               MetaColor   = cmyk( 0,0.61,0.87,0) 
+(circus)               CSPColor    = cmyk(0.50, 1, 0,0) on input line 98.
+Package circus Info: Loading AMS font symbols for Circus on input line 319.
+\@circuscountingwhat=\count105
+\c@cntCircusChannel=\count106
+\c@cntCircusChannelset=\count107
+\c@cntCircusProcess=\count108
+\c@cntCircusProcessRef=\count109
+\c@cntCircusNameset=\count110
+\c@cntCircusAction=\count111
+\c@cntCircusActionRef=\count112
+\c@cntCircusDeclShallow=\count113
+\c@cntCircusDeclDeep=\count114
+\c@cntCircusZunboxed=\count115
+\c@cntCircusZaxdef=\count116
+\c@cntCircusZgendef=\count117
+\c@cntCircusZschema=\count118
+\c@cntCircusZgenschema=\count119
+\c@cntCircustotChannel=\count120
+\c@cntCircustotChannelset=\count121
+\c@cntCircustotProcess=\count122
+\c@cntCircustotProcessRef=\count123
+\c@cntCircustotNameset=\count124
+\c@cntCircustotAction=\count125
+\c@cntCircustotActionRef=\count126
+\c@cntCircustotDeclShallow=\count127
+\c@cntCircustotDeclDeep=\count128
+\c@cntCircusZtotunboxed=\count129
+\c@cntCircusZtotaxdef=\count130
+\c@cntCircusZtotgendef=\count131
+\c@cntCircusZtotschema=\count132
+\c@cntCircusZtotgenschema=\count133
+Package circus Info: Initialising Circus registers with default values.
+(circus)                \TypesetCircusToolsCmds=false  on input line 466.
+Package circus Info: Setting up Circus LaTeX environments on input line 733.
+Package circus Info: Loading Circus keywords on input line 784.
+Package circus Info: Loading Circus brackets on input line 816.
+Package circus Info: Loading Circus special symbols on input line 829.
+Package circus Info: Loading Circus CSP symbols on input line 851.
+Package circus Info: Loading Circus boxing symbols on input line 868.
+Package circus Info: Loading Circus circus\unhbox \voidb@x \kern 0.06em\vbox {\
+hrule width0.5em}prelude symbols on input line 878.
+Package circus Info: Loading Circus circus\unhbox \voidb@x \kern 0.06em\vbox {\
+hrule width0.5em}mc\unhbox \voidb@x \kern 0.06em\vbox {\hrule width0.5em}toolki
+t symbols on input line 888.
+\circnotewidth=\skip44
+)
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\geometry\geometry.sty
+Package: geometry 2010/09/12 v5.6 Page Geometry
+
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\graphics\keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\generic\oberdiek\ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\generic\oberdiek\ifvtex.sty
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+)
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\generic\ifxetex\ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count134
+\Gm@cntv=\count135
+\c@Gm@tempcnt=\count136
+\Gm@bindingoffset=\dimen108
+\Gm@wd@mp=\dimen109
+\Gm@odd@mp=\dimen110
+\Gm@even@mp=\dimen111
+\Gm@layoutwidth=\dimen112
+\Gm@layoutheight=\dimen113
+\Gm@layouthoffset=\dimen114
+\Gm@layoutvoffset=\dimen115
+\Gm@dimlist=\toks15
+
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\geometry\geometry.cfg))
+No file sample2.aux.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\context\base\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count137
+\scratchdimen=\dimen116
+\scratchbox=\box26
+\nofMPsegments=\count138
+\nofMParguments=\count139
+\everyMPshowfont=\toks16
+\MPscratchCnt=\count140
+\MPscratchDim=\dimen117
+\MPnumerator=\count141
+\makeMPintoPDFobject=\count142
+\everyMPtoPDFconversion=\toks17
+)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(56.9055pt, 495.07779pt, 45.52458pt)
+* v-part:(T,H,B)=(17.07182pt, 799.52228pt, 28.45274pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=495.07779pt
+* \textheight=799.52228pt
+* \oddsidemargin=-15.36449pt
+* \evensidemargin=-15.36449pt
+* \topmargin=-92.19817pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=65.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 8.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 8.
+LaTeX Font Info:    Try loading font information for U+stmry on input line 8.
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\stmaryrd\ustmry.fd)
+LaTeX Font Info:    Try loading font information for U+msa on input line 8.
+
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 8.
+
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 72.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 72.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 72.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 72.
+
+Overfull \hbox (924.72531pt too wide) in alignment at lines 67--73
+[] 
+ []
+
+[1
+
+{D:/PhD/Dropbox/LaTeX/MixTex2.9/pdftex/config/pdftex.map}]
+Overfull \hbox (30.61133pt too wide) in alignment at lines 80--82
+[] 
+ []
+
+[2] (D:\GitProjects\CaseStudies\CaseStudies\sample2.aux) ) 
+Here is how much of TeX's memory you used:
+ 2527 strings out of 493921
+ 33965 string characters out of 3146111
+ 101239 words of memory out of 3000000
+ 5816 multiletter control sequences out of 15000+200000
+ 16206 words of font info for 61 fonts, out of 3000000 for 9000
+ 841 hyphenation exceptions out of 8191
+ 33i,13n,29p,369b,187s stack positions out of 5000i,500n,10000p,200000b,50000s
+<D:/PhD/Dropbox/LaTeX
+/MixTex2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><D:/PhD/Dropbox/LaTeX/MixT
+ex2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><D:/PhD/Dropbox/LaTeX/MixTex2.9
+/fonts/type1/public/amsfonts/cm/cmr10.pfb><D:/PhD/Dropbox/LaTeX/MixTex2.9/fonts
+/type1/public/amsfonts/cm/cmr12.pfb><D:/PhD/Dropbox/LaTeX/MixTex2.9/fonts/type1
+/public/amsfonts/cm/cmsy10.pfb><D:/PhD/Dropbox/LaTeX/MixTex2.9/fonts/type1/publ
+ic/amsfonts/cm/cmti10.pfb>
+Output written on sample2.pdf (2 pages, 65324 bytes).
+PDF statistics:
+ 33 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

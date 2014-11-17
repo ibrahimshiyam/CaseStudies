@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="isabelle.eclipse.launch.isabelleWin">
+<booleanAttribute key="editedByTab-isabelle.eclipse.launch.buildTab" value="true"/>
+<booleanAttribute key="editedByTab-isabelle.eclipse.launch.sessionDirsTab" value="true"/>
+<booleanAttribute key="isabelle.eclipse.launch.ATTR_BUILD_RUN" value="true"/>
+<booleanAttribute key="isabelle.eclipse.launch.ATTR_BUILD_TO_SYSTEM" value="true"/>
+<stringAttribute key="isabelle.eclipse.launch.ATTR_CYGWIN_LOCATION" value="C:\Software\Isabelle2013-2\contrib\cygwin"/>
+<stringAttribute key="isabelle.eclipse.launch.ATTR_LOCATION" value="C:\Software\Isabelle2013-2"/>
+<stringAttribute key="isabelle.eclipse.launch.ATTR_SESSION" value="HOL-UTP-CML"/>
+<listAttribute key="isabelle.eclipse.launch.ATTR_SESSION_DIRS"/>
+</launchConfiguration>

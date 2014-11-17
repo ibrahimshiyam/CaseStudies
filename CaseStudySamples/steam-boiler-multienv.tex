@@ -1298,7 +1298,8 @@ controller is in \emph{its} initial state.
 \begin{schema}{InitPumpCtrSystem}
   PumpCtrSystem~'
   \where %
-  \exists InitPumpCtr @
+  \
+   InitPumpCtr @
   \\ %
   \t1 \forall i: PumpIndex @ pumpctr'~i = \theta PumpCtr'
 \end{schema}

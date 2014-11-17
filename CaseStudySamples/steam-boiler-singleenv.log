@@ -1,0 +1,272 @@
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2013.12.19)  20 OCT 2014 16:27
+entering extended mode
+**steam-boiler-singleenv.tex
+(D:\GitProjects\CaseStudies\CaseStudySamples\steam-boiler-singleenv.tex
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
+abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
+croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
+lician, german, german-x-2012-05-30, greek, gujarati, hindi, hungarian, iceland
+ic, indonesian, interlingua, irish, italian, kannada, kurmanji, latin, latvian,
+ lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, n
+german-x-2012-05-30, nynorsk, oriya, panjabi, pinyin, polish, portuguese, roman
+ian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swissgerm
+an, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usengl
+ishmax, welsh, loaded.
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\report.cls"
+Document Class: report 2007/10/19 v1.4h Standard LaTeX document class
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\size10.clo"
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(D:\PhD\Dropbox\LaTeX\tex\latex\vmargin\vmargin.sty
+Package: vmargin 2000/08/01
+
+Package: vmargin 2000/08/01 V2.3 (VK) set document margins
+\PaperWidth=\dimen103
+\PaperHeight=\dimen104
+) (D:\PhD\Dropbox\LaTeX\tex\latex\circus\circus.sty
+Package: circus 2010/06/17 v.1.2 Circus style file by the Community Z Tools
+
+`Circus style file by the Community Z Tools' v.1.2 <2010/06/17>
+(D:\PhD\Dropbox\LaTeX\tex\latex\circus\czt.sty
+Package: czt 2010/06/17 v.1.2 Standard Z style file by the Community Z Tools
+
+`Standard Z style file by the Community Z Tools' v.1.2 <2010/06/17>
+Package czt Info: 'mathit' option chosen on input line 72.
+Package czt Info: 'cntglobally' option chosen on input line 72.
+Package czt Info: 'color' option chosen on input line 73.
+Package czt Info: AMS fonts selected with default options on input line 86.
+Package czt Info: Rendering Z math mode with colours on input line 96.
+Package czt Info: Package `color' loaded with `dvipsnames' 
+(czt)             and `usenames' options on input line 104.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\color.sty"
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count88
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\graphics\dvipsnam.def"
+File: dvipsnam.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+Package czt Info: Z colours defined as:
+(czt)               ZedBoxColor     = cmyk( 1, 1,0, 0) 
+(czt)               AnnotationColor = cmyk(0.98,0.13,0,0.43) 
+(czt)               ZedColor        = cmyk(0.50, 1,0, 0) 
+(czt)              on input line 118.
+\c@mv@czt=\count89
+Package czt Info: Creating `czt' math version on input line 152.
+\symstmry=\mathgroup4
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 159.
+LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `czt'
+(Font)                  OT1/cmr/m/n --> OT1/cmr/m/n on input line 163.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `czt'
+(Font)                  OT1/cmr/bx/n --> OT1/cmr/bx/n on input line 164.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `czt'
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 165.
+\symitalics=\mathgroup5
+Package czt Info: Loading AMS font symbols for Z on input line 603.
+\symAMSa=\mathgroup6
+\symAMSb=\mathgroup7
+Package czt Info: Current math version set to `czt' on input line 606.
+Package czt Info: Setting math code for letters as Italics on input line 660.
+Package czt Info: Counting Z declarations? YES  on input line 683.
+\@zcountingwhat=\count90
+\c@cntZunboxed=\count91
+\c@cntZaxdef=\count92
+\c@cntZgendef=\count93
+\c@cntZschema=\count94
+\c@cntZgenschema=\count95
+\c@cntZdecl=\count96
+\c@cntZtotunboxed=\count97
+\c@cntZtotaxdef=\count98
+\c@cntZtotgendef=\count99
+\c@cntZtotschema=\count100
+\c@cntZtotgenschema=\count101
+\c@cntZtotdecl=\count102
+\big@size=\dimen105
+\zedtab=\dimen106
+\zedindent=\dimen107
+\zedleftsep=\dimen108
+\zedbar=\dimen109
+\interzedlinepenalty=\count103
+\preboxpenalty=\count104
+\forcepagepenalty=\count105
+\zedskip=\skip43
+Package czt Info: Initialising Z registers with default values.
+(czt)                \zedtab=20.00003pt
+(czt)                \zedindent=25.00003pt=\leftmargini
+(czt)                \zedleftsep=10.00002pt
+(czt)                \zedbar=60.00009pt
+(czt)             
+(czt)                \interzedlinepenalty=10000
+(czt)                \preboxpenalty=0
+(czt)                \forcepagepenalty=-10000
+(czt)                \interdisplaylinepenalty=100
+(czt)             
+(czt)                \zedskip=6.0pt plus 3.99994pt minus 3.99994pt
+(czt)                \zt@p=false 
+(czt)                \CountDefstrue=true  on input line 947.
+Package czt Info: Setting up Standard Z skipping and breaking on input line 983
+.
+Package czt Info: Setting up Standard Z LaTeX environments on input line 1268.
+Package czt Info: Setting up Standard Z basic symbols on input line 1383.
+Package czt Info: Setting up Standard Z Greek and other letters on input line 1
+447.
+Package czt Info: Setting up Standard Z bracket symbols on input line 1494.
+Package czt Info: Marking \mid, \semicolon, and \spot
+(czt)             as 
+(czt)             active in math mode on input line 1498.
+Package czt Info: Setting up Standard Z predicate logic symbols on input line 1
+541.
+Package czt Info: Setting up Standard Z keywords on input line 1605.
+Package czt Info:   Loading prelude          symbols on input line 1615.
+Package czt Info:   Loading set      toolkit symbols on input line 1647.
+Package czt Info:   Loading relation toolkit symbols on input line 1673.
+Package czt Info:   Loading function toolkit symbols on input line 1688.
+Package czt Info:   Loading number   toolkit symbols on input line 1704.
+Package czt Info:   Loading sequence toolkit symbols on input line 1732.
+Package czt Info:   Loading standard toolkit symbols completed on input line 17
+36.
+)
+Package circus Info: Rendering Circus math mode with colours on input line 81.
+Package circus Info: Circus colours defined as:
+(circus)               CSPBoxColor  = cmyk( 1, 0, 1,0) 
+(circus)               MetaColor   = cmyk( 0,0.61,0.87,0) 
+(circus)               CSPColor    = cmyk(0.50, 1, 0,0) on input line 98.
+Package circus Info: Loading AMS font symbols for Circus on input line 319.
+\@circuscountingwhat=\count106
+\c@cntCircusChannel=\count107
+\c@cntCircusChannelset=\count108
+\c@cntCircusProcess=\count109
+\c@cntCircusProcessRef=\count110
+\c@cntCircusNameset=\count111
+\c@cntCircusAction=\count112
+\c@cntCircusActionRef=\count113
+\c@cntCircusDeclShallow=\count114
+\c@cntCircusDeclDeep=\count115
+\c@cntCircusZunboxed=\count116
+\c@cntCircusZaxdef=\count117
+\c@cntCircusZgendef=\count118
+\c@cntCircusZschema=\count119
+\c@cntCircusZgenschema=\count120
+\c@cntCircustotChannel=\count121
+\c@cntCircustotChannelset=\count122
+\c@cntCircustotProcess=\count123
+\c@cntCircustotProcessRef=\count124
+\c@cntCircustotNameset=\count125
+\c@cntCircustotAction=\count126
+\c@cntCircustotActionRef=\count127
+\c@cntCircustotDeclShallow=\count128
+\c@cntCircustotDeclDeep=\count129
+\c@cntCircusZtotunboxed=\count130
+\c@cntCircusZtotaxdef=\count131
+\c@cntCircusZtotgendef=\count132
+\c@cntCircusZtotschema=\count133
+\c@cntCircusZtotgenschema=\count134
+Package circus Info: Initialising Circus registers with default values.
+(circus)                \TypesetCircusToolsCmds=false  on input line 466.
+Package circus Info: Setting up Circus LaTeX environments on input line 733.
+Package circus Info: Loading Circus keywords on input line 784.
+Package circus Info: Loading Circus brackets on input line 816.
+Package circus Info: Loading Circus special symbols on input line 829.
+Package circus Info: Loading Circus CSP symbols on input line 851.
+Package circus Info: Loading Circus boxing symbols on input line 868.
+Package circus Info: Loading Circus circus\unhbox \voidb@x \kern 0.06em\vbox {\
+hrule width0.5em}prelude symbols on input line 878.
+Package circus Info: Loading Circus circus\unhbox \voidb@x \kern 0.06em\vbox {\
+hrule width0.5em}mc\unhbox \voidb@x \kern 0.06em\vbox {\hrule width0.5em}toolki
+t symbols on input line 888.
+\circnotewidth=\skip44
+)
+(D:\GitProjects\CaseStudies\CaseStudySamples\steam-boiler-singleenv.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 75.
+LaTeX Font Info:    ... okay on input line 75.
+
+("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count135
+\scratchdimen=\dimen110
+\scratchbox=\box26
+\nofMPsegments=\count136
+\nofMParguments=\count137
+\everyMPshowfont=\toks14
+\MPscratchCnt=\count138
+\MPscratchDim=\dimen111
+\MPnumerator=\count139
+\makeMPintoPDFobject=\count140
+\everyMPtoPDFconversion=\toks15
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 83.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 83.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 83.
+LaTeX Font Info:    Try loading font information for U+stmry on input line 83.
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\stmaryrd\ustmry.fd")
+LaTeX Font Info:    Try loading font information for U+msa on input line 83.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 83.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+! I can't write on file `steam-boiler-singleenv.pdf'.
+Please type another file name for output
+! Emergency stop.
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.83 \maketitle
+               
+*** (job aborted, file error in nonstop mode)
+
+ 
+Here is how much of TeX's memory you used:
+ 2095 strings out of 493921
+ 27307 string characters out of 3147278
+ 77493 words of memory out of 3000000
+ 5409 multiletter control sequences out of 15000+200000
+ 10234 words of font info for 38 fonts, out of 3000000 for 9000
+ 841 hyphenation exceptions out of 8191
+ 33i,6n,29p,258b,195s stack positions out of 5000i,500n,10000p,200000b,50000s
+!  ==> Fatal error occurred, no output PDF file produced!

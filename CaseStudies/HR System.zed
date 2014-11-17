@@ -1,0 +1,128 @@
+\documentclass[10pt]{article}
+\usepackage[cntbysection,colour]{circus}
+
+\usepackage{color}
+\usepackage[a4paper,top=0.6cm,bottom=1cm,left=0.5cm,right=1.6cm]{geometry}
+
+\usepackage{multicol}
+ 
+\begin{document}
+
+\section{Human Resource System}
+\begin{multicols}{2}
+
+\begin{zsection}
+  \SECTION HRrestrict \parents standard\_toolkit
+\end{zsection}
+\begin{zed}
+  [ EMP , EMPDETAIL ]		\\
+  RESPONSE ::= ok | notok
+\end{zed}
+\begin{schema}{sysState}
+	HR : \finset EMP			\\
+	paySlip	: EMP \pfun \nat				\\
+	empSal	: EMP \pfun \nat				\\
+	empDet	: EMP \pfun EMPDETAIL				
+\where
+	\dom empSal \subseteq \dom empDet			\\
+	\dom paySlip \subseteq \dom empDet			
+\end{schema}
+\begin{schema}{NewEmployee}
+	\Delta sysState						\\
+	e?,r?	: EMP						\\
+	det?		: EMPDETAIL					\\
+	sal? : \nat		
+\where
+	e? \notin \dom empDet					\\
+	r? \in HR							\\
+	empDet' = empDet \cup \{e? \mapsto det?\}		\\ 
+	empSal' = empSal \cup \{e? \mapsto sal?\}		
+\end{schema}
+\begin{schema}{UpdateSal}
+	\Delta sysState						\\
+	e?,r?	: EMP						\\
+	sal? 	: \nat		
+\where
+	e? \in \dom empDet					\\
+	r? \in HR							\\
+	empSal' = empSal \oplus \{e? \mapsto sal?\}		
+\end{schema}
+\begin{schema}{ReqSal}
+	\Delta sysState						\\
+  	e?	: EMP							\\
+  	sal! : \nat							\\ 
+\where
+  	e? \in \dom empDet					\\ 
+	sal! = empSal\ e? 	
+\end{schema}
+\begin{schema}{GenPaySlips}
+	\Delta sysState						\\
+  	e?	: \finset EMP							\\
+	response!: RESPONSE
+\where
+  	\forall x: e? | x \in \dom empDet @	\\
+  		\t2 paySlip' = paySlip \oplus \{x \mapsto (empSal\ x) \}		\\
+  	response! = ok
+\end{schema}
+\begin{schema}{hideH}
+  	\Xi sysState							\\
+\where  
+	\exists  sysState~_1 @
+		\forall e:EMP @ \\
+			\t2 e \in \dom empDet \land empSal\ e \neq empSal_1\ e
+\end{schema}
+
+\end{multicols}
+
+\begin{circus}
+	\circchannel\ inEmp : EMP 						\\
+	\circchannel\ inEmpX : \finset EMP 		 		\\
+	\circchannel\ inDet : EMPDETAIL 				\\
+	\circchannel\ inSal,outSal : \nat				\\
+	\circchannel\ outRes : RESPONSE				
+\end{circus}
+\begin{circus}
+	\circprocess\ HRSystem \circdef \circbegin   
+\end{circus}
+\begin{circusaction}
+    \circstate\ sysState  	\\
+    InitsysState ~~==~~ [~ sysState~' | 	
+    		HR' = \emptyset \land paySlip' = \emptyset \land empSal' = \emptyset \land empDet'=\emptyset ~]  
+\end{circusaction}
+\begin{circusaction}
+    sysNewEmployee ~~\circdef~~
+            (\circvar\ r:EMP; e:EMP; det:EMPDETAIL; sal:\nat \circspot \\
+            \t4 inEmp?r \then inEmp?e \then inDet?det \then inSal?sal \then  
+             \lschexpract NewEmployee \rschexpract \circseq \Skip)								\\
+	sysUpdateSal ~~\circdef~~
+            (\circvar\ r:EMP; e:EMP; sal:\nat \circspot 
+            inEmp?r \then inEmp?e \then inSal?sal \then  
+             \lschexpract UpdateSal \rschexpract \circseq \Skip)								\\
+ 	sysReqSal ~~\circdef~~
+            (\circvar\ e:EMP; sal:\nat \circspot 
+            inEmp?e \then inSal?sal \then  
+             \lschexpract ReqSal \rschexpract \circseq \\ 
+             \t4(outSal~!sal \then \Skip))													\\
+	sysGenPaySlips ~~\circdef~~
+            (\circvar\ e:\finset EMP; response:RESPONSE  \circspot 
+            inEmpX?e \then outRes?response \then  
+             \lschexpract GenPaySlips \rschexpract \circseq \\ 
+             \t4(outRes~!response \then \Skip))													\\
+	HideSal ~~\circdef~~ \lschexpract hideH \rschexpract
+\end{circusaction}
+\begin{circusaction}
+   \t1 \circspot InitsysState \circseq (\circmu\ X \circspot (		
+   					 (sysNewEmployee \circseq HideSal 	\\
+   					\t7 \extchoice 						\\
+   					\t7 sysUpdateSal \circseq HideSal 	\\
+   					\t7 \extchoice 						\\
+   					\t7 sysReqSal \circseq HideSal 	\\
+   					\t7 \extchoice 						\\
+   					\t7 sysGenPaySlips \circseq HideSal 	
+   					) \circseq X))
+\end{circusaction}
+\begin{circus}
+    \circend
+\end{circus}
+
+\end{document}

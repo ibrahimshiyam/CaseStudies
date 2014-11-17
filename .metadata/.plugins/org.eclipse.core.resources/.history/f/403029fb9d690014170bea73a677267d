@@ -1,0 +1,109 @@
+\documentclass{article}
+\usepackage[cntbysection,colour]{circus}
+
+\begin{document}
+\section{Network Outage Reporting}
+Commercial competitiveness demands that the secrecy of network management including data circuit outage data be maintained at all times. However, partial information about the individual circuit outages needs to be shared with various departments in the organisation such as customer helpline, technicians and situation assessment team. Further, the service provider is also required to post this information to Federal Communications Commission (FCC) through Network Outage Reporting System (NORS). Even-though information about separate circuit outages needs to be shared ... , if the adversary is in posession of all outage data, hemight be able to identify single points of failure, which might bring down the whole or major part of a service network.
+This is a cardinal aggregation issue[REF] which needs to be addressed in engineering secure network management information systems.
+
+\begin{zsection}
+ 	\SECTION MilitaryBase \parents standard\_toolkit
+\end{zsection}
+\begin{zed}
+[LOCATION , SITE , SERVICE , EMPLOYEE , FCC , TIME ]		\\
+Status ::= ok | assigned | fixing | down					\\
+Reported ::= Yes | No
+\end{zed}
+
+\begin{schema}{State}
+	sitestatus	: SITE \pfun Status							\\
+	siteservices: SITE \pfun \power SERVICE					\\
+	outage		: SITE \pfun outageState					\\
+	sites 		: \power SITE								\\
+	technicians	: \power EMPLOYEE							\\
+	cusrelations: \power EMPLOYEE							\\
+	asessteam	: \power EMPLOYEE											
+\where
+	technicians \cap cusrelations 	= \emptyset				\\ 
+	technicians \cap asessteam 		= \emptyset				\\
+	asessteam 	\cap cusrelations 	= \emptyset				\\
+	sites = \dom sitestatus
+\end{schema}
+
+\begin{schema}{outageState}
+ 	oSite 			: SITE				\\
+ 	oServices 		: \power SERVICE	\\
+ 	effectedSites 	: \power (SITE \pfun \power SERVICE)	\\
+ 	assigned		: \power EMPLOYEES	\\
+ 	servicereturn 	: TIME				\\
+ 	FCCreported		: Reported 
+
+\end{schema}
+
+\begin{schema}{{\Phi}NewOutage}
+	\Delta State						\\
+	outageState~'						\\
+	x? : SITE	
+\where
+ 	x? \notin \dom outage			\\
+ 	caseid' = x?				\\
+ 	outage' = outage \cup \{x? \mapsto \theta outageState~' \}			
+\end{schema}
+\begin{schema}{{\Phi}UpdateOutage}
+	\Delta State																		\\
+	\Delta outageState																	\\
+	x? : SITE	
+\where
+ 	x? \in \dom outage																	\\
+ 	\theta outageState  = outage\ x?														\\
+ 	outage' = outage \oplus \{x? \mapsto \theta outageState~' \}			
+\end{schema}
+\begin{schema}{{\Phi}GetOutage}
+	\Xi State																			\\
+	\Xi outageState																		\\
+	x? : SITE	
+\where
+ 	x? \in \dom outage																	\\
+ 	\theta outageState  = outage\ x?														\\
+ 	outage' = outage \oplus \{x? \mapsto \theta outageState~' \}			
+\end{schema}
+
+
+\begin{schema}{RecordCircuitOutage}
+ 	\Delta outageState			\\
+ 	servicex?: SERVICE		\\
+\where
+	oServices' = oServices \cup servicex?
+\end{schema}
+
+\begin{schema}{AnswerOutageQueries}
+ 	\Xi outageState									\\
+ 	servicex?: SERVICE								\\
+ 	time!: TIME
+\where
+	time! = servicereturn
+\end{schema}
+
+\begin{schema}{AssignOutageRepair}
+ 	\Delta State				\\
+ 	sitex?: SITE			\\
+ 	servicex?: SERVICE		\\
+	assignx? : \power EMPLOYEE 	
+\where
+  sitestatus' = sitestatus \oplus \{ sitex? \mapsto assignx? \} 
+\end{schema}
+
+\begin{schema}{TechQuery}
+ 	\Xi State				\\
+ 	sitex?: SITE			\\
+ 	servicex?: SERVICE		\\
+	technician?: EMPLOYEE	
+\where
+	sitex? \in sites		\\
+	technician? \in outagedetails sitex? --> assigned
+\end{schema}
+
+
+
+\end{document}
+

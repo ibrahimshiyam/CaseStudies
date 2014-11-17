@@ -1,0 +1,6 @@
+ColorsAndFontsPreferencePage.expandedCategories=Torg.eclipse.ui.workbenchMisc\tTisabelle.eclipse.ui.isabelleTheme\tTorg.eclipse.ui.presentation.default
+ColorsAndFontsPreferencePage.selectedElement=Fisabelle.eclipse.ui.theoryEditorFont
+eclipse.preferences.version=1
+isabelle.eclipse.ui.theoryEditorFont=1|IsabelleText|9.75|0|WINDOWS|1|-13|0|0|0|400|0|0|0|0|3|2|1|50|IsabelleText;
+org.eclipse.jface.textfont=1|Consolas|8.25|0|WINDOWS|1|-11|0|0|0|400|0|0|0|0|3|2|1|49|Consolas;
+org.eclipse.ui.workbench.texteditor.blockSelectionModeFont=1|Courier New|8.25|0|WINDOWS|1|-11|0|0|0|400|0|0|0|0|3|2|1|49|Courier New;

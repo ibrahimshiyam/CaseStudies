@@ -1,0 +1,272 @@
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.10.21)  29 OCT 2014 13:57
+entering extended mode
+**basicprocesses.tex
+(D:\GitProjects\CaseStudies\CaseStudySamples\basicprocesses.tex
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
+abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
+croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
+lician, german, german-x-2013-05-26, greek, gujarati, hindi, hungarian, iceland
+ic, indonesian, interlingua, irish, italian, kannada, kurmanji, latin, latvian,
+ lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, n
+german-x-2013-05-26, nynorsk, oriya, panjabi, pinyin, polish, portuguese, roman
+ian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swissgerm
+an, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usengl
+ishmax, welsh, loaded.
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\base\article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\base\size10.clo
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(D:\PhD\Dropbox\LaTeX\tex\latex\vmargin\vmargin.sty
+Package: vmargin 2000/08/01
+
+Package: vmargin 2000/08/01 V2.3 (VK) set document margins
+\PaperWidth=\dimen103
+\PaperHeight=\dimen104
+) (D:\PhD\Dropbox\LaTeX\tex\latex\circus\circus.sty
+Package: circus 2010/06/17 v.1.2 Circus style file by the Community Z Tools
+
+`Circus style file by the Community Z Tools' v.1.2 <2010/06/17>
+(D:\PhD\Dropbox\LaTeX\tex\latex\circus\czt.sty
+Package: czt 2010/06/17 v.1.2 Standard Z style file by the Community Z Tools
+
+`Standard Z style file by the Community Z Tools' v.1.2 <2010/06/17>
+Package czt Info: 'mathit' option chosen on input line 72.
+Package czt Info: 'cntglobally' option chosen on input line 72.
+Package czt Info: AMS fonts selected with default options on input line 86.
+Package czt Info: Rendering Z math mode in monochrome. on input line 121.
+\c@mv@czt=\count87
+Package czt Info: Creating `czt' math version on input line 152.
+\symstmry=\mathgroup4
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 159.
+LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `czt'
+(Font)                  OT1/cmr/m/n --> OT1/cmr/m/n on input line 163.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `czt'
+(Font)                  OT1/cmr/bx/n --> OT1/cmr/bx/n on input line 164.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `czt'
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 165.
+\symitalics=\mathgroup5
+Package czt Info: Loading AMS font symbols for Z on input line 603.
+\symAMSa=\mathgroup6
+\symAMSb=\mathgroup7
+Package czt Info: Current math version set to `czt' on input line 606.
+Package czt Info: Setting math code for letters as Italics on input line 660.
+Package czt Info: Counting Z declarations? YES  on input line 683.
+\@zcountingwhat=\count88
+\c@cntZunboxed=\count89
+\c@cntZaxdef=\count90
+\c@cntZgendef=\count91
+\c@cntZschema=\count92
+\c@cntZgenschema=\count93
+\c@cntZdecl=\count94
+\c@cntZtotunboxed=\count95
+\c@cntZtotaxdef=\count96
+\c@cntZtotgendef=\count97
+\c@cntZtotschema=\count98
+\c@cntZtotgenschema=\count99
+\c@cntZtotdecl=\count100
+\big@size=\dimen105
+\zedtab=\dimen106
+\zedindent=\dimen107
+\zedleftsep=\dimen108
+\zedbar=\dimen109
+\interzedlinepenalty=\count101
+\preboxpenalty=\count102
+\forcepagepenalty=\count103
+\zedskip=\skip43
+Package czt Info: Initialising Z registers with default values.
+(czt)                \zedtab=20.00003pt
+(czt)                \zedindent=25.00003pt=\leftmargini
+(czt)                \zedleftsep=10.00002pt
+(czt)                \zedbar=60.00009pt
+(czt)             
+(czt)                \interzedlinepenalty=10000
+(czt)                \preboxpenalty=0
+(czt)                \forcepagepenalty=-10000
+(czt)                \interdisplaylinepenalty=100
+(czt)             
+(czt)                \zedskip=6.0pt plus 3.99994pt minus 3.99994pt
+(czt)                \zt@p=false 
+(czt)                \CountDefstrue=true  on input line 947.
+Package czt Info: Setting up Standard Z skipping and breaking on input line 983
+.
+Package czt Info: Setting up Standard Z LaTeX environments on input line 1268.
+Package czt Info: Setting up Standard Z basic symbols on input line 1383.
+Package czt Info: Setting up Standard Z Greek and other letters on input line 1
+447.
+Package czt Info: Setting up Standard Z bracket symbols on input line 1494.
+Package czt Info: Marking \mid, \semicolon, and \spot
+(czt)             as 
+(czt)             active in math mode on input line 1498.
+Package czt Info: Setting up Standard Z predicate logic symbols on input line 1
+541.
+Package czt Info: Setting up Standard Z keywords on input line 1605.
+Package czt Info:   Loading prelude          symbols on input line 1615.
+Package czt Info:   Loading set      toolkit symbols on input line 1647.
+Package czt Info:   Loading relation toolkit symbols on input line 1673.
+Package czt Info:   Loading function toolkit symbols on input line 1688.
+Package czt Info:   Loading number   toolkit symbols on input line 1704.
+Package czt Info:   Loading sequence toolkit symbols on input line 1732.
+Package czt Info:   Loading standard toolkit symbols completed on input line 17
+36.
+)
+Package circus Info: Rendering Circus math mode in monochrome. on input line 10
+1.
+Package circus Info: Loading AMS font symbols for Circus on input line 319.
+\@circuscountingwhat=\count104
+\c@cntCircusChannel=\count105
+\c@cntCircusChannelset=\count106
+\c@cntCircusProcess=\count107
+\c@cntCircusProcessRef=\count108
+\c@cntCircusNameset=\count109
+\c@cntCircusAction=\count110
+\c@cntCircusActionRef=\count111
+\c@cntCircusDeclShallow=\count112
+\c@cntCircusDeclDeep=\count113
+\c@cntCircusZunboxed=\count114
+\c@cntCircusZaxdef=\count115
+\c@cntCircusZgendef=\count116
+\c@cntCircusZschema=\count117
+\c@cntCircusZgenschema=\count118
+\c@cntCircustotChannel=\count119
+\c@cntCircustotChannelset=\count120
+\c@cntCircustotProcess=\count121
+\c@cntCircustotProcessRef=\count122
+\c@cntCircustotNameset=\count123
+\c@cntCircustotAction=\count124
+\c@cntCircustotActionRef=\count125
+\c@cntCircustotDeclShallow=\count126
+\c@cntCircustotDeclDeep=\count127
+\c@cntCircusZtotunboxed=\count128
+\c@cntCircusZtotaxdef=\count129
+\c@cntCircusZtotgendef=\count130
+\c@cntCircusZtotschema=\count131
+\c@cntCircusZtotgenschema=\count132
+Package circus Info: Initialising Circus registers with default values.
+(circus)                \TypesetCircusToolsCmds=false  on input line 466.
+Package circus Info: Setting up Circus LaTeX environments on input line 733.
+Package circus Info: Loading Circus keywords on input line 784.
+Package circus Info: Loading Circus brackets on input line 816.
+Package circus Info: Loading Circus special symbols on input line 829.
+Package circus Info: Loading Circus CSP symbols on input line 851.
+Package circus Info: Loading Circus boxing symbols on input line 868.
+Package circus Info: Loading Circus circus\unhbox \voidb@x \kern 0.06em\vbox {\
+hrule width0.5em}prelude symbols on input line 878.
+Package circus Info: Loading Circus circus\unhbox \voidb@x \kern 0.06em\vbox {\
+hrule width0.5em}mc\unhbox \voidb@x \kern 0.06em\vbox {\hrule width0.5em}toolki
+t symbols on input line 888.
+\circnotewidth=\skip44
+)
+No file basicprocesses.aux.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
+LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 18.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 18.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 18.
+LaTeX Font Info:    Try loading font information for U+stmry on input line 18.
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\stmaryrd\ustmry.fd)
+LaTeX Font Info:    Try loading font information for U+msa on input line 18.
+
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 18.
+
+(D:\PhD\Dropbox\LaTeX\MixTex2.9\tex\latex\amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 21.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 21.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 27.
+
+! Undefined control sequence.
+<argument> ...s \ process paragraphs --- \grammar 
+                                                  {circusBasicProcess}
+l.31 ...ragraphs --- \grammar{circusBasicProcess}}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+Overfull \hbox (0.93501pt too wide) in paragraph at lines 31--31
+[]\OT1/cmr/bx/n/14.4 Basic \OT1/cmss/m/sl/14.4 Cir-cus \OT1/cmr/bx/n/14.4 pro-c
+ess para-graphs --- cir-cus-Ba-sicPro-
+ []
+
+! Undefined control sequence.
+<argument> ...s \ process paragraphs --- \grammar 
+                                                  {circusBasicProcess}}{\the...
+l.31 ...ragraphs --- \grammar{circusBasicProcess}}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[1
+
+{D:/PhD/Dropbox/LaTeX/MixTex2.9/pdftex/config/pdftex.map}]
+(D:\GitProjects\CaseStudies\CaseStudySamples\basicprocesses.aux) ) 
+Here is how much of TeX's memory you used:
+ 1134 strings out of 493921
+ 13492 string characters out of 3146111
+ 61374 words of memory out of 3000000
+ 4450 multiletter control sequences out of 15000+200000
+ 19101 words of font info for 70 fonts, out of 3000000 for 9000
+ 841 hyphenation exceptions out of 8191
+ 28i,13n,29p,225b,203s stack positions out of 5000i,500n,10000p,200000b,50000s
+<D:/PhD/Dropb
+ox/LaTeX/MixTex2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><D:/PhD/Dropbox/La
+TeX/MixTex2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><D:/PhD/Dropbox/LaTeX/M
+ixTex2.9/fonts/type1/public/amsfonts/cm/cmbx9.pfb><D:/PhD/Dropbox/LaTeX/MixTex2
+.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><D:/PhD/Dropbox/LaTeX/MixTex2.9/fo
+nts/type1/public/amsfonts/cm/cmmi10.pfb><D:/PhD/Dropbox/LaTeX/MixTex2.9/fonts/t
+ype1/public/amsfonts/cm/cmr10.pfb><D:/PhD/Dropbox/LaTeX/MixTex2.9/fonts/type1/p
+ublic/amsfonts/cm/cmr12.pfb><D:/PhD/Dropbox/LaTeX/MixTex2.9/fonts/type1/public/
+amsfonts/cm/cmr17.pfb><D:/PhD/Dropbox/LaTeX/MixTex2.9/fonts/type1/public/amsfon
+ts/cm/cmr6.pfb><D:/PhD/Dropbox/LaTeX/MixTex2.9/fonts/type1/public/amsfonts/cm/c
+mr9.pfb><D:/PhD/Dropbox/LaTeX/MixTex2.9/fonts/type1/public/amsfonts/cm/cmssi12.
+pfb><D:/PhD/Dropbox/LaTeX/MixTex2.9/fonts/type1/public/amsfonts/cm/cmssi17.pfb>
+<D:/PhD/Dropbox/LaTeX/MixTex2.9/fonts/type1/public/amsfonts/cm/cmssi9.pfb><D:/P
+hD/Dropbox/LaTeX/MixTex2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/PhD/Dr
+opbox/LaTeX/MixTex2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><D:/PhD/Dropbox
+/LaTeX/MixTex2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on basicprocesses.pdf (1 page, 155822 bytes).
+PDF statistics:
+ 70 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

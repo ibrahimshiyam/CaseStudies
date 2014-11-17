@@ -1,0 +1,4 @@
+types
+EMP = nat   
+EMPDETAIL = nat 
+hrstaff = nat +> char

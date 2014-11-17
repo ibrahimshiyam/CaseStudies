@@ -33,14 +33,11 @@ TODO: staff cannot enter his/her own data
 \begin{schema}{State}
 	secStaff	: PERSON \pfun SECTION		\\
 	cases	 	: \finset CASE				\\
-	plantiffs	: \finset PERSON			\\
-	defendants	: \finset PERSON			\\
 	staff     	: \finset PERSON			\\
 	case		: CASE \pfun caseState
 \where
-	cases 	 = \dom case				\\
-	\forall a:\ran case @
-		a.cplantiff \neq  a.cdefendant
+	cases 	 	= \dom case				\\
+	staff		= \dom secStaff				\\
 \end{schema}
 \begin{schema}{{\Phi}NewCase}
 	\Delta State				\\
@@ -61,23 +58,23 @@ TODO: staff cannot enter his/her own data
  	case' = case \oplus \{x? \mapsto \theta caseState~' \}			
 \end{schema}
 \begin{schema}{{\Phi}GetCase}
-	\Xi State																			\\
-	\Xi caseState																		\\
+	\Xi State																\\
+	\Xi caseState														\\
 	x? : CASE	
 \where
- 	x? \in \dom case																	\\
- 	\theta caseState  = case\ x?														\\
+ 	x? \in \dom case													\\
+ 	\theta caseState  = case\ x?										\\
  	case' = case \oplus \{x? \mapsto \theta caseState~' \}			
 \end{schema}
 %-----------------------------------------------------------------------------------------
 \begin{zed}
 	cNewCase ~~== ~~ [~ caseState~'; p?: PERSON; d?: PERSON; \\ 
-					\t2 s?: SECTION; det? : CDETAIL | cplantiff=p?; 	\\
-					\t2 cdefendant=d? ; csection=s? ;cdetail = det? ~] 								\\
+					\t2 s?: SECTION; det? : CDETAIL | cplantiff'=p?; 	\\
+					\t2 cdefendant'=d? ; csection'=s? ;cdetail'= det? ~] 								\\
 	sysNewCase == \exists caseState~' @ \Phi NewCase \land cNewCase						\\
 	\\
 	cUpdateCase   == [~ \Delta caseState; det? : CDETAIL | \\
-					\t2 cdetail = det? ~] 			\\
+					\t2 cdetail' = det? ~] 			\\
 	sysUpdateCase == \exists \Delta caseState @ \\
 					\t2 \Phi UpdateCase \land cUpdateCase		\\
 	\\

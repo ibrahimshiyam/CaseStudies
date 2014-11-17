@@ -1,0 +1,118 @@
+\documentclass{article}
+\usepackage[cntbysection,colour]{circus}
+
+\begin{document}
+Case Study on hiding
+
+\begin{zsection}
+  \SECTION HRrestrict \parents standard\_toolkit
+\end{zsection}
+\begin{zed}
+  [ EMP , EMPDETAIL ]		\\
+  RESPONSE ::= ok | notok
+\end{zed}
+\begin{schema}{sysState}
+	HR : \finset EMP			\\
+	paySlip	: EMP \pfun \nat				\\
+	empSal	: EMP \pfun \nat				\\
+	empDet	: EMP \pfun EMPDETAIL				
+\where
+	\dom empSal \subseteq \dom empDet			\\
+	\dom paySlip \subseteq \dom empDet			\\
+\end{schema}
+
+
+\begin{circus}
+	\circchannel\ in : EMP 				\\
+	\circchannel\ insal,out: \nat 			
+\end{circus}
+\begin{circus}
+	\circprocess\ HRManagement \circdef \circbegin   
+\end{circus}
+\begin{circusaction}
+    \circstate\ HRState  	\\
+    InitHRState ~~==~~ [~ HRState~' | 	
+    		emp' = \emptyset \land hrstaff' = \emptyset \land sal' = \emptyset ~]  
+\end{circusaction}
+
+\begin{schema}{NewEmployee}
+	\Delta sysState						\\
+	e?,r?	: EMP						\\
+	det?		: EMPDETAIL					\\
+	sal? : \nat		
+\where
+	e? \notin \dom empDet					\\
+	r? \in HR							\\
+	empDet' = empDet \cup \{e? \mapsto det?\}		\\ 
+	empSal' = empSal \cup \{e? \mapsto sal?\}		\\
+\end{schema}
+\begin{schema}{UpdateSal}
+	\Delta sysState						\\
+	e?,r?	: EMP						\\
+	sal? 	: \nat		
+\where
+	e? \in \dom empDet					\\
+	r? \in HR							\\
+	empSal' = empSal \oplus \{e? \mapsto sal?\}		\\
+\end{schema}
+\begin{schema}{reqSal}
+	\Delta sysState						\\
+  	e?	: EMP							\\
+  	sal! : \nat							\\ 
+\where
+  	e? \in \dom empDet					\\ 
+	sal! = empSal\ e? 	
+\end{schema}
+\begin{schema}{genPaySlips}
+	\Delta sysState						\\
+  	e?	: \finset EMP							\\
+	response!: RESPONSE
+\where
+  	\forall x: e? | x \in \dom empDet @
+  		paySlip' = paySlip \oplus \{x \mapsto (empSal\ x) \}		\\
+  	response! = ok
+\end{schema}
+
+\begin{schema}{hideH}
+  	\Xi HRState							\\
+\where  
+	\exists  HRState~_1 @
+		\forall e:EMP @ e \in emp \land 
+			sal\ e \neq sal_1\ e
+\end{schema}
+
+\begin{circusaction}
+
+    Output ~~\circdef~~
+            (\circvar\ esal: \nat \circspot in?e \then in?r \then 
+             \lschexpract reqSal \rschexpract \circseq \\ 
+             \t4(out~!esal \then \Skip))
+\end{circusaction}
+\begin{circusaction}
+    HideSal ~~\circdef~~ \lschexpract hideH \rschexpract
+\end{circusaction}
+\begin{circusaction}
+    AddEmp ~~\circdef~~ in?e \then in?r \then insal?d \then \lschexpract addEmp \rschexpract
+\end{circusaction}
+\begin{circusaction}
+    UpdSal ~~\circdef~~ \lschexpract hideH \rschexpract
+\end{circusaction}
+\begin{circusaction}
+   \t1 \circspot InitHRState \circseq (\circmu\ X \circspot (		
+   					 (AddEmp \circseq HideSal 	\\
+   					\t7 \extchoice 					\\
+   					\t7 UpdSal \circseq HideSal 	\\
+   					\t7 \extchoice 					\\
+   					\t7 AddEmp \circseq HideSal 	
+   					) \circseq X))
+\end{circusaction}
+\begin{circus}
+    \circend
+\end{circus}
+
+
+This specification describes ...
+
+
+
+\end{document}

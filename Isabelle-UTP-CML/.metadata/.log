@@ -1,0 +1,113 @@
+
+!ENTRY org.eclipse.ui 4 0 2014-10-14 10:04:14.726
+!MESSAGE Unhandled event loop exception
+!STACK 0
+org.eclipse.e4.core.di.InjectionException: java.lang.NullPointerException
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:63)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:243)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:224)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:132)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:167)
+	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:499)
+	at org.eclipse.core.commands.ParameterizedCommand.executeWithChecks(ParameterizedCommand.java:508)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceImpl.executeHandler(HandlerServiceImpl.java:213)
+	at org.eclipse.e4.ui.workbench.renderers.swt.HandledContributionItem.executeItem(HandledContributionItem.java:850)
+	at org.eclipse.e4.ui.workbench.renderers.swt.HandledContributionItem.handleWidgetSelection(HandledContributionItem.java:743)
+	at org.eclipse.e4.ui.workbench.renderers.swt.HandledContributionItem.access$7(HandledContributionItem.java:727)
+	at org.eclipse.e4.ui.workbench.renderers.swt.HandledContributionItem$4.handleEvent(HandledContributionItem.java:662)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1057)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4170)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3759)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$9.run(PartRenderingEngine.java:1113)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:997)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:140)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:611)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:567)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:150)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:354)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:181)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:636)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:591)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1450)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1426)
+Caused by: java.lang.NullPointerException
+	at eu.compassresearch.ide.collaboration.ui.menu.CollaborationDialogs.displayFileState(CollaborationDialogs.java:147)
+	at eu.compassresearch.ide.collaboration.ui.commands.AddFileToCollaborationHandler.execute(AddFileToCollaborationHandler.java:42)
+	at org.eclipse.ui.internal.handlers.HandlerProxy.execute(HandlerProxy.java:290)
+	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:90)
+	at sun.reflect.GeneratedMethodAccessor20.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:56)
+	... 37 more
+
+!ENTRY isabelle.eclipse.launch 4 0 2014-10-14 10:10:07.343
+!MESSAGE Only a single prover can be running at any time - stop the running prover before launching a new one
+!SESSION 2014-10-14 10:13:40.776 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.7.0_67
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_GB
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY isabelle.eclipse.launch 4 0 2014-10-14 10:18:01.953
+!MESSAGE Cygwin location does not exist
+!SESSION 2014-10-19 16:27:58.533 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.7.0_67
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_GB
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY isabelle.eclipse.launch 4 0 2014-10-19 16:37:13.480
+!MESSAGE Invalid Isabelle session name specified
+
+!ENTRY isabelle.eclipse.launch 4 0 2014-10-19 16:39:04.570
+!MESSAGE Unable to initalize Isabelle at path: C:\Software\Isabelle2013-2\src (Cygwin: C:\Software\Isabelle2013-2\contrib\cygwin)
+!STACK 0
+java.lang.RuntimeException: Your group is currently "mkpasswd".  This indicates that your
+gid is not in /etc/group and your uid is not in /etc/passwd.
+
+The /etc/passwd (and possibly /etc/group) files should be rebuilt.
+See the man pages for mkpasswd and mkgroup then, for example, run
+
+mkpasswd -l [-d] > /etc/passwd
+mkgroup  -l [-d] > /etc/group
+
+Note that the -d switch is necessary for domain users.
+cygwin warning:
+  MS-DOS style path detected: C:\Software\Isabelle2013-2\src/bin/isabelle
+  Preferred POSIX equivalent is: /cygdrive/c/Software/Isabelle2013-2/src/bin/isabelle
+  CYGWIN environment variable option "nodosfilewarning" turns off this warning.
+  Consult the user's guide for more details about POSIX paths:
+    http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
+/usr/bin/bash: C:\Software\Isabelle2013-2\src/bin/isabelle: No such file or directory
+
+	at isabelle.Library$ERROR$.apply(library.scala:23)
+	at isabelle.Library$.error(library.scala:27)
+	at isabelle.Basic_Library$$anonfun$1.apply(library.scala:174)
+	at isabelle.Basic_Library$$anonfun$1.apply(library.scala:174)
+	at isabelle.Isabelle_System$$anonfun$1.apply(isabelle_system.scala:102)
+	at isabelle.Isabelle_System$$anonfun$1.apply(isabelle_system.scala:95)
+	at isabelle.File$.with_tmp_file(file.scala:177)
+	at isabelle.Isabelle_System$.init(isabelle_system.scala:95)
+	at isabelle.eclipse.core.app.IsabelleBuild$$anonfun$1.apply$mcV$sp(IsabelleBuild.scala:42)
+	at isabelle.eclipse.core.app.IsabelleBuild$$anonfun$1.apply(IsabelleBuild.scala:42)
+	at isabelle.eclipse.core.app.IsabelleBuild$$anonfun$1.apply(IsabelleBuild.scala:42)
+	at scala.util.Try$.apply(Try.scala:161)
+	at isabelle.eclipse.core.app.IsabelleBuild$.init(IsabelleBuild.scala:42)
+	at isabelle.eclipse.core.app.IsabelleBuild$.sessions(IsabelleBuild.scala:70)
+	at isabelle.eclipse.launch.config.IsabelleLaunch$.availableSessions(IsabelleLaunch.scala:71)
+	at isabelle.eclipse.launch.tabs.SessionSelectComponent$SessionLoadJob.run(SessionSelectComponent.scala:189)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)

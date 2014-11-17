@@ -1,0 +1,144 @@
+\documentclass[10pt]{article}
+\usepackage[cntbysection,colour]{circus}
+
+\usepackage{color}
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=1.6cm]{geometry}
+
+\usepackage{multicol}
+
+\begin{document}
+\section{Network Outage Reporting}
+Distributed service networks face circuit outages every now and then.  Commercial competitiveness demands that the secrecy of network management including circuit outage data be maintained at all times. However, partial information about the individual circuit outages needs to be shared with various departments in the organisation such as customer helpline, technicians and situation assessment team. Further, the service provider is also required to post this information to Federal Communications Commission (FCC) through Network Outage Reporting System (NORS). Even-though information about separate circuit outages needs to be shared with various parties, if an adversary gets possession of all outage data, he might be able to identify single points of failure, which might bring down the whole or major part of a service network.
+This is a cardinal aggregation issue\textbf{[REF]} which needs to be addressed in engineering secure network management information systems.
+
+\textbf{Note: }The adversary may accumulate  service outage data over time and consolidate it to find out single points of failure, however this is outside the scope of this research.
+\begin{zsection}
+ 	\SECTION MilitaryBase \parents standard\_toolkit
+\end{zsection}
+\begin{zed}
+[ SITE , SERVICE , EMPLOYEE , TIME ]		\\
+Reported ::= Yes | No
+\end{zed}
+\begin{schema}{outageState}
+ 	oSite 			: SITE				\\
+ 	oServices 		: \finset SERVICE	\\
+ 	assigned		: \finset EMPLOYEE	\\
+ 	servicereturn 	: TIME				\\
+ 	FCCreported		: Reported 
+\end{schema}
+\begin{schema}{State}
+	siteservices: SITE \pfun \power SERVICE					\\
+	outage		: SITE \pfun outageState					\\
+	sites 		: \power SITE								\\
+	technicians	: \power EMPLOYEE							\\
+	cusrelations: \power EMPLOYEE							\\
+	assessteam	: \power EMPLOYEE											
+\where
+	technicians \cap cusrelations 	= \emptyset				\\ 
+	technicians \cap assessteam 		= \emptyset				\\
+	assessteam 	\cap cusrelations 	= \emptyset				\\
+\end{schema}
+A typical service network such as a mobile operator, Internet Service Provider(ISP) or digital TV service provider maintains a collection of sites. Each site provides a set of services. The service provider also employs a number of employees. 
+
+SITE		- set of sites					\\
+SERVICE		- set of services				\\
+EMPLOYEE	- set of employees				\\
+TIME		- set of timestamps				
+
+The data type \emph{Reported} defines suitable values \emph{Yes/No} to record weather the outage details have been reported to FCC or not .Finally the system also records timestamps with regard to the estimated resumption times for service outages.  
+
+The circuit outage records have been modelled in a detailed manner to accomodate granular operations that are required by the various stakeholders. As such, an outage record contains the site identifier for the original site, service down because of the outage, employees assigned to fix the issue, an estimated service resumption time and whether the issue has been reported to FCC or not. The schema ${\Phi}$\emph{NewOutage} and ${\Phi}$\emph{UpdateOutage} maps a schema record between the main State and the \emph{outageState} of an outage record based on the site identifier.
+\begin{schema}{{\Phi}NewOutage}
+	\Delta State						\\
+	outageState~'						\\
+	x? : SITE	
+\where
+ 	x? \notin \dom outage				\\
+ 	outage' = outage \cup \{x? \mapsto \theta outageState~' \}			
+\end{schema}
+\begin{schema}{{\Phi}UpdateOutage}
+	\Delta State								\\
+	\Delta outageState							\\
+	x? : SITE	
+\where
+ 	x? \in \dom outage								\\
+ 	\theta outageState  = outage\ x?				\\							 	outage' = outage \oplus \{x? \mapsto \theta outageState~' \}			
+\end{schema}
+A mandatory operation named \emph{cNewOutage} allows new circuit outage incidences to be recorded in the system. This is an operation local to the outage record state \emph{outageState}. The system utilizes this operation by accessing the \emph{sysNewOutage} operation which reside in the main state of the system.
+\begin{zed}
+	cNewOutage ==  [~ outageState~'; site?: SITE; s?: \finset SERVICE; e?: \finset EMPLOYEE; ret? : TIME; \\
+\t4 fcc!:Reported | oSite'=site?; oServices'=s? ; assigned'=e?;\\
+\t4 servicereturn'=ret?; FCCreported'=fcc! ~] 	\\
+	sysNewOutage == \exists outageState~' @ \Phi NewOutage \land cNewOutage		
+\end{zed}
+The operation \emph{cAssignOutageRepair} assigns a set of employees to fix a particular outage and can only be performed by someone from the situation assesment team \emph{asessteam}. Simmilar as before, \emph{cAssignOutageRepair} is local to a circuit outage record state, whereas \emph{sysAssignOutageRepair} is in the main system state. 
+\begin{zed}
+	cAssignOutageRepair ==  [~ \Delta outageState; \Xi State; e?: \finset EMPLOYEE; req?: EMPLOYEE | \\
+\t6 req? \in assessteam; oSite'=oSite; oServices'=oServices ; 	\\
+\t6 assigned'=e?;servicereturn'=servicereturn; FCCreported'=FCCreported ~] \\
+\\
+	sysAssignOutageRepair == \exists outageState~' @ \Phi UpdateOutage \land cAssignOutageRepair				
+\end{zed}
+Customer service needs to answer various queries regarding service outages. The following operation can only be accessed by a customer relations \emph{cusrelations} staff and allows him to query the estimated service resumption time for any circuit outage. 
+\begin{zed}
+	sysGetRetTime == [~ \Xi State; site?:SITE; ret!:TIME | ret!= (outage\ site?).servicereturn ~] \\
+\\
+	sysTechQuery ==  [~ \Xi State ; e?: EMPLOYEE; mysites!:\finset SITE | \\
+\t6 mysites! = \{x: \dom outage | e? \in (outage\ x).assigned \} ~] 
+\end{zed}		
+
+	siteservices' = \emptyset ; 
+	outage' = \emptyset ;		
+	 ;	
+	
+	
+\newpage
+[ SITE , SERVICE , EMPLOYEE , TIME ]		\\
+
+\begin{circus}
+	\circchannel\ inSite 		: SITE				\\
+	\circchannel\ inService 	: SERVICE 			\\
+	\circchannel\ inEmployee	: EMPLOYEE	 		\\						
+	\circchannel\ inTime,outTime: TIME	 		
+\end{circus}
+\begin{circus}
+	\circprocess\ NetworkOutageSystem \circdef \circbegin   
+\end{circus}
+\begin{circusaction}
+    \circstate\ State  	\\
+    InitState ~~==~~ [~ State~' | siteservices' = \emptyset \land outage' = \emptyset sites' = \emptyset \land \\
+    \t6 technicians' = \emptyset \land cusrelations' = \emptyset \land assessteam' = \emptyset~]					\\
+	NewCase ~~\circdef~~
+            (\circvar\ x: CASE ; stf,p,d:PERSON ; cdet: CDETAIL ; s:SECTION \circspot \\
+            \t4 inP?d \then inP?p \then inP?stf \then inDet?det \then inCase?x \then inSec?s \\
+            \t4 \then \lschexpract sysNewCase \rschexpract \circseq \Skip)		\\
+            \\
+	UpdateCase ~~\circdef~~
+            (\circvar\ x: CASE ; stf:PERSON ; cdet: CDETAIL \circspot \\
+            \t4 inP?d \then inP?p \then inP?stf \then inDet?det \then inCase?x \then inSec?s \\
+            \t4 \then \lschexpract sysUpdateCase \rschexpract \circseq \Skip)	\\
+            \\
+    GetCase  ~~\circdef~~ (\circvar\ x: CASE ; stf,p,d:PERSON ; cdet: CDETAIL \circspot \\
+            \t4 
+            inP?stf \then inCase?c \then \lschexpract sysGetCase \rschexpract \circseq outDet!cdet \then \Skip)		\\
+    Conf1 ~~\circdef~~ \lschexpract hideCaseDetails \rschexpract \circseq \Skip
+    		  	
+\end{circusaction}
+\begin{circusaction}
+   \t1 \circspot InitState \circseq (\circmu\ X \circspot ( 
+   							((NewCase \extchoice UpdateCase) \circseq Conf1)
+   							
+   							) \circseq X)
+\end{circusaction}
+\begin{circus}
+    \circend
+\end{circus}
+
+A person cannot be both a plantif and a defendant in the same case
+
+"conartmentisation is better than military stype top-down approach" - Ross Andresson
+
+\end{document}
+
+\end{document}
+

@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;CML-CaseStudies&apos;" deleteContents="false" description="Delete resource &apos;CML-CaseStudies&apos;" element1="/CML-CaseStudies" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1413276770290"/>&#x0A;<refactoring comment="Delete resource &apos;CML-CaseStudies/test2.cml&apos;" deleteContents="false" description="Delete resource &apos;CML-CaseStudies/test2.cml&apos;" element1="/CML-CaseStudies/test2.cml" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1413278150165"/>
+</session>

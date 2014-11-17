@@ -1,0 +1,35 @@
+types
+EMP  =  nat   
+hrstaff = nat +> char
+
+
+channels
+input : nat
+output : int
+
+
+process proc1 =
+begin
+state
+a: EMP := 1
+
+functions 
+readme (n1:EMP) r:EMPDETAIL
+post r = n1
+
+showdetail (r:EMP) s:EMP
+post r = s
+
+operations
+op1 : EMP ==> ()
+op1(t) == a := t
+
+
+actions
+ACT = output!3 -> op1(4); Skip
+
+@  ACT
+end
+
+
+

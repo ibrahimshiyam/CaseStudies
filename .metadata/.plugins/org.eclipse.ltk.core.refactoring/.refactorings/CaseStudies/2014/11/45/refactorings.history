@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;CaseStudies/HRrestrict.zed&apos; to &apos;HR System&apos;" description="Rename resource &apos;HRrestrict.zed&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="HRrestrict.zed" name="HR System" stamp="1415281240705" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;CaseStudies/HR System&apos; to &apos;HR System.zed&apos;" description="Rename resource &apos;HR System&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="HR System" name="HR System.zed" stamp="1415281253131" updateReferences="true"/>
+</session>

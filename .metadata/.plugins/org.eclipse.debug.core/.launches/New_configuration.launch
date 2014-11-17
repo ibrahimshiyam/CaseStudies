@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="net.sourceforge.czt.eclipse.zeves.ui.launch.app">
+<stringAttribute key="net.sourceforge.czt.eclipse.zeves.ui.ATTR_LOCATION" value="D:\PhD\Dropbox\Software\Z-EVES 2.3.1\system\z-eves-pc-windows-lispworks.exe"/>
+<intAttribute key="net.sourceforge.czt.eclipse.zeves.ui.ATTR_PORT" value="6789"/>
+<stringAttribute key="net.sourceforge.czt.eclipse.zeves.ui.ATTR_WORKING_DIR" value="D:\PhD\Dropbox\Software\Z-EVES 2.3.1\"/>
+</launchConfiguration>

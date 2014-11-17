@@ -37,16 +37,14 @@ the \textsf{circus.sty} \LaTeX\ style file.
 Amongst other commands, it contains all \Circus\ keywords, and some
 useful environments.
 
-\begin{issue}[creating \texttt{circus.sty} and \texttt{circus.dtx}]
    Make a suitable \texttt{circus.dtx} with nice and up-to-date \Circus\
    typesetting commands, as well as embedded documentation.
 
    Join version of \texttt{circus.sty} and add literate documentation.
    Also, gather the information for solving the spacing problem of the
-   \code{circus} environment.
-\end{issue}
+    environment.
 
-\section{\Circus\ process paragraphs --- \grammar{processPara}}
+\section{\Circus\ process paragraphs --- processPara}
 
 In \Circus\ processes are global paragraphs at section level. Other
 global paragraphs are channel, channel sets, and all other Z
@@ -136,7 +134,7 @@ are defined below. They usually come between \verb'begin{circus}...end{circus}' 
 %\end{circus}
 
 
-\subsection{Process definition --- \grammar{process}}
+\subsection{Process definition --- process}
 
 Normal process definition uses the various CSP operators to combine process.
 They are detailed below.
@@ -145,7 +143,7 @@ They are detailed below.
 
 Process hiding conceals the events from the given channel set from the given process.
 As mentioned before in the \textsf{channels.tex} file, channel set expressions cannot
-mix Z expressions with \code{BasicChannelSetExpr}, hence the need for $HCS0$ and $HCS1$.
+mix Z expressions with \textbf{BasicChannelSetExpr}, hence the need for $HCS0$ and $HCS1$.
 The typechecker will infer the type types of channels from $HCS$ in the definition of process $H_1$.
 %
 \begin{circus}
@@ -247,11 +245,11 @@ For fields, something very tricky happens: strokes!
 Channel names are just refName (hence DECORDWORD), which
 means strokes are scanned accordingly.
 So, \verb'c?x' is tokenised differently from \verb'c~?x' as:
-\[
-(DECORWORD, "c?"), (DECORDWORD, "x") \mbox{ and} \\
-(DECORWORD, "c"), (INSTROKE, "?"), (DECORDWORD, "x")
-\]
-%
+%\[
+%(DECORWORD, "c?"), (DECORDWORD, "x") \mbox{ and} \\
+%(DECORWORD, "c"), (INSTROKE, "?"), (DECORDWORD, "x")
+%\]
+%%
 In this situation we run out of luck because all possible
 solutions around it do create trouble somewhere else.
 
@@ -259,7 +257,7 @@ solutions around it do create trouble somewhere else.
     \item New Unicode for "?" (input field)
 
     That means LaTeX typeset as: \verb'c\commIn x'.
-    This also incurs change in the \code{KeywordScanner} (or \code{ContextFreeScanner})
+    This also incurs change in the \textbf{KeywordScanner} (or \textbf{ContextFreeScanner})
     to recognise this new type of "word-glue".
 
     \item Channel names without strokes
@@ -267,7 +265,7 @@ solutions around it do create trouble somewhere else.
     Doesn't change the fact the scanner will recognise $c?$ as
     one DECORWORD, which means no good will be done here.
     This in fact is the harder solution, as it demands various
-    changes in both \code{ContextFree} and \code{Latex2Unicode} scanners.
+    changes in both \textbf{ContextFree} and \textbf{Latex2Unicode} scanners.
     As a consequence, everywhere that channel appear, require
     new productions for refName/declName and corresponding lists.
     ABSOLUTE NIGHTMARE! Forget it.
@@ -296,9 +294,8 @@ solutions around it do create trouble somewhere else.
 %                             \t3\ \ s2 \then d?y: y \geq 20 \then PR
 %\end{circus}
 
-\begin{issue}[Processes do not have prefixing]
+Processes do not have prefixing		\\
     Discussed with Ana already: processes do not have prefixing, guards, or recursion.
-\end{issue}
 
 \subsubsection{Some examples on precedences}
 
@@ -379,7 +376,7 @@ and badly affect the size of the parsing tables. Fortunately,
 
 CZT has a very elegant solution for this, namely a layered architecture involving around
 $10$ different specialised scanners, one of which is responsible for handling new line
-problems alone! That means, a simple configuration on the \code{NewLineScanner} terminals
+problems alone! That means, a simple configuration on the \textbf{NewLineScanner} terminals
 telling which tokens allows new lines before and/or after them to be treated specially.
 This directly (and specifically) implements the specialised handling of new line lexis,
 as defined in the Z standard Section $7.5$.
@@ -396,11 +393,11 @@ as defined in the Z standard Section $7.5$.
 %\end{circus}
 
 
-\subsection{Parameterised process --- \grammar{paramProcess}}
+\subsection{Parameterised process --- paramProcess}
 
 Parameteri
 
-\subsection{Indexed process --- \grammar{indexedProcess}}
+\subsection{Indexed process --- indexedProcess}
 
 %\begin{circus}
 %    \circprocess\ [X, Y] S \circdef \circindex A \circseq B

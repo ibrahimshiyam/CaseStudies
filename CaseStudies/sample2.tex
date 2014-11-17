@@ -1,0 +1,88 @@
+\documentclass[10pt]{article}
+\usepackage[cntbysection,colour]{circus}
+\usepackage{color}
+\usepackage[a4paper,top=0.6cm,bottom=1cm,left=2cm,right=1.6cm]{geometry}
+\begin{document}
+
+\begin{schema}{State}
+     name:NAME                                                                                      \\
+     address:ADDRESS                                                                                \\
+     phone:PHONE                                                                                    \\
+\end{schema}
+
+\begin{schema}{AddEmployee}
+     name:NAME                                                                                      \\
+     address:ADDRESS                                                                                \\
+     phone:PHONE                                                                                    \\
+     name:NAME                                                                                      \\
+     address:ADDRESS                                                                                \\
+     phone:PHONE                                                                                    \\
+     name:NAME                                                                                      \\
+     address:ADDRESS                                                                                \\
+     phone:PHONE                                                                                    \\
+     name:NAME                                                                                      \\
+     address:ADDRESS                                                                                \\
+     phone:PHONE                                                                                    \\
+     name:NAME                                                                                      \\
+     address:ADDRESS                                                                                \\
+     phone:PHONE                                                                                    \\
+     name:NAME                                                                                      \\
+     address:ADDRESS                                                                                \\
+     phone:PHONE                                                                                    \\
+     name:NAME                                                                                      \\
+     address:ADDRESS                                                                                \\
+     phone:PHONE                                                                                    \\
+     name:NAME                                                                                      \\
+     address:ADDRESS                                                                                \\
+     phone:PHONE                                                                                    \\
+\end{schema}
+
+\begin{schema}{UpdateEmployee}
+     name:NAME                                                                                      \\
+     address:ADDRESS                                                                                \\
+     phone:PHONE                                                                                    \\
+\end{schema}
+
+\begin{schema}{MakeAppointment}
+     apptime:TIME                                                                                   \\
+     doc:DOCTOR                                                                                     \\
+     fee:FEE                                                                                        \\
+\end{schema}
+
+\begin{circus}
+\circchannel\ in:DOCTOR                                                                             \\
+\circchannel\ out:FEE                                                                               \\
+\circchannel\ outMe:NAME                                                                            \\
+\circchannel\ add:ADDRESS                                                                           \\
+\circchannel\ ph:PHONE                                                                              \\
+\end{circus}
+
+\begin{circus}
+\circprocess\ Major \circdef \circbegin
+\end{circus}
+\begin{circusaction}
+\circstate\ State
+\end{circusaction}
+
+\begin{circusaction}
+sysAddEmployee ~~\circdef~~ (\circvar\ name:NAME; address:ADDRESS;  \\
+    \t2 phone:PHONE; name:NAME; address:ADDRESS; phone:PHONE; name:NAME; address:ADDRESS; phone:PHONE;  \\
+    \t2 name:NAME; address:ADDRESS; phone:PHONE; name:NAME; address:ADDRESS; phone:PHONE; name:NAME;  \\
+    \t2 address:ADDRESS; phone:PHONE; name:NAME; address:ADDRESS; phone:PHONE; name:NAME; address:ADDRESS;  \\
+    \t2 phone:PHONE \circspot outMe?name add?address ph?phone outMe?name add?address ph?phone outMe?name add?address ph?phone outMe?name add?address ph?phone outMe?name add?address ph?phone outMe?name add?address ph?phone outMe?name add?address ph?phone outMe?name add?address ph?phone \lschexpract AddEmployee\rschexpract )  \\ 
+\end{circusaction}
+
+\begin{circusaction}
+sysUpdateEmployee ~~\circdef~~ (\circvar\ name:NAME; address:ADDRESS;  \\
+    \t2 phone:PHONE \circspot outMe?name add?address ph?phone \lschexpract UpdateEmployee\rschexpract )  \\ 
+\end{circusaction}
+
+\begin{circusaction}
+sysMakeAppointment ~~\circdef~~ (\circvar\ apptime:TIME; doc:DOCTOR; fee:FEE \circspot in?doc out?fee \lschexpract MakeAppointment\rschexpract )  \\ 
+\end{circusaction}
+
+\begin{circus}
+\circend
+\end{circus}
+\end{document}
+
