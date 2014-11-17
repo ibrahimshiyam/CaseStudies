@@ -1,0 +1,50 @@
+types
+EMP = nat   
+EMPDETAIL = nat 
+response = bool
+
+st_nat::
+x: nat
+y: nat
+
+channels
+input : nat
+output : int
+
+process proc1 =
+begin
+state
+	a: st_nat := mk_st_nat(0,0)
+	inv a.x=a.y 
+	
+	
+	b: st_nat := mk_st_nat(0,0)
+	
+	d:nat :=1
+		e:nat :=1
+	
+	reg : set of nat :={0,1}
+		
+
+functions 
+pred1 : st_nat -> bool
+pred1(a) == a.x=1 
+
+pred2 : st_nat -> bool
+pred2(b) == b.x=1 
+
+
+  operations
+    Init : () ==> ()
+    Init() ==
+      reg := {}
+
+
+actions
+ACT = output!3 -> Skip ; Skip
+
+@  ACT
+end
+
+
+
